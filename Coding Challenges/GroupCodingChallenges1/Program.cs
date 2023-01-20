@@ -1,6 +1,7 @@
 ﻿// Mackenna, David, Storm, and Ben
 // 1/20/2023
 // Practice with merging files within a shared repo
+//im the shabble wobble eeble dobble weeble dobble dee
 // This is Ben's comment
 // Slay
 //im the shabble wobble eeble dobble weeble dobble dee: Mackenna
@@ -11,8 +12,6 @@ namespace GroupCodingChallenges1
 {
     internal class Program
     {
-        
-
         static void Main(string[] args)
         {
             // Testing for Problem 3 -- Palindrome
