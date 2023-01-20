@@ -18,12 +18,19 @@ namespace GroupCodingChallenges1
         static void Main(string[] args)
         {
             Console.WriteLine("Hello, World!");
+            //Code for problem 4
             int[] array1 = { 3, 8, 10, 1, 9, 14, -3, 0, 14, 207, 56, 98 };
             int[] array2 = { 17, 42, 3, 5, 5, 5, 8, 2, 4, 6, 1, 19 };
             Console.WriteLine("The longest sorted sequence in array1 is " + longestSortedSequence(array1) + " long.");
             Console.WriteLine("The longest sorted sequence in array2 is " + longestSortedSequence(array2) + " long.");
         }
 
+        /// <summary>
+        /// Code Author: Mackenna Roberts
+        /// Problem #4: Checks an integer array for its longest sequence of ascending numbers and returns its length
+        /// </summary>
+        /// <param name="array"></param>
+        /// <returns></returns>
         public static int longestSortedSequence(int[] array)
         {
             int longestSequence = 0;
