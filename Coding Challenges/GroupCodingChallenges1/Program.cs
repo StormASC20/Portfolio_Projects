@@ -1,4 +1,10 @@
-﻿namespace GroupCodingChallenges1
+﻿// Mackenna, David, Storm, and Ben
+// 1/20/2023
+// Practice with merging files within a shared repo
+
+// This is Ben's comment
+
+namespace GroupCodingChallenges1
 {
     internal class Program
     {
