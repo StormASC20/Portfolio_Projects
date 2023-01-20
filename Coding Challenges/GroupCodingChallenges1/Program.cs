@@ -4,13 +4,14 @@
 
 // This is Ben's comment
 // Slay
+//im the shabble wobble eeble dobble weeble dobble dee: Mackenna
+//bapada boopy; Storm
 
 namespace GroupCodingChallenges1
 {
     internal class Program
     {
-        //im the shabble wobble eeble dobble weeble dobble dee
-        //bapada boopy; Storm
+        
 
         static void Main(string[] args)
         {
