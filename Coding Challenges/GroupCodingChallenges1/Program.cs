@@ -12,7 +12,6 @@ namespace GroupCodingChallenges1
     internal class Program
     {
 
-
         static void Main(string[] args)
         {
 
@@ -41,7 +40,7 @@ namespace GroupCodingChallenges1
             // Represents a case that should return true
             string testWord1 = "Pop";
             string testWord2 = "Carrot";
-            if(IsPalindrome("Pop"))
+            if (IsPalindrome("Pop"))
             {
                 Console.WriteLine(testWord1 + " is a palindrome.");
             }
@@ -50,7 +49,7 @@ namespace GroupCodingChallenges1
                 Console.WriteLine(testWord1 + " is NOT a palindrome.");
             }
 
-            if(IsPalindrome(testWord2))
+            if (IsPalindrome(testWord2))
             {
                 Console.WriteLine(testWord2 + " is a palindrome.");
             }
@@ -59,6 +58,20 @@ namespace GroupCodingChallenges1
                 Console.WriteLine(testWord2 + " is NOT palindrome.");
             }
 
+
+
+            //Code for problem 4
+            int[] array1 = { 3, 8, 10, 1, 9, 14, -3, 0, 14, 207, 56, 98 };
+            int[] array2 = { 17, 42, 3, 5, 5, 5, 8, 2, 4, 6, 1, 19 };
+            Console.WriteLine("The longest sorted sequence in array1 is " + longestSortedSequence(array1) + " long.");
+            Console.WriteLine("The longest sorted sequence in array2 is " + longestSortedSequence(array2) + " long.");
+
+
+            //Code for problem 5 
+            int[] nums = { 2, 2, 4, 10, 10, 10, 4, 2, 2, 2, 4 };
+            int[] nums2 = { 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2 };
+            Console.WriteLine("The array 2, 2, 4, 10, 10, 10, 4, 2, 2, 2, 4 has a duplicate chain of " + GetLongestDuplicate(nums));
+            Console.WriteLine("The array 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2  has a duplicate chain of " + GetLongestDuplicate(nums2));
         }
 
         /// <summary>
@@ -89,13 +102,88 @@ namespace GroupCodingChallenges1
         /// <returns>True if thr given word is a palindrome, false otherwise</returns>
         public static bool IsPalindrome(string word)
         {
-            Console.WriteLine("Hello, World!");
-            //Code for problem 4
-            int[] array1 = { 3, 8, 10, 1, 9, 14, -3, 0, 14, 207, 56, 98 };
-            int[] array2 = { 17, 42, 3, 5, 5, 5, 8, 2, 4, 6, 1, 19 };
-            Console.WriteLine("The longest sorted sequence in array1 is " + longestSortedSequence(array1) + " long.");
-            Console.WriteLine("The longest sorted sequence in array2 is " + longestSortedSequence(array2) + " long.");
+            string newWord = "";
+            char letter;
+
+            // Creates a new string that represents the word spelled backwards
+            for (int i = word.Length; i > 0; i--)
+            {
+                letter = word[i - 1];
+                newWord += letter;
+            }
+
+            // Compares the new string to the original to see if it was a palindrome
+            if (word.ToLower() == newWord.ToLower())
+            {
+                return true;
+            }
+
+            return false;
+
         }
+    
+
+
+        /// <summary>
+        /// Code Author: David Shaffer
+        /// Find the longest chain of duplicate values in the array 
+        /// </summary>
+        /// <param name = "num" > Array of numbers we are looking through</param>
+        /// <returns>The number that has the longest chain</returns>
+        public static int GetLongestDuplicate(int[] num)
+        {
+
+            // Variable for the counter of the longest chain
+
+            int chainCounter = 0;
+
+            // Variable for new chain counter
+
+            int newCounter = 0;
+            //        Variable for the number that has the longest chain
+
+            int chainNumber = 0;
+            int newChainNumber = 0;
+
+            //For loop to go through the array of numbers
+            for (int i = 0; i < num.Length; i++)
+            {
+
+                //See if the number we are looking for in the chain is the same
+                if (chainNumber == num[i])
+                {
+
+                    chainCounter += 1;
+                    newCounter = 0;
+                }
+                //If add to the new counter and reset the chain number we are looking for
+                else
+                {
+                    chainNumber = num[i];
+                    newCounter += 1;
+
+                }
+                //If the new chain number is larger then change the number we will return and change the counter
+                if (newCounter >= chainCounter)
+                {
+                    newChainNumber = chainNumber;
+
+                    chainCounter = newCounter;
+
+                }
+
+            }
+            //Return the number that had the largest chain
+            return newChainNumber;
+
+            int[] nums = { 2, 2, 4, 10, 10, 10, 4, 2, 2, 2, 4 };
+            int[] nums2 = { 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2 };
+            Console.WriteLine(GetLongestDuplicate(nums));
+            Console.WriteLine(GetLongestDuplicate(nums2));
+        }
+
+
+
 
         /// <summary>
         /// Code Author: Mackenna Roberts
@@ -107,7 +195,7 @@ namespace GroupCodingChallenges1
         {
             int longestSequence = 0;
             int tempLongest = 0;
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 if (i == array.Length - 1)
                 {
@@ -131,23 +219,6 @@ namespace GroupCodingChallenges1
                 }
             }
             return longestSequence;
-            string newWord = "";
-            char letter;
-            
-            // Creates a new string that represents the word spelled backwards
-            for(int i=word.Length; i>0; i--)
-            {
-                letter = word[i-1];
-                newWord += letter;
-            }
-
-            // Compares the new string to the original to see if it was a palindrome
-            if(word.ToLower()==newWord.ToLower())
-            {
-                return true;
-            }
-
-            return false;
         }
     }
 }
