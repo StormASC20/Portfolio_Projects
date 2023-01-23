@@ -17,6 +17,9 @@ namespace GroupCodingChallenges1
 
             //Storm's Problem #1: Dice Sum
 
+            Console.WriteLine("Problem 1: ");
+            Console.WriteLine();
+
             //Ask the user what number they want to get with the two dice
             Console.Write("Choose your desired sum! ");
             string input = Console.ReadLine();
@@ -33,6 +36,9 @@ namespace GroupCodingChallenges1
 
             Console.WriteLine();
             DiceSum(desiredSum);
+
+            Console.WriteLine();
+            Console.WriteLine("Problem 3: ");
 
             // Testing for Problem 3 -- Palindrome
             Console.WriteLine("\nPalindrome Test: ");
@@ -58,7 +64,10 @@ namespace GroupCodingChallenges1
                 Console.WriteLine(testWord2 + " is NOT palindrome.");
             }
 
+            Console.WriteLine();
 
+            Console.WriteLine("Problem 4: ");
+            Console.WriteLine();
 
             //Code for problem 4
             int[] array1 = { 3, 8, 10, 1, 9, 14, -3, 0, 14, 207, 56, 98 };
@@ -66,6 +75,10 @@ namespace GroupCodingChallenges1
             Console.WriteLine("The longest sorted sequence in array1 is " + longestSortedSequence(array1) + " long.");
             Console.WriteLine("The longest sorted sequence in array2 is " + longestSortedSequence(array2) + " long.");
 
+            Console.WriteLine();
+
+            Console.WriteLine("Problem 5: ");
+            Console.WriteLine();
 
             //Code for problem 5 
             int[] nums = { 2, 2, 4, 10, 10, 10, 4, 2, 2, 2, 4 };
