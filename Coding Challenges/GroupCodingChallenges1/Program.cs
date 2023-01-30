@@ -143,14 +143,14 @@ namespace GroupCodingChallenges1
             //        Variable for the number that has the longest chain
 
             int chainNumber = 0;
-            int newChainNumber = 0;
+            int newChainNumber = 1;
 
             //For loop to go through the array of numbers
-            for (int i = 0; i < num.Length; i++)
+            for (int i = 0; i < num.Length - 1; i++)
             {
 
                 //See if the number we are looking for in the chain is the same
-                if (chainNumber == num[i])
+                if (chainNumber == num[i + 1])
                 {
 
                     chainCounter += 1;
@@ -160,14 +160,15 @@ namespace GroupCodingChallenges1
                 else
                 {
                     chainNumber = num[i];
+                   
                     newCounter += 1;
 
                 }
                 //If the new chain number is larger then change the number we will return and change the counter
-                if (newCounter >= chainCounter)
+                if (newCounter > chainCounter)
                 {
-                    newChainNumber = chainNumber;
-
+                    newChainNumber = num[i];
+                    
                     chainCounter = newCounter;
 
                 }
@@ -176,10 +177,7 @@ namespace GroupCodingChallenges1
             //Return the number that had the largest chain
             return newChainNumber;
 
-            int[] nums = { 2, 2, 4, 10, 10, 10, 4, 2, 2, 2, 4 };
-            int[] nums2 = { 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2 };
-            Console.WriteLine(GetLongestDuplicate(nums));
-            Console.WriteLine(GetLongestDuplicate(nums2));
+          
         }
 
 
