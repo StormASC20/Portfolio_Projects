@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,9 +46,15 @@ namespace PretzelPaladin
         }
 
         // Methods --
+
+        /// <summary>
+        /// Character takes damage from another, the amount of which could be 
+        /// possibly reduced by their defense multiplier
+        /// </summary>
+        /// <param name="amtDamage">Amount of damage inflicted</param>
         public  void TakeDamage(int amtDamage)
         {
-            currentHealth -= amtDamage;
+            currentHealth -= amtDamage*defenseMultiplier;
         }
 
 
