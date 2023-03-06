@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    internal class Character
+    internal class Character 
     {
         string name;
         int maxHealth;
