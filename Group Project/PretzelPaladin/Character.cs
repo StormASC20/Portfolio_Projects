@@ -8,5 +8,7 @@ namespace PretzelPaladin
 {
     internal class Character
     {
+
+ 
     }
 }

@@ -8,5 +8,15 @@ namespace PretzelPaladin
 {
     internal class Enemy:Character
     {
+
+
+        //fields
+
+        //constructor
+
+        //properties
+
+        //methods
+
     }
 }
