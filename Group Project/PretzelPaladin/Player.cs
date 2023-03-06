@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    internal class Player:Character
+    /*internal class Player:Character
     {
-    }
+    }*/
 }
