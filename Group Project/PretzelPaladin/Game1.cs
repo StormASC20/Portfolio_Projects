@@ -56,6 +56,10 @@ namespace PretzelPaladin
                         {
                             state = GameState.Game;
                         }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
+                        }
 
                         break;
                     }
@@ -65,6 +69,10 @@ namespace PretzelPaladin
                         if(kbState.IsKeyDown(Keys.Escape))
                         {
                             state = GameState.Pause;
+                        }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
                         }
 
                         break;
@@ -116,6 +124,12 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
+
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "YOU SUCK CHUMP",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
                         break;
                     }
             }

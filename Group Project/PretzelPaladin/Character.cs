@@ -13,13 +13,18 @@ namespace PretzelPaladin
         string name;
         int maxHealth;
         int currentHealth;
+
+        int attackMultiplier;
+        int defenseMultiplier;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealth)
+        public Character(string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
         {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
+            this.attackMultiplier = attackMultiplier;
+            this.defenseMultiplier = defenseMultiplier;
         }
 
         // Properties --

@@ -6,7 +6,25 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-   // internal class Player:Character
-   // {
-   // }
+   internal class Player:Character
+   {
+
+        //fields
+
+        //constructor
+        public Player(string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+            : base(name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
+        {
+
+        }
+
+        //properties
+
+
+        //methods
+
+        //public int Attack()
+
+
+    }
 }
