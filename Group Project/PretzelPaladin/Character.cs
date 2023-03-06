@@ -42,7 +42,5 @@ namespace PretzelPaladin
             get { return currentHealth; }
             set { currentHealth = value; }
         }
-
-
     }
 }
