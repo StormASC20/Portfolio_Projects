@@ -23,7 +23,12 @@ namespace PretzelPaladin
 
         //methods
 
-        //public int Attack()
+        public void Attack(Enemy target, int attackValue)
+        {
+            target.
+
+            return attackValue;
+        }
 
 
     }
