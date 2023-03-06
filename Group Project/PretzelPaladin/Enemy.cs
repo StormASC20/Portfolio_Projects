@@ -6,10 +6,24 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    internal class Enemy : Character
+    internal class Enemy:Character
     {
-        public Enemy(string name, int maxHealth, int currentHealth) : base(name, maxHealth, currentHealth)
+
+
+        //fields
+        private Random random;
+
+        //constructor
+        public Enemy(string name, int maxHealth, int currentHealth)  
+            :base(name, maxHealth, currentHealth)
         {
+            random = new Random();
         }
+
+        //properties
+
+
+        //methods
+
     }
 }

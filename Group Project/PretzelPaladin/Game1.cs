@@ -20,6 +20,8 @@ namespace PretzelPaladin
         private SpriteFont menuFont;
         private GameState state;
 
+        private Button startButton;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -30,6 +32,7 @@ namespace PretzelPaladin
         protected override void Initialize()
         {
             state = GameState.MainMenu;
+            startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100);
 
             base.Initialize();
         }
@@ -43,17 +46,27 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            KeyboardState kbState = Keyboard.GetState();
 
             switch(state)
             {
                 case GameState.MainMenu:
                     {
+                        if(startButton.IsPressed())
+                        {
+                            state = GameState.Game;
+                        }
+
                         break;
                     }
                 case GameState.Game:
                     {
+                        // Pauses the Game if the user presses the ESCAPE key
+                        if(kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
+                        }
+
                         break;
                     }
                 case GameState.Pause:
@@ -89,6 +102,12 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "This is the Game (test)",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
+
                         break;
                     }
                 case GameState.Pause:
