@@ -1,5 +1,6 @@
 
 
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,18 @@ namespace PretzelPaladin
 
         int attackMultiplier;
         int defenseMultiplier;
+
+        Texture2D characterImage;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
         {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
             this.attackMultiplier = attackMultiplier;
             this.defenseMultiplier = defenseMultiplier;
+            this.characterImage = characterImage;
         }
 
         // Properties --
@@ -46,6 +50,8 @@ namespace PretzelPaladin
             get { return currentHealth; }
             set { currentHealth = value; }
         }
+        public int AttackMultiplier { get { return attackMultiplier; } set { attackMultiplier = value; } }
+        public int DefenseMultiplier { get { return defenseMultiplier; } set { defenseMultiplier = value; } }
 
         // Methods --
         public  void TakeDamage(int amtDamage)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,8 @@ namespace PretzelPaladin
         private Random random;
 
         //constructor
-        public Enemy(string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)  
-            :base(name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
+        public Enemy(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+            : base(characterImage, name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
         {
             random = new Random();
         }
