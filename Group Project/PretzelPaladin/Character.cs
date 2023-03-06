@@ -1,4 +1,7 @@
-﻿using System;
+
+
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,21 +12,31 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PretzelPaladin
 {
-    internal class Character 
+    internal class Character
     {
-        public string name;
-        public int maxHealth;
-        public int currentHealth;
-        public Texture2D image;
+        // Fields --
+        string name;
+        int maxHealth;
+        int currentHealth;
+
+        int attackMultiplier;
+        int defenseMultiplier;
+
+        Texture2D characterImage;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealth, Texture2D image)        {
+        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+        {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
-            this.image = image;
+            this.attackMultiplier = attackMultiplier;
+            this.defenseMultiplier = defenseMultiplier;
+            this.characterImage = characterImage;
         }
-        
+
+        // Properties --
+
         public string Name
         {
             get { return name; }
@@ -40,12 +53,22 @@ namespace PretzelPaladin
             get { return currentHealth; }
             set { currentHealth = value; }
         }
+        public int AttackMultiplier { get { return attackMultiplier; } set { attackMultiplier = value; } }
+        public int DefenseMultiplier { get { return defenseMultiplier; } set { defenseMultiplier = value; } }
 
-        public virtual void Draw(SpriteBatch sb)
+        // Methods --
+
+        /// <summary>
+        /// Character takes damage from another, the amount of which could be 
+        /// possibly reduced by their defense multiplier
+        /// </summary>
+        /// <param name="amtDamage">Amount of damage inflicted</param>
+        public  void TakeDamage(int amtDamage)
         {
-            //PP and enemies will always have the same x & y positions during fights so it'll be better to
-            //establish that within those classes
+            currentHealth -= amtDamage*defenseMultiplier;
         }
+
 
     }
 }
+

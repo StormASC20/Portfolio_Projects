@@ -23,6 +23,8 @@ namespace PretzelPaladin
         private Button button;
         private GameState state;
 
+        private Button startButton;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -33,6 +35,8 @@ namespace PretzelPaladin
         protected override void Initialize()
         {
             state = GameState.MainMenu;
+            startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100);
+
             base.Initialize();
             button = new Button(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 100, 200, 100, pretzelButton);
         }
@@ -48,21 +52,35 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            KeyboardState kbState = Keyboard.GetState();
 
             switch(state)
             {
                 case GameState.MainMenu:
                     {
-                        if (button.IsPressed())
+                        if(startButton.IsPressed())
                         {
                             state = GameState.Game;
                         }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
+                        }
+
                         break;
                     }
                 case GameState.Game:
                     {
+                        // Pauses the Game if the user presses the ESCAPE key
+                        if(kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
+                        }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
+                        }
+
                         break;
                     }
                 case GameState.Pause:
@@ -109,6 +127,12 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
+
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "YOU SUCK CHUMP",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
                         break;
                     }
             }
