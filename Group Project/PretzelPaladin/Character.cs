@@ -1,4 +1,5 @@
 
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,5 +43,8 @@ namespace PretzelPaladin
             get { return currentHealth; }
             set { currentHealth = value; }
         }
+
+
     }
 }
+
