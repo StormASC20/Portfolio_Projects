@@ -35,7 +35,7 @@ namespace PretzelPaladin
         protected override void Initialize()
         {
             state = GameState.MainMenu;
-            startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100);
+            //startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100, pretzelButton);
 
             base.Initialize();
             button = new Button(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 100, 200, 100, pretzelButton);
@@ -58,7 +58,7 @@ namespace PretzelPaladin
             {
                 case GameState.MainMenu:
                     {
-                        if(startButton.IsPressed())
+                        if(button.IsPressed())
                         {
                             state = GameState.Game;
                         }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    /*internal class Enemy:Character
+    internal class Enemy : Character
     {
         //fields
         private Random random;
@@ -23,6 +23,6 @@ namespace PretzelPaladin
 
 
         //methods
-        
+
     }
 }
