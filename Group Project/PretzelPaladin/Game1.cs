@@ -85,10 +85,22 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
+                        if (kbState.IsKeyDown(Keys.Back))
+                        {
+                            state = GameState.Game;
+                        }
                         break;
                     }
                 case GameState.GameOver:
                     {
+                        if (kbState.IsKeyDown(Keys.Space))
+                        {
+                            state = GameState.MainMenu;
+                        }
+                        if (kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
+                        }
                         break;
                     }
             }
@@ -123,6 +135,11 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "YOU PAUSED 'CAUSE UR SCURRED",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
                         break;
                     }
                 case GameState.GameOver:
