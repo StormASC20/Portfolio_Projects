@@ -18,6 +18,9 @@ namespace PretzelPaladin
         private SpriteBatch _spriteBatch;
 
         private SpriteFont menuFont;
+        private Texture2D pretzelButton;
+        private Texture2D foodCourt;
+        private Button button;
         private GameState state;
 
         private Button startButton;
@@ -32,16 +35,19 @@ namespace PretzelPaladin
         protected override void Initialize()
         {
             state = GameState.MainMenu;
-            startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100);
+            //startButton = new Button(_graphics.PreferredBackBufferWidth / 3, _graphics.PreferredBackBufferHeight - 200, 200, 100, pretzelButton);
 
             base.Initialize();
+            button = new Button(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 100, 200, 100, pretzelButton);
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
+            pretzelButton = this.Content.Load<Texture2D>("prezel");
+            foodCourt = this.Content.Load<Texture2D>("foodCourt");
+            
         }
 
         protected override void Update(GameTime gameTime)
@@ -52,9 +58,13 @@ namespace PretzelPaladin
             {
                 case GameState.MainMenu:
                     {
-                        if(startButton.IsPressed())
+                        if(button.IsPressed())
                         {
                             state = GameState.Game;
+                        }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
                         }
 
                         break;
@@ -66,15 +76,31 @@ namespace PretzelPaladin
                         {
                             state = GameState.Pause;
                         }
+                        if (kbState.IsKeyDown(Keys.G))
+                        {
+                            state = GameState.GameOver;
+                        }
 
                         break;
                     }
                 case GameState.Pause:
                     {
+                        if (kbState.IsKeyDown(Keys.Back))
+                        {
+                            state = GameState.Game;
+                        }
                         break;
                     }
                 case GameState.GameOver:
                     {
+                        if (kbState.IsKeyDown(Keys.Space))
+                        {
+                            state = GameState.MainMenu;
+                        }
+                        if (kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
+                        }
                         break;
                     }
             }
@@ -97,25 +123,33 @@ namespace PretzelPaladin
                             "PRETZEL PALADIN",
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
-
+                        button.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.Game:
                     {
-                        _spriteBatch.DrawString(
-                            menuFont,
-                            "This is the Game (test)",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
-                            Color.SaddleBrown);
-
+                        _spriteBatch.Draw(
+                            foodCourt, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                            Color.White);
                         break;
                     }
                 case GameState.Pause:
                     {
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "YOU PAUSED 'CAUSE UR SCURRED",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
                         break;
                     }
                 case GameState.GameOver:
                     {
+
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "YOU SUCK CHUMP",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
                         break;
                     }
             }
