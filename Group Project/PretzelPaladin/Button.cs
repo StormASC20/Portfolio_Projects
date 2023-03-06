@@ -9,28 +9,36 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PretzelPaladin
 {
+    /// <summary>
+    /// Mackenna Roberts
+    /// 3/6/23
+    /// Class designed to make a button
+    /// </summary>
     internal class Button
     {
-        private MouseState ms;
-        private MouseState lastMS;
         private int x;
         private int y;
         private int width;
         private int height;
         private Rectangle rect;
-
-        public Button(int x, int y, int width, int height)
+        private Texture2D image;
+        private MouseState ms;
+        private MouseState lastMS;
+        
+        public Button(int x, int y, int width, int height, Texture2D image)
         {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
             rect = new Rectangle(x, y, width, height);
+            this.image = image;
         }
 
         public bool IsPressed()
         {
-            if(SinglePress() && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
+            ms = Mouse.GetState();
+            if(ms.LeftButton == ButtonState.Pressed && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
                 return true;
             }
@@ -40,11 +48,11 @@ namespace PretzelPaladin
             }
         }
 
-        public bool SinglePress()
+        /*public bool SinglePress()
         {
             lastMS = ms;
-            ms = new MouseState();
-            if(ms.LeftButton == ButtonState.Released && lastMS.LeftButton == ButtonState.Pressed)
+            ms = Mouse.GetState();
+            if (ms.LeftButton == ButtonState.Released && lastMS.LeftButton == ButtonState.Pressed)
             {
                 return true;
             }
@@ -52,6 +60,13 @@ namespace PretzelPaladin
             {
                 return false;
             }
+        }*/
+
+        public void Draw(SpriteBatch sb)
+        {
+            sb.Draw(image,
+                rect,
+                Color.White);
         }
     }
 }
