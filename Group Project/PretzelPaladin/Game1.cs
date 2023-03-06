@@ -4,10 +4,21 @@ using Microsoft.Xna.Framework.Input;
 
 namespace PretzelPaladin
 {
+    public enum GameState
+    {
+        MainMenu,
+        Game,
+        Pause,
+        GameOver
+    }
+
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        private SpriteFont menuFont;
+        private GameState state;
 
         public Game1()
         {
@@ -18,7 +29,7 @@ namespace PretzelPaladin
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            state = GameState.MainMenu;
 
             base.Initialize();
         }
@@ -27,24 +38,70 @@ namespace PretzelPaladin
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            // TODO: use this.Content to load your game content here
+            menuFont = this.Content.Load<SpriteFont>("MenuFont");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            switch(state)
+            {
+                case GameState.MainMenu:
+                    {
+                        break;
+                    }
+                case GameState.Game:
+                    {
+                        break;
+                    }
+                case GameState.Pause:
+                    {
+                        break;
+                    }
+                case GameState.GameOver:
+                    {
+                        break;
+                    }
+            }
 
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Beige);
 
-            // TODO: Add your drawing code here
+            _spriteBatch.Begin();
+
+            switch (state)
+            {
+                case GameState.MainMenu:
+                    {
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "PRETZEL PALADIN",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
+
+                        break;
+                    }
+                case GameState.Game:
+                    {
+                        break;
+                    }
+                case GameState.Pause:
+                    {
+                        break;
+                    }
+                case GameState.GameOver:
+                    {
+                        break;
+                    }
+            }
+
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }

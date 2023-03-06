@@ -6,15 +6,14 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    internal class Character
+    internal class Character 
     {
         private string name;
         private int maxHealth;
         private int currentHealth;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealth)
-        {
+        public Character(string name, int maxHealth, int currentHealth)        {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
