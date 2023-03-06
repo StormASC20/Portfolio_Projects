@@ -13,8 +13,7 @@ namespace PretzelPaladin
         int currentHealth;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealthnam)
-        {
+        public Character(string name, int maxHealth, int currentHealth)        {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
