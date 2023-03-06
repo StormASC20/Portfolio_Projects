@@ -14,8 +14,8 @@ namespace PretzelPaladin
         private Random random;
 
         //constructor
-        public Enemy(string name, int maxHealth, int currentHealth)  
-            :base(name, maxHealth, currentHealth)
+        public Enemy(string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)  
+            :base(name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
         {
             random = new Random();
         }
