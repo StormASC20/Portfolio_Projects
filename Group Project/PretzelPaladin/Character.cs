@@ -10,6 +10,7 @@ namespace PretzelPaladin
 {
     internal class Character
     {
+        // Fields --
         string name;
         int maxHealth;
         int currentHealth;
@@ -27,6 +28,8 @@ namespace PretzelPaladin
             this.defenseMultiplier = defenseMultiplier;
         }
 
+        // Properties --
+
         public string Name
         {
             get { return name; }
@@ -42,6 +45,12 @@ namespace PretzelPaladin
         {
             get { return currentHealth; }
             set { currentHealth = value; }
+        }
+
+        // Methods --
+        public  void TakeDamage(int amtDamage)
+        {
+            currentHealth -= amtDamage;
         }
 
 

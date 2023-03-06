@@ -8,8 +8,6 @@ namespace PretzelPaladin
 {
     internal class Enemy:Character
     {
-
-
         //fields
         private Random random;
 
@@ -24,6 +22,6 @@ namespace PretzelPaladin
 
 
         //methods
-
+        
     }
 }
