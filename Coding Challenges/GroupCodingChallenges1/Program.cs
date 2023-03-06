@@ -12,11 +12,13 @@ namespace GroupCodingChallenges1
     internal class Program
     {
 
-
         static void Main(string[] args)
         {
 
             //Storm's Problem #1: Dice Sum
+
+            Console.WriteLine("Problem 1: ");
+            Console.WriteLine();
 
             //Ask the user what number they want to get with the two dice
             Console.Write("Choose your desired sum! ");
@@ -34,6 +36,9 @@ namespace GroupCodingChallenges1
 
             Console.WriteLine();
             DiceSum(desiredSum);
+
+            Console.WriteLine();
+            Console.WriteLine("Problem 3: ");
 
             // Testing for Problem 3 -- Palindrome
             Console.WriteLine("\nPalindrome Test: ");
@@ -59,13 +64,27 @@ namespace GroupCodingChallenges1
                 Console.WriteLine(testWord2 + " is NOT palindrome.");
             }
 
-            Console.WriteLine("");
+            Console.WriteLine();
+
+            Console.WriteLine("Problem 4: ");
+            Console.WriteLine();
+
             //Code for problem 4
             int[] array1 = { 3, 8, 10, 1, 9, 14, -3, 0, 14, 207, 56, 98 };
             int[] array2 = { 17, 42, 3, 5, 5, 5, 8, 2, 4, 6, 1, 19 };
             Console.WriteLine("The longest sorted sequence in array1 is " + longestSortedSequence(array1) + " long.");
             Console.WriteLine("The longest sorted sequence in array2 is " + longestSortedSequence(array2) + " long.");
 
+            Console.WriteLine();
+
+            Console.WriteLine("Problem 5: ");
+            Console.WriteLine();
+
+            //Code for problem 5 
+            int[] nums = { 2, 2, 4, 10, 10, 10, 10,4, 2, 2, 2, 4 };
+            int[] nums2 = { 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2 };
+            Console.WriteLine("The array 2, 2, 4, 10, 10, 10,10, 4, 2, 2, 2, 4 has a duplicate chain of " + GetLongestDuplicate(nums));
+            Console.WriteLine("The array 5, 2, 4, 4, 6, 6, 6, 7, 7, 7, 1, 2  has a duplicate chain of " + GetLongestDuplicate(nums2));
         }
 
         /// <summary>
@@ -113,7 +132,67 @@ namespace GroupCodingChallenges1
             }
 
             return false;
+
         }
+
+
+
+        /// <summary>
+        /// Code Author: David Shaffer
+        /// Find the longest chain of duplicate values in the array 
+        /// </summary>
+        /// <param name = "num" > Array of numbers we are looking through</param>
+        /// <returns>The number that has the longest chain</returns>
+        public static int GetLongestDuplicate(int[] num)
+        {
+
+            // Variable for the counter of the longest chain
+
+            int chainCounter = 0;
+
+            // Variable for new chain counter
+
+            int longestChain = 0;
+            //        Variable for the number that has the longest chain
+
+            int chainNumber = 0;
+            int longestChainNumber = 0;
+
+            //For loop to go through the array of numbers
+            for (int i = 0; i < num.Length - 1; i++)
+            {
+
+                //See if the number we are looking for in the chain is the same
+                if (chainNumber == num[i + 1])
+                {
+
+                    chainCounter += 1;
+                }
+                //If add to the new counter and reset the chain number we are looking for
+                else
+                {
+                    //If the new chain number is larger then change the number we will return and change the counter
+                    if (chainCounter >= longestChain)
+                    {
+                        longestChainNumber = chainNumber;
+
+                        longestChain = chainCounter;
+
+                        chainCounter = 0;
+                    }
+
+                    chainNumber = num[i];
+                  
+                }
+
+            }
+            //Return the number that had the largest chain
+            return longestChainNumber;
+
+        }
+
+
+
 
         /// <summary>
         /// Code Author: Mackenna Roberts
@@ -152,3 +231,4 @@ namespace GroupCodingChallenges1
         }
     }
 }
+
