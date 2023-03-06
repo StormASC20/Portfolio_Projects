@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace PretzelPaladin
 {
-    internal class Enemy:Character
+    internal class Enemy : Character
     {
+        public Enemy(string name, int maxHealth, int currentHealth) : base(name, maxHealth, currentHealth)
+        {
+        }
     }
 }
