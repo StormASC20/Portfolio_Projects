@@ -11,8 +11,14 @@ namespace PretzelPaladin
 
 
         //fields
+        private Random random;
 
         //constructor
+        public Enemy(string name, int maxHealth, int currentHealth)  
+            :base(name, maxHealth, currentHealth)
+        {
+            random = new Random();
+        }
 
         //properties
 

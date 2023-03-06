@@ -8,12 +8,13 @@ namespace PretzelPaladin
 {
     internal class Character
     {
-        string name;
-        int maxHealth;
-        int currentHealth;
+        private string name;
+        private int maxHealth;
+        private int currentHealth;
         //move array here
 
-        public Character(string name, int maxHealth, int currentHealthnam)        {
+        public Character(string name, int maxHealth, int currentHealth)
+        {
             this.name = name;
             this.maxHealth = maxHealth;
             this.currentHealth = currentHealth;
@@ -22,6 +23,7 @@ namespace PretzelPaladin
         public string Name
         {
             get { return name; }
+            set { name = value; }
         }
 
         public int MaxHealth
