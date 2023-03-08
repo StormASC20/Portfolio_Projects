@@ -18,6 +18,8 @@ namespace PretzelPaladin
         private SpriteBatch _spriteBatch;
 
         private SpriteFont menuFont;
+        private SpriteFont regularSizeFont;
+
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
         private Button button;
@@ -45,6 +47,8 @@ namespace PretzelPaladin
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
+            regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
+
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
             
@@ -136,9 +140,9 @@ namespace PretzelPaladin
                 case GameState.Pause:
                     {
                         _spriteBatch.DrawString(
-                            menuFont,
+                            regularSizeFont,
                             "YOU PAUSED 'CAUSE UR SCURRED",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
                         break;
                     }
