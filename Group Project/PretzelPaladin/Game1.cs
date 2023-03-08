@@ -22,10 +22,12 @@ namespace PretzelPaladin
 
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
-        private Texture2D minimizeImg;
+        private Texture2D rectangleTexture;
         private Button startbutton;
-        private Button minimize;
         private GameState state;
+
+        private int screenWidth;
+        private int screenHeight;
 
         public Game1()
         {
@@ -53,7 +55,8 @@ namespace PretzelPaladin
 
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
-            minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
+            rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
+
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, pretzelButton);
 
         }
@@ -64,6 +67,9 @@ namespace PretzelPaladin
                 Exit();
 
             KeyboardState kbState = Keyboard.GetState();
+
+            screenHeight = _graphics.PreferredBackBufferHeight;
+            screenWidth = _graphics.PreferredBackBufferWidth;
 
             switch(state)
             {
@@ -148,9 +154,10 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
-                        _spriteBatch.Draw(
-                            foodCourt, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                        _spriteBatch.Draw(rectangleTexture, 
+                            new Rectangle((screenWidth/2+50),screenHeight/2,screenWidth/2,screenHeight),
                             Color.White);
+
                         break;
                     }
                 case GameState.Pause:
