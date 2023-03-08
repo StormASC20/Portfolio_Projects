@@ -20,10 +20,8 @@ namespace PretzelPaladin
         private SpriteFont menuFont;
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
-        private Button button;
+        private Button startbutton;
         private GameState state;
-
-        private Button startButton;
 
         public Game1()
         {
@@ -37,7 +35,6 @@ namespace PretzelPaladin
             state = GameState.MainMenu;
 
             base.Initialize();
-            button = new Button(_graphics.PreferredBackBufferWidth / 2, _graphics.PreferredBackBufferHeight / 2 + 100, 200, 100, pretzelButton);
         }
 
         protected override void LoadContent()
@@ -46,7 +43,9 @@ namespace PretzelPaladin
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
-            
+
+            startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, pretzelButton);
+
         }
 
         protected override void Update(GameTime gameTime)
@@ -57,7 +56,7 @@ namespace PretzelPaladin
             {
                 case GameState.MainMenu:
                     {
-                        if(button.IsPressed())
+                        if(startbutton.IsPressed())
                         {
                             state = GameState.Game;
                         }
@@ -122,7 +121,7 @@ namespace PretzelPaladin
                             "PRETZEL PALADIN",
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
-                        button.Draw(_spriteBatch);
+                        startbutton.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.Game:
