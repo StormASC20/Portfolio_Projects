@@ -22,14 +22,20 @@ namespace PretzelPaladin
 
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
+        private Texture2D rectangleTexture;
         private Button startbutton;
         private GameState state;
+
+        private int screenWidth;
+        private int screenHeight;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             // THIS IS SCARY, DON'T USE (yet)
-            //_graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+           //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+           //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -49,6 +55,7 @@ namespace PretzelPaladin
 
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
+            rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
 
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, pretzelButton);
 
@@ -56,7 +63,13 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
+                Exit();
+
             KeyboardState kbState = Keyboard.GetState();
+
+            screenHeight = _graphics.PreferredBackBufferHeight;
+            screenWidth = _graphics.PreferredBackBufferWidth;
 
             switch(state)
             {
@@ -69,6 +82,10 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.G))
                         {
                             state = GameState.GameOver;
+                        }
+                        if(kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
                         }
 
                         break;
@@ -92,6 +109,11 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.Enter))
                         {
                             state = GameState.Game;
+                        }
+                        if(minimize.IsPressed())
+                        {
+                            _graphics.PreferredBackBufferHeight = 700;
+                            _graphics.PreferredBackBufferWidth = 900;
                         }
                         break;
                     }
@@ -132,9 +154,10 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
-                        _spriteBatch.Draw(
-                            foodCourt, new Rectangle(0, 0, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight),
+                        _spriteBatch.Draw(rectangleTexture, 
+                            new Rectangle((screenWidth/2+50),screenHeight/2,screenWidth/2,screenHeight),
                             Color.White);
+
                         break;
                     }
                 case GameState.Pause:
@@ -144,6 +167,7 @@ namespace PretzelPaladin
                             "YOU PAUSED 'CAUSE UR SCURRED",
                             new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
+                        minimize.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
