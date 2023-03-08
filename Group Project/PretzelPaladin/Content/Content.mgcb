@@ -32,6 +32,11 @@
 /processorParam:TextureFormat=Compressed
 /build:MenuFont.spritefont
 
+#begin MoveList.txt
+/importer:
+/processor:
+/build:MoveList.txt
+
 #begin NormalFontSize.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

@@ -2,10 +2,12 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
+using System.IO;
 
 namespace PretzelPaladin
 {
-    internal class Character : Moves
+    internal class Character
     {
         // Fields --
         private string name;
@@ -13,28 +15,11 @@ namespace PretzelPaladin
         private int currentHealth;
         private int attackMultiplier;
         private int defenseMultiplier;
-        
+
+        private List<Move> moves;  
         private Texture2D characterImage;
 
-
-        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
-        {
-            this.name = name;
-            this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
-            this.attackMultiplier = attackMultiplier;
-            this.defenseMultiplier = defenseMultiplier;
-            this.characterImage = characterImage;
-        }
-
         // Properties --
-
-        public double Attack { }
-
-        public double Defense{ } }
-
-        public double AttackDamage { }
-
 
         /// <summary>
         /// Name of the character
@@ -71,6 +56,42 @@ namespace PretzelPaladin
         /// Defense Multiplier that reduces incoming damage
         /// </summary>
         public int DefenseMultiplier { get { return defenseMultiplier; } set { defenseMultiplier = value; } }
+
+        // Constructor --
+
+        /// <summary>
+        /// Creates a new Character
+        /// </summary>
+        /// <param name="characterImage">Texture of the character</param>
+        /// <param name="name">Character's name</param>
+        /// <param name="maxHealth">Character's Max/Start health</param>
+        /// <param name="currentHealth">Character's current health</param>
+        /// <param name="attackMultiplier">Attack multiplier that boosts or reduces damage</param>
+        /// <param name="defenseMultiplier">Defense multiplier that reduces or boosts incoming damage</param>
+        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+        {
+            this.name = name;
+            this.maxHealth = maxHealth;
+            this.currentHealth = currentHealth;
+            this.attackMultiplier = attackMultiplier;
+            this.defenseMultiplier = defenseMultiplier;
+            this.characterImage = characterImage;
+
+            StreamReader file = new StreamReader("MoveList");
+
+            string currentLine = file.ReadLine();
+
+            while(currentLine!=null)
+            {
+                string[] components = currentLine.Split(",");
+
+                Move move = new Move(components[0], int.Parse(components[1]));
+
+                moves.Add(move);
+
+                currentLine = file.ReadLine();
+            }
+        }
 
         // Methods --
 
