@@ -75,7 +75,7 @@ namespace PretzelPaladin
         /// <param name="sb">Spritebatch passed in from Game1</param>
         public void Draw(SpriteBatch sb)
         {
-            sb.Draw(image,
+              sb.Draw(image,
                 rect,
                 Color.White);
         }
