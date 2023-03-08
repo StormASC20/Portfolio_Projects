@@ -84,7 +84,7 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
-                        if (kbState.IsKeyDown(Keys.Back))
+                        if (kbState.IsKeyDown(Keys.Enter))
                         {
                             state = GameState.Game;
                         }
