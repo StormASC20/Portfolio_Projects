@@ -10,7 +10,7 @@ namespace PretzelPaladin
     {
         // Fields --
         private string name;
-        private int maxHealth;
+        private int maxHealth; 
         private int currentHealth;
         private int attackMultiplier;
         private int defenseMultiplier;
