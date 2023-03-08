@@ -30,23 +30,40 @@ namespace PretzelPaladin
 
         // Properties --
 
+        /// <summary>
+        /// Name of the character
+        /// </summary>
         public string Name
         {
             get { return name; }
         }
 
+        /// <summary>
+        /// Character's Max/Starting health
+        /// </summary>
         public int MaxHealth
         {
             get { return maxHealth; }
             set { maxHealth = value; }
         }
 
+        /// <summary>
+        /// Current health of the character
+        /// </summary>
         public int CurrentHealth
         {
             get { return currentHealth; }
             set { currentHealth = value; }
         }
+
+        /// <summary>
+        /// Attack Multiplier that increases damage
+        /// </summary>
         public int AttackMultiplier { get { return attackMultiplier; } set { attackMultiplier = value; } }
+
+        /// <summary>
+        /// Defense Multiplier that reduces incoming damage
+        /// </summary>
         public int DefenseMultiplier { get { return defenseMultiplier; } set { defenseMultiplier = value; } }
 
         // Methods --

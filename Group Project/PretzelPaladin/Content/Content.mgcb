@@ -32,17 +32,12 @@
 /processorParam:TextureFormat=Compressed
 /build:MenuFont.spritefont
 
-#begin minimize.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
+#begin NormalFontSize.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:minimize.png
+/processorParam:TextureFormat=Compressed
+/build:NormalFontSize.spritefont
 
 #begin prezel.png
 /importer:TextureImporter

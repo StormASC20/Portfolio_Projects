@@ -18,6 +18,8 @@ namespace PretzelPaladin
         private SpriteBatch _spriteBatch;
 
         private SpriteFont menuFont;
+        private SpriteFont regularSizeFont;
+
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
         private Texture2D minimizeImg;
@@ -28,7 +30,8 @@ namespace PretzelPaladin
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            _graphics.IsFullScreen = true;
+            // THIS IS SCARY, DON'T USE (yet)
+            //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -44,6 +47,8 @@ namespace PretzelPaladin
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
+            regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
+
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
             minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
@@ -90,7 +95,7 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
-                        if (kbState.IsKeyDown(Keys.Back))
+                        if (kbState.IsKeyDown(Keys.Enter))
                         {
                             state = GameState.Game;
                         }
@@ -146,9 +151,9 @@ namespace PretzelPaladin
                 case GameState.Pause:
                     {
                         _spriteBatch.DrawString(
-                            menuFont,
+                            regularSizeFont,
                             "YOU PAUSED 'CAUSE UR SCURRED",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
                         minimize.Draw(_spriteBatch);
                         break;
