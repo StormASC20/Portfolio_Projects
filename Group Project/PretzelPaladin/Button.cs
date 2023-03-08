@@ -16,6 +16,7 @@ namespace PretzelPaladin
     /// </summary>
     internal class Button
     {
+        // Fields --
         private int x;
         private int y;
         private int width;
@@ -25,6 +26,16 @@ namespace PretzelPaladin
         private MouseState ms;
         private MouseState lastMS;
         
+        // Constructors --
+
+        /// <summary>
+        /// Creates a new clickable button
+        /// </summary>
+        /// <param name="x">X-location</param>
+        /// <param name="y">Y-location</param>
+        /// <param name="width">Width of the button</param>
+        /// <param name="height">Height of the button</param>
+        /// <param name="image">Texture of the button</param>
         public Button(int x, int y, int width, int height, Texture2D image)
         {
             this.x = x;
@@ -35,9 +46,16 @@ namespace PretzelPaladin
             this.image = image;
         }
 
-        // Properties
+        // Properties --
+
         public Rectangle Location { get { return rect; } set { rect = value; } }
 
+        // Methods --
+
+        /// <summary>
+        /// Tracks if the button is currently being pressed
+        /// </summary>
+        /// <returns>True if the button was pressed, false otherwise</returns>
         public bool IsPressed()
         {
             ms = Mouse.GetState();
@@ -51,20 +69,10 @@ namespace PretzelPaladin
             }
         }
 
-        /*public bool SinglePress()
-        {
-            lastMS = ms;
-            ms = Mouse.GetState();
-            if (ms.LeftButton == ButtonState.Released && lastMS.LeftButton == ButtonState.Pressed)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }*/
-
+        /// <summary>
+        /// Draws the button to the window
+        /// </summary>
+        /// <param name="sb">Spritebatch passed in from Game1</param>
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(image,

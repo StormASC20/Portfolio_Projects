@@ -7,19 +7,29 @@ namespace PretzelPaladin
    internal class Player:Character
    {
 
-        //fields
+        // Fields --
 
-        //constructor
+        // Constructor --
+
+        /// <summary>
+        /// Creates a new Player
+        /// </summary>
+        /// <param name="characterImage">Texture for the player</param>
+        /// <param name="name">Player's Name</param>
+        /// <param name="maxHealth">Starting/Maximum Health</param>
+        /// <param name="currentHealth">Current health of the player</param>
+        /// <param name="attackMultiplier">Multiplier that boosts attack damage</param>
+        /// <param name="defenseMultiplier">Multiplier that reduces incoming damage</param>
         public Player(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
             : base(characterImage, name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
         {
 
         }
 
-        //properties
+        // Properties --
 
 
-        //methods
+        // Methods --
 
         /// <summary>
         /// Calls an attack by the player,
