@@ -5,18 +5,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace PretzelPaladin
 {
-    internal class Character
+    internal class Character : Moves
     {
         // Fields --
-        string name;
-        int maxHealth;
-        int currentHealth;
-
-        int attackMultiplier;
-        int defenseMultiplier;
-
+        private string name;
+        private int maxHealth;
+        private int currentHealth;
+        private int attackMultiplier;
+        private int defenseMultiplier;
+        
         private Texture2D characterImage;
-        //move array here
+
 
         public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
         {
@@ -29,6 +28,13 @@ namespace PretzelPaladin
         }
 
         // Properties --
+
+        public double Attack { }
+
+        public double Defense{ } }
+
+        public double AttackDamage { }
+
 
         /// <summary>
         /// Name of the character
