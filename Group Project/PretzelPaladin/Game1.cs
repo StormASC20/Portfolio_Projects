@@ -33,7 +33,9 @@ namespace PretzelPaladin
         {
             _graphics = new GraphicsDeviceManager(this);
             // THIS IS SCARY, DON'T USE (yet)
-            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -61,6 +63,9 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
+                Exit();
+
             KeyboardState kbState = Keyboard.GetState();
 
             screenHeight = _graphics.PreferredBackBufferHeight;
@@ -77,6 +82,10 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.G))
                         {
                             state = GameState.GameOver;
+                        }
+                        if(kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
                         }
 
                         break;
@@ -100,6 +109,11 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.Enter))
                         {
                             state = GameState.Game;
+                        }
+                        if(minimize.IsPressed())
+                        {
+                            _graphics.PreferredBackBufferHeight = 700;
+                            _graphics.PreferredBackBufferWidth = 900;
                         }
                         break;
                     }
@@ -153,6 +167,7 @@ namespace PretzelPaladin
                             "YOU PAUSED 'CAUSE UR SCURRED",
                             new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
+                        minimize.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
