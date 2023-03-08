@@ -29,7 +29,9 @@ namespace PretzelPaladin
         {
             _graphics = new GraphicsDeviceManager(this);
             // THIS IS SCARY, DON'T USE (yet)
-            //_graphics.IsFullScreen = true;
+            _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            _graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -56,6 +58,9 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
+                Exit();
+
             KeyboardState kbState = Keyboard.GetState();
 
             switch(state)
