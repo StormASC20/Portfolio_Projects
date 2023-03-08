@@ -35,6 +35,9 @@ namespace PretzelPaladin
             this.image = image;
         }
 
+        // Properties
+        public Rectangle Location { get { return rect; } set { rect = value; } }
+
         public bool IsPressed()
         {
             ms = Mouse.GetState();
