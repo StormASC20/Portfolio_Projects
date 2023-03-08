@@ -1,13 +1,7 @@
-
-
-using Microsoft.Xna.Framework.Graphics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PretzelPaladin
 {
@@ -21,7 +15,7 @@ namespace PretzelPaladin
         int attackMultiplier;
         int defenseMultiplier;
 
-        Texture2D characterImage;
+        private Texture2D characterImage;
         //move array here
 
         public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
