@@ -33,9 +33,7 @@
 /build:MenuFont.spritefont
 
 #begin MoveList.txt
-/importer:
-/processor:
-/build:MoveList.txt
+/copy:MoveList.txt
 
 #begin NormalFontSize.spritefont
 /importer:FontDescriptionImporter
