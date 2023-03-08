@@ -181,7 +181,6 @@ namespace PretzelPaladin
                             "YOU PAUSED 'CAUSE UR SCURRED",
                             new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
-                        minimize.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
