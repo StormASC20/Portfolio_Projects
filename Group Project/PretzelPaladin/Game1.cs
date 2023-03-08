@@ -61,16 +61,17 @@ namespace PretzelPaladin
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
             regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
-            minimizeImg = this.Content.Load<Texture2D>("minimize");
+            //minimizeImg = this.Content.Load<Texture2D>("minimize");
             //pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
             startImg = this.Content.Load<Texture2D>("startButton");
             attackImg = this.Content.Load<Texture2D>("attackButton");
             defendImg = this.Content.Load<Texture2D>("defendButton");
+            rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
             //minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
-            attack = new Button((screenwidth/2) + 75, screenHeight/2, 200, 100, attackImg);
-            defend = new Button((screenwidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
+            attack = new Button((screenWidth/2) + 75, screenHeight/2, 200, 100, attackImg);
+            defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
         }
 
@@ -171,7 +172,8 @@ namespace PretzelPaladin
                         _spriteBatch.Draw(rectangleTexture, 
                             new Rectangle((screenWidth/2+50),screenHeight/2,screenWidth/2,screenHeight),
                             Color.White);
-
+                        attack.Draw(_spriteBatch);
+                        defend.Draw(_spriteBatch);  
                         break;
                     }
                 case GameState.Pause:
