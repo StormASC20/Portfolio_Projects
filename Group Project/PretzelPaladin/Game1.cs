@@ -22,7 +22,9 @@ namespace PretzelPaladin
 
         private Texture2D pretzelButton;
         private Texture2D foodCourt;
+        private Texture2D minimizeImg;
         private Button startbutton;
+        private Button minimize;
         private GameState state;
 
         public Game1()
@@ -51,7 +53,7 @@ namespace PretzelPaladin
 
             pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
-
+            minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, pretzelButton);
 
         }
@@ -75,6 +77,10 @@ namespace PretzelPaladin
                         {
                             state = GameState.GameOver;
                         }
+                        if(kbState.IsKeyDown(Keys.Escape))
+                        {
+                            state = GameState.Pause;
+                        }
 
                         break;
                     }
@@ -97,6 +103,11 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.Enter))
                         {
                             state = GameState.Game;
+                        }
+                        if(minimize.IsPressed())
+                        {
+                            _graphics.PreferredBackBufferHeight = 700;
+                            _graphics.PreferredBackBufferWidth = 900;
                         }
                         break;
                     }
@@ -149,6 +160,7 @@ namespace PretzelPaladin
                             "YOU PAUSED 'CAUSE UR SCURRED",
                             new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
+                        minimize.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
