@@ -29,7 +29,7 @@ namespace PretzelPaladin
         }
 
         // Properties --
-
+        
         public string Name
         {
             get { return name; }
