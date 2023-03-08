@@ -110,11 +110,11 @@ namespace PretzelPaladin
                         {
                             state = GameState.Game;
                         }
-                        if(minimize.IsPressed())
-                        {
-                            _graphics.PreferredBackBufferHeight = 700;
-                            _graphics.PreferredBackBufferWidth = 900;
-                        }
+                       // if(minimize.IsPressed())
+                       // {
+                       //     _graphics.PreferredBackBufferHeight = 700;
+                       //     _graphics.PreferredBackBufferWidth = 900;
+                       // }
                         break;
                     }
                 case GameState.GameOver:
@@ -167,7 +167,7 @@ namespace PretzelPaladin
                             "YOU PAUSED 'CAUSE UR SCURRED",
                             new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
                             Color.SaddleBrown);
-                        minimize.Draw(_spriteBatch);
+                        //minimize.Draw(_spriteBatch);
                         break;
                     }
                 case GameState.GameOver:
