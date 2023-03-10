@@ -33,8 +33,8 @@ namespace PretzelPaladin
         private Button defend;
 
         
-        private KeyboardState kbState;
-        private KeyboardState prevKbState;
+        private MouseState msState;
+        private MouseState prevMouseState;
 
         private int screenWidth;
         private int screenHeight;
@@ -70,7 +70,6 @@ namespace PretzelPaladin
             attackImg = this.Content.Load<Texture2D>("attackButton");
             defendImg = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
-            //minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
             attack = new Button((screenWidth/2) + 75, screenHeight/2, 200, 100, attackImg);
             defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
@@ -82,7 +81,9 @@ namespace PretzelPaladin
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
                 Exit();
 
-            kbState = Keyboard.GetState();
+            KeyboardState kbState = Keyboard.GetState();
+
+            msState = Mouse.GetState();
 
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;
@@ -142,7 +143,7 @@ namespace PretzelPaladin
                     }
             }
 
-            prevKbState = Keyboard.GetState();
+            prevMouseState = Mouse.GetState();
 
             base.Update(gameTime);
         }
@@ -198,6 +199,20 @@ namespace PretzelPaladin
             _spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        /// <summary>
+        /// Recognizes a Single Mouse Click
+        /// </summary>
+        /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
+        public bool SingleClick()
+        {
+            if(msState.LeftButton==ButtonState.Pressed&&prevMouseState.LeftButton==ButtonState.Released)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
