@@ -182,29 +182,43 @@ namespace PretzelPaladin
                             "PRETZEL PALADIN",
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
-                        startbutton.Draw(_spriteBatch);
+                        startbutton.Draw(_spriteBatch, Color.White);
                         break;
                     }
                 case GameState.Game:
                     {
-                        int yOffset = 70;
+                        int yOffset = 95;
 
                         _spriteBatch.Draw(rectangleTexture, 
                             rectLocation,
                             Color.White);
 
-                        attack.Draw(_spriteBatch);
+                        attack.Draw(_spriteBatch, Color.White);
 
+                        // Displays moves after Attack button is pressed
                         if(attack.Enabled==false)
                         {
                             _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X+30,rectLocation.Y+37), Color.DarkRed);
 
-                            foreach(Move m in moves)
-                            {
-                                _spriteBatch.DrawString(regularSizeFont, m.ToString(), new Vector2(rectLocation.X + 40, rectLocation.Y + yOffset), Color.DarkRed);
-                                yOffset += 20;
-                            }
+                            //foreach(Move m in moves)
+                            //{
+                            //    _spriteBatch.DrawString(regularSizeFont, m.ToString(), new Vector2(rectLocation.X + 40, rectLocation.Y + yOffset), Color.DarkRed);
+                            //    yOffset += 20;
+                            //}
+
+                            // Creates 4 Attack buttons
+                            Button topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture);
+                            Button topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
+                            Button bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
+                            Button bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
+
+                            // Draws button to screen
+                            topLeftMove.Draw(_spriteBatch, Color.Red);
+                            topRightMove.Draw(_spriteBatch, Color.Red);
+                            bottomLeftMove.Draw(_spriteBatch, Color.Red);
+                            bottomRightMove.Draw(_spriteBatch, Color.Red);
                         }
+
                         //defend.Draw(_spriteBatch);  
                         break;
                     }

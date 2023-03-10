@@ -82,14 +82,14 @@ namespace PretzelPaladin
         /// Draws the button to the window
         /// </summary>
         /// <param name="sb">Spritebatch passed in from Game1</param>
-        public void Draw(SpriteBatch sb)
+        public void Draw(SpriteBatch sb, Color color)
         {
               // Only draws the button if it's enabled
               if(this.Enabled)
               {
                 sb.Draw(image,
                 rect,
-                Color.White);
+                color);
               }
               
         }
