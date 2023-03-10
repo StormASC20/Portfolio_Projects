@@ -25,6 +25,7 @@ namespace PretzelPaladin
         private Texture2D image;
         private MouseState ms;
         private MouseState lastMS;
+        private bool isEnabled;
         
         // Constructors --
 
@@ -44,11 +45,19 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
+            isEnabled = true;
         }
 
         // Properties --
-
+        /// <summary>
+        /// Returns properties of the rectangle boundary of the button
+        /// </summary>
         public Rectangle Location { get { return rect; } set { rect = value; } }
+
+        /// <summary>
+        /// Returns true if the button is enabled, false otherwise
+        /// </summary>
+        public bool Enabled { get { return isEnabled; } set { isEnabled = value; } }
 
         // Methods --
 
@@ -75,9 +84,14 @@ namespace PretzelPaladin
         /// <param name="sb">Spritebatch passed in from Game1</param>
         public void Draw(SpriteBatch sb)
         {
-              sb.Draw(image,
+              // Only draws the button if it's enabled
+              if(this.Enabled)
+              {
+                sb.Draw(image,
                 rect,
                 Color.White);
+              }
+              
         }
     }
 }

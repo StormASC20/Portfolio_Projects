@@ -68,6 +68,9 @@
 /processorParam:TextureFormat=Color
 /build:minimize.png
 
+#begin MoveList.txt
+/copy:MoveList.txt
+
 #begin NormalFontSize.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
@@ -110,4 +113,11 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:startButton.png
+
+#begin Subheader.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Subheader.spritefont
 

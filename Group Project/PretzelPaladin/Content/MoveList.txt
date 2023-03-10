@@ -1,0 +1,7 @@
+Salt Storm,10
+Elastic Egg,25
+Yucky Yeast,10
+Butter Bash,5
+Flower Fling,2
+Sugar Surge,4
+Milk Missle,12

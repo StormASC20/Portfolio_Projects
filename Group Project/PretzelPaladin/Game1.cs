@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
+using System.IO;
 
 namespace PretzelPaladin
 {
@@ -19,6 +21,7 @@ namespace PretzelPaladin
 
         private SpriteFont menuFont;
         private SpriteFont regularSizeFont;
+        private SpriteFont subHeaderFont;
         private GameState state;
 
         //private Texture2D pretzelButton;
@@ -36,8 +39,11 @@ namespace PretzelPaladin
         private MouseState msState;
         private MouseState prevMouseState;
 
+        private List<Move> moves;
+
         private int screenWidth;
         private int screenHeight;
+        private Rectangle rectLocation;
 
         public Game1()
         {
@@ -55,24 +61,36 @@ namespace PretzelPaladin
             state = GameState.MainMenu;
             _graphics.PreferredBackBufferHeight = 700;
             _graphics.PreferredBackBufferWidth = 1100;
+
+            screenHeight = _graphics.PreferredBackBufferHeight;
+            screenWidth = _graphics.PreferredBackBufferWidth;
+
+            moves = new List<Move>();
+            FileReading("MoveList.txt");
+
             _graphics.ApplyChanges();
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
-            _spriteBatch = new SpriteBatch(GraphicsDevice);
-            menuFont = this.Content.Load<SpriteFont>("MenuFont");
-            regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
-            //pretzelButton = this.Content.Load<Texture2D>("prezel");
-            foodCourt = this.Content.Load<Texture2D>("foodCourt");
-            startImg = this.Content.Load<Texture2D>("startButton");
-            attackImg = this.Content.Load<Texture2D>("attackButton");
-            defendImg = this.Content.Load<Texture2D>("defendButton");
+            _spriteBatch     = new SpriteBatch(GraphicsDevice);
+            menuFont         = this.Content.Load<SpriteFont>("MenuFont");
+            regularSizeFont  = this.Content.Load<SpriteFont>("NormalFontSize");
+            subHeaderFont    = this.Content.Load<SpriteFont>("Subheader");
+
+            foodCourt        = this.Content.Load<Texture2D>("foodCourt");
+            startImg         = this.Content.Load<Texture2D>("startButton");
+            attackImg        = this.Content.Load<Texture2D>("attackButton");
+            defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
-            startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
-            attack = new Button((screenWidth/2) + 75, screenHeight/2, 200, 100, attackImg);
-            defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
+
+            startbutton      = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
+            attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
+            //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
+
+            rectLocation     = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
+            
 
         }
 
@@ -114,9 +132,10 @@ namespace PretzelPaladin
                         {
                             state = GameState.Pause;
                         }
-                        if (kbState.IsKeyDown(Keys.G))
+                        
+                        if(attack.IsPressed())
                         {
-                            state = GameState.GameOver;
+                            attack.Enabled = false;
                         }
 
                         break;
@@ -168,11 +187,25 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
+                        int yOffset = 70;
+
                         _spriteBatch.Draw(rectangleTexture, 
-                            new Rectangle((screenWidth/2+50),screenHeight/2,screenWidth/2,screenHeight),
+                            rectLocation,
                             Color.White);
+
                         attack.Draw(_spriteBatch);
-                        defend.Draw(_spriteBatch);  
+
+                        if(attack.Enabled==false)
+                        {
+                            _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X+30,rectLocation.Y+37), Color.DarkRed);
+
+                            foreach(Move m in moves)
+                            {
+                                _spriteBatch.DrawString(regularSizeFont, m.ToString(), new Vector2(rectLocation.X + 40, rectLocation.Y + yOffset), Color.DarkRed);
+                                yOffset += 20;
+                            }
+                        }
+                        //defend.Draw(_spriteBatch);  
                         break;
                     }
                 case GameState.Pause:
@@ -213,6 +246,26 @@ namespace PretzelPaladin
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Reads in Moves from MoveList file
+        /// </summary>
+        /// <param name="fileName">Name of the file</param>
+        public void FileReading(string fileName)
+        {
+            StreamReader file = new StreamReader("../../../Content/"+fileName);
+
+            string currentLine;
+
+            while((currentLine = file.ReadLine())!= null)
+            {
+                string[] components = currentLine.Split(",");
+
+                moves.Add(new Move((components[0]), int.Parse(components[1])));
+            }
+
+            file.Close();
         }
     }
 }

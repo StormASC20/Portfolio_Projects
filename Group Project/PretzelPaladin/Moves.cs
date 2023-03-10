@@ -40,6 +40,15 @@ namespace PretzelPaladin
             this.moveName = moveName;
             this.amtDamage = amtDamage;
         }
-   
+
+        /// <summary>
+        /// String description of each move
+        /// </summary>
+        /// <returns>A string...</returns>
+        public override string ToString()
+        {
+            return $"{moveName} -- Damage: " + amtDamage;
+        }
+
     }
 }
