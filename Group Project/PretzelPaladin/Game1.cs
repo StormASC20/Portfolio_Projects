@@ -19,19 +19,22 @@ namespace PretzelPaladin
 
         private SpriteFont menuFont;
         private SpriteFont regularSizeFont;
+        private GameState state;
 
         //private Texture2D pretzelButton;
         private Texture2D foodCourt;
         private Texture2D rectangleTexture;
-        private Texture2D minimizeImg;
         private Texture2D startImg;
         private Texture2D attackImg;
         private Texture2D defendImg;
+
         private Button startbutton;
-        private Button minimize;
         private Button attack;
         private Button defend;
-        private GameState state;
+
+        
+        private KeyboardState kbState;
+        private KeyboardState prevKbState;
 
         private int screenWidth;
         private int screenHeight;
@@ -61,16 +64,14 @@ namespace PretzelPaladin
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
             regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
-            minimizeImg = this.Content.Load<Texture2D>("minimize");
             //pretzelButton = this.Content.Load<Texture2D>("prezel");
             foodCourt = this.Content.Load<Texture2D>("foodCourt");
             startImg = this.Content.Load<Texture2D>("startButton");
             attackImg = this.Content.Load<Texture2D>("attackButton");
             defendImg = this.Content.Load<Texture2D>("defendButton");
-            //minimize = new Button((_graphics.PreferredBackBufferWidth /2) - 100, _graphics.PreferredBackBufferHeight / 2, 200, 100, minimizeImg);
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
-            attack = new Button((screenwidth/2) + 75, screenHeight/2, 200, 100, attackImg);
-            defend = new Button((screenwidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
+            attack = new Button((screenWidth/2) + 75, screenHeight/2, 200, 100, attackImg);
+            defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
         }
 
@@ -79,7 +80,7 @@ namespace PretzelPaladin
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
                 Exit();
 
-            KeyboardState kbState = Keyboard.GetState();
+            kbState = Keyboard.GetState();
 
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;
@@ -123,12 +124,6 @@ namespace PretzelPaladin
                         {
                             state = GameState.Game;
                         }
-                        /*if(minimize.IsPressed())
-                        {
-                            _graphics.PreferredBackBufferHeight = 700;
-                            _graphics.PreferredBackBufferWidth = 1100;
-                            _graphics.ApplyChanges()
-                        }*/
                         break;
                     }
                 case GameState.GameOver:
@@ -144,6 +139,8 @@ namespace PretzelPaladin
                         break;
                     }
             }
+
+            prevKbState = Keyboard.GetState();
 
             base.Update(gameTime);
         }
