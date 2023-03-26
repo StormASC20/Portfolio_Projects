@@ -1,6 +1,6 @@
 Salt Storm,10
-Elastic Egg,25
-Yucky Yeast,10
+Eggsplosion,25
+Yeast Beast,10
 Butter Bash,5
 Flour Fling,2
 Sugar Surge,4

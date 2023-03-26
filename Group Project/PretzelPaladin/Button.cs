@@ -26,6 +26,7 @@ namespace PretzelPaladin
         private MouseState ms;
         private MouseState lastMS;
         private bool isEnabled;
+        private string text;
         
         // Constructors --
 
@@ -45,6 +46,27 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
+            isEnabled = true;
+        }
+
+        /// <summary>
+        /// Second constructor for a basic rectangle with inputted text
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="image"></param>
+        /// <param name="text"></param>
+        public Button(int x, int y, int width, int height, Texture2D image, string text)
+        {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+            rect = new Rectangle(x, y, width, height);
+            this.image = image;
+            this.text = text;
             isEnabled = true;
         }
 
@@ -91,7 +113,26 @@ namespace PretzelPaladin
                 rect,
                 color);
               }
-              
+        }
+
+        /// <summary>
+        /// Draws the button with the inputted text from the second constructor
+        /// </summary>
+        /// <param name="sb"></param>
+        /// <param name="color"></param>
+        /// <param name="font"></param>
+        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font)
+        {
+            if (this.Enabled)
+            {
+                sb.Draw(image,
+                rect,
+                color);
+                sb.DrawString(font,
+                    text,
+                    new Vector2(x + width/5, y + height/2 - 15),
+                    Color.Black);
+            }
         }
     }
 }

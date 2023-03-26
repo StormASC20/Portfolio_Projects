@@ -207,16 +207,16 @@ namespace PretzelPaladin
                             //}
 
                             // Creates 4 Attack buttons
-                            Button topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture);
-                            Button topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
-                            Button bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
-                            Button bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture);
+                            Button topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture, moves[0].MoveName);
+                            Button topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
+                            Button bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
+                            Button bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
 
                             // Draws button to screen
-                            topLeftMove.Draw(_spriteBatch, Color.Red);
-                            topRightMove.Draw(_spriteBatch, Color.Red);
-                            bottomLeftMove.Draw(_spriteBatch, Color.Red);
-                            bottomRightMove.Draw(_spriteBatch, Color.Red);
+                            topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+                            topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+                            bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+                            bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
                         }
 
                         //defend.Draw(_spriteBatch);  
