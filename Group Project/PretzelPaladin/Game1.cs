@@ -34,8 +34,9 @@ namespace PretzelPaladin
         private Button startbutton;
         private Button attack;
         private Button defend;
+        Button lastPressed;
 
-        
+
         private MouseState msState;
         private MouseState prevMouseState;
 
@@ -67,6 +68,7 @@ namespace PretzelPaladin
 
             moves = new List<Move>();
             FileReading("MoveList.txt");
+            lastPressed = null;
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -220,40 +222,35 @@ namespace PretzelPaladin
                             bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
                             bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
 
+                            
 
 
                             if (topLeftMove.IsPressed())
                             {
-                                _spriteBatch.DrawString(
-                                    regularSizeFont,
-                                    $"Paladin used {topLeftMove.Text}",
-                                    new Vector2(100, 30),
-                                    Color.Firebrick);
+                                lastPressed = topLeftMove;
                             }
                             else if (topRightMove.IsPressed())
                             {
-                                _spriteBatch.DrawString(
-                                    regularSizeFont,
-                                    $"Paladin used {topRightMove.Text}",
-                                    new Vector2(100, 30),
-                                    Color.Firebrick);
+                                lastPressed = topRightMove;
                             }
                             else if (bottomLeftMove.IsPressed())
                             {
-                                _spriteBatch.DrawString(
-                                    regularSizeFont,
-                                    $"Paladin used {bottomLeftMove.Text}",
-                                    new Vector2(100, 30),
-                                    Color.Firebrick);
+                                lastPressed = bottomLeftMove;
                             }
                             else if (bottomRightMove.IsPressed())
                             {
+                                lastPressed = bottomRightMove;
+                            }
+
+                            if(lastPressed != null)
+                            {
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
-                                    $"Paladin used {bottomRightMove.Text}",
+                                    $"Paladin used {lastPressed.Text}",
                                     new Vector2(100, 30),
                                     Color.Firebrick);
                             }
+                            
 
 
                         }
