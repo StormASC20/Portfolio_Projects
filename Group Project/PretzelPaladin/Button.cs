@@ -81,6 +81,8 @@ namespace PretzelPaladin
         /// </summary>
         public bool Enabled { get { return isEnabled; } set { isEnabled = value; } }
 
+        public string Text { get { return text; } set { text = value; } }
+
         // Methods --
 
         /// <summary>

@@ -212,11 +212,50 @@ namespace PretzelPaladin
                             Button bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
                             Button bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
 
+                            
+
                             // Draws button to screen
                             topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
                             topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
                             bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
                             bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+
+
+
+                            if (topLeftMove.IsPressed())
+                            {
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"Paladin used {topLeftMove.Text}",
+                                    new Vector2(100, 30),
+                                    Color.Firebrick);
+                            }
+                            else if (topRightMove.IsPressed())
+                            {
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"Paladin used {topRightMove.Text}",
+                                    new Vector2(100, 30),
+                                    Color.Firebrick);
+                            }
+                            else if (bottomLeftMove.IsPressed())
+                            {
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"Paladin used {bottomLeftMove.Text}",
+                                    new Vector2(100, 30),
+                                    Color.Firebrick);
+                            }
+                            else if (bottomRightMove.IsPressed())
+                            {
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"Paladin used {bottomRightMove.Text}",
+                                    new Vector2(100, 30),
+                                    Color.Firebrick);
+                            }
+
+
                         }
 
                         //defend.Draw(_spriteBatch);  
