@@ -46,6 +46,14 @@ namespace PretzelPaladin
         private int screenHeight;
         private Rectangle rectLocation;
 
+        Button topLeftMove;
+        Button topRightMove;
+        Button bottomLeftMove;
+        Button bottomRightMove;
+
+        Enemy enemy;
+        Player player;
+
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -69,6 +77,9 @@ namespace PretzelPaladin
             moves = new List<Move>();
             FileReading("MoveList.txt");
             lastPressed = null;
+
+            enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
+            player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -140,6 +151,52 @@ namespace PretzelPaladin
                             attack.Enabled = false;
                         }
 
+                        // Inflicts Damage to enemy based on move chosen
+                        if(topLeftMove.IsPressed())
+                        {
+                            for(int i=0; i<moves.Count; i++)
+                            {
+                                if(moves[i].MoveName==topLeftMove.Text)
+                                {
+                                    enemy.TakeDamage(moves[i].AmountDamage);
+                                    break;
+                                }
+                            }
+                        }
+                        else if(topRightMove.IsPressed())
+                        {
+                            for (int i = 0; i < moves.Count; i++)
+                            {
+                                if (moves[i].MoveName == topRightMove.Text)
+                                {
+                                    enemy.TakeDamage(moves[i].AmountDamage);
+                                    break;
+                                }
+                            }
+                        }
+                        else if (bottomLeftMove.IsPressed())
+                        {
+                            for (int i = 0; i < moves.Count; i++)
+                            {
+                                if (moves[i].MoveName == bottomLeftMove.Text)
+                                {
+                                    enemy.TakeDamage(moves[i].AmountDamage);
+                                    break;
+                                }
+                            }
+                        }
+                        else if (bottomRightMove.IsPressed())
+                        {
+                            for (int i = 0; i < moves.Count; i++)
+                            {
+                                if (moves[i].MoveName == bottomRightMove.Text)
+                                {
+                                    enemy.TakeDamage(moves[i].AmountDamage);
+                                    break;
+                                }
+                            }
+                        }
+
                         break;
                     }
                 case GameState.Pause:
@@ -209,10 +266,10 @@ namespace PretzelPaladin
                             //}
 
                             // Creates 4 Attack buttons
-                            Button topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture, moves[0].MoveName);
-                            Button topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
-                            Button bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
-                            Button bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
+                            topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture, moves[0].MoveName);
+                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
+                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
+                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
 
                             
 
@@ -228,18 +285,70 @@ namespace PretzelPaladin
                             if (topLeftMove.IsPressed())
                             {
                                 lastPressed = topLeftMove;
+
+                                for (int i = 0; i < moves.Count; i++)
+                                {
+                                    if (moves[i].MoveName == topLeftMove.Text)
+                                    {
+                                        _spriteBatch.DrawString(
+                                            regularSizeFont,
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            new Vector2(100, 50),
+                                            Color.Firebrick);
+                                        break;
+                                    }
+                                }
                             }
                             else if (topRightMove.IsPressed())
                             {
                                 lastPressed = topRightMove;
+
+                                for (int i = 0; i < moves.Count; i++)
+                                {
+                                    if (moves[i].MoveName == topRightMove.Text)
+                                    {
+                                        _spriteBatch.DrawString(
+                                            regularSizeFont,
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            new Vector2(100, 50),
+                                            Color.Firebrick);
+                                        break;
+                                    }
+                                }
                             }
                             else if (bottomLeftMove.IsPressed())
                             {
                                 lastPressed = bottomLeftMove;
+
+                                for (int i = 0; i < moves.Count; i++)
+                                {
+                                    if (moves[i].MoveName == bottomLeftMove.Text)
+                                    {
+                                        _spriteBatch.DrawString(
+                                            regularSizeFont,
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            new Vector2(100, 50),
+                                            Color.Firebrick);
+                                        break;
+                                    }
+                                }
                             }
                             else if (bottomRightMove.IsPressed())
                             {
                                 lastPressed = bottomRightMove;
+
+                                for (int i = 0; i < moves.Count; i++)
+                                {
+                                    if (moves[i].MoveName == bottomRightMove.Text)
+                                    {
+                                        _spriteBatch.DrawString(
+                                            regularSizeFont,
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            new Vector2(100, 50),
+                                            Color.Firebrick);
+                                        break;
+                                    }
+                                }
                             }
 
                             if(lastPressed != null)
