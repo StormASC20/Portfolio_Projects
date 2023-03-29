@@ -89,6 +89,7 @@ namespace PretzelPaladin
 
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+            lastMove = new Move(" ", 0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
