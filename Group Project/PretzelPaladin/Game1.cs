@@ -219,7 +219,7 @@ namespace PretzelPaladin
                         if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
-                            state = GameState.GameOver;
+                            state = GameState.GameOver ASD;
                         }
                         if (enemy.CurrentHealth <= 0)
                         {
