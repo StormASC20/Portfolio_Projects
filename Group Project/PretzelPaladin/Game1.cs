@@ -177,6 +177,7 @@ namespace PretzelPaladin
                             {
                                 if(moves[i].MoveName==topLeftMove.Text)
                                 {
+                                    lastMove = moves[i];
                                     enemy.TakeDamage(moves[i].AmountDamage);
                                     break;
                                 }
@@ -188,6 +189,7 @@ namespace PretzelPaladin
                             {
                                 if (moves[i].MoveName == topRightMove.Text)
                                 {
+                                    lastMove = moves[i];
                                     enemy.TakeDamage(moves[i].AmountDamage);
                                     break;
                                 }
@@ -199,6 +201,7 @@ namespace PretzelPaladin
                             {
                                 if (moves[i].MoveName == bottomLeftMove.Text)
                                 {
+                                    lastMove = moves[i];
                                     enemy.TakeDamage(moves[i].AmountDamage);
                                     break;
                                 }
@@ -210,6 +213,7 @@ namespace PretzelPaladin
                             {
                                 if (moves[i].MoveName == bottomRightMove.Text)
                                 {
+                                    lastMove = moves[i];
                                     enemy.TakeDamage(moves[i].AmountDamage);
                                     break;
                                 }
@@ -301,7 +305,16 @@ namespace PretzelPaladin
                             rectLocation,
                             Color.White);
 
-                        if(attack.Enabled)
+                        _spriteBatch.DrawString(regularSizeFont,
+                                  $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
+                                  new Vector2(100, 70),
+                                  Color.Firebrick);
+                        _spriteBatch.DrawString(regularSizeFont,
+                            $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
+                            new Vector2(100, 90),
+                            Color.Firebrick);
+
+                        if (attack.Enabled)
                         {
                             attack.Draw(_spriteBatch, Color.White);
                         }
@@ -330,9 +343,6 @@ namespace PretzelPaladin
                             topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-
-                            
-
 
                             if (topLeftMove.IsPressed())
                             {
@@ -391,7 +401,7 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            if(lastPressed != null)
+                            if (lastPressed != null)
                             {
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
