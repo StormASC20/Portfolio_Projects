@@ -89,6 +89,7 @@ namespace PretzelPaladin
 
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+            lastMove = new Move(" ", 0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
@@ -453,7 +454,7 @@ namespace PretzelPaladin
         /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
         public bool SingleClick()
         {
-            if(msState.LeftButton==ButtonState.Pressed&&prevMouseState.LeftButton==ButtonState.Released)
+            if(msState.LeftButton==ButtonState.Pressed && prevMouseState.LeftButton==ButtonState.Released)
             {
                 return true;
             }
