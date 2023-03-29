@@ -323,6 +323,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == topLeftMove.Text)
                                     {
+                                        lastMove = moves[i];
                                         _spriteBatch.DrawString(
                                             regularSizeFont,
                                             $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}", 
