@@ -332,10 +332,10 @@ namespace PretzelPaladin
                             //}
 
                             // Creates 4 Attack buttons
-                            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0].MoveName);
-                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
-                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
-                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
+                            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
+                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
+                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
+                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
 
 
                             // Draws button to screen
@@ -343,6 +343,9 @@ namespace PretzelPaladin
                             topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                            
+                            
+
 
                             if (topLeftMove.IsPressed())
                             {
