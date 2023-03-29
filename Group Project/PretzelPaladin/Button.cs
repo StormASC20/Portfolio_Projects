@@ -70,6 +70,11 @@ namespace PretzelPaladin
             isEnabled = true;
         }
 
+        public Button()
+        {
+            
+        }
+
         // Properties --
         /// <summary>
         /// Returns properties of the rectangle boundary of the button
