@@ -35,6 +35,7 @@ namespace PretzelPaladin
         private Button attack;
         private Button defend;
         Button lastPressed;
+        Move lastMove;
 
 
         private MouseState msState;
@@ -319,11 +320,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == topRightMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -336,11 +333,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == bottomLeftMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -353,11 +346,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == bottomRightMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -370,6 +359,11 @@ namespace PretzelPaladin
                                     $"Paladin used {lastPressed.Text}",
                                     new Vector2(100, 30),
                                     Color.Firebrick);
+                                _spriteBatch.DrawString(
+                                           regularSizeFont,
+                                           $"{player.Name} dealt {lastMove.AmountDamage} to {enemy.Name}",
+                                           new Vector2(100, 50),
+                                           Color.Firebrick);
                             }
                             
 
