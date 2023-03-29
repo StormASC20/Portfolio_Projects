@@ -273,7 +273,16 @@ namespace PretzelPaladin
                             rectLocation,
                             Color.White);
 
-                        if(attack.Enabled)
+                        _spriteBatch.DrawString(regularSizeFont,
+                                  $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
+                                  new Vector2(100, 70),
+                                  Color.Firebrick);
+                        _spriteBatch.DrawString(regularSizeFont,
+                            $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
+                            new Vector2(100, 90),
+                            Color.Firebrick);
+
+                        if (attack.Enabled)
                         {
                             attack.Draw(_spriteBatch, Color.White);
                         }
@@ -363,7 +372,7 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            if(lastPressed != null)
+                            if (lastPressed != null)
                             {
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
