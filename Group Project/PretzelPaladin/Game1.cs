@@ -315,7 +315,7 @@ namespace PretzelPaladin
                             topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
                             bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-
+                            
                             
 
 
