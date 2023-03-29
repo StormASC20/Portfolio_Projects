@@ -329,7 +329,7 @@ namespace PretzelPaladin
                                     {
                                         _spriteBatch.DrawString(
                                             regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}", 
                                             new Vector2(100, 50),
                                             Color.Firebrick);
                                         break;
