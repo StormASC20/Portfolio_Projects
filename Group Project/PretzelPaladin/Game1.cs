@@ -173,47 +173,19 @@ namespace PretzelPaladin
                         // Inflicts Damage to enemy based on move chosen
                         if(topLeftMove.IsPressed())
                         {
-                            for(int i=0; i<moves.Count; i++)
-                            {
-                                if(moves[i].MoveName==topLeftMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(topLeftMove.Damage);
                         }
                         else if(topRightMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == topRightMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(topRightMove.Damage);
                         }
                         else if (bottomLeftMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == bottomLeftMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(bottomLeftMove.Damage);
                         }
                         else if (bottomRightMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == bottomRightMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(bottomRightMove.Damage);
                         }
                         // When the player or enemies health go below or equal to 0 the game is over 
                         if (player.CurrentHealth <= 0)
@@ -301,7 +273,16 @@ namespace PretzelPaladin
                             rectLocation,
                             Color.White);
 
-                        if(attack.Enabled)
+                        _spriteBatch.DrawString(regularSizeFont,
+                                  $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
+                                  new Vector2(100, 70),
+                                  Color.Firebrick);
+                        _spriteBatch.DrawString(regularSizeFont,
+                            $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
+                            new Vector2(100, 90),
+                            Color.Firebrick);
+
+                        if (attack.Enabled)
                         {
                             attack.Draw(_spriteBatch, Color.White);
                         }
@@ -342,6 +323,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == topLeftMove.Text)
                                     {
+                                        lastMove = moves[i];
                                         _spriteBatch.DrawString(
                                             regularSizeFont,
                                             $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}", 
@@ -391,7 +373,7 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            if(lastPressed != null)
+                            if (lastPressed != null)
                             {
                                 _spriteBatch.DrawString(
                                     regularSizeFont,

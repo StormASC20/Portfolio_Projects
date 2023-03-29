@@ -28,7 +28,7 @@ namespace PretzelPaladin
         private bool isEnabled;
         private string text;
         private int damage;
-        
+        private Move move;
         // Constructors --
 
         /// <summary>
@@ -89,6 +89,11 @@ namespace PretzelPaladin
         public bool Enabled { get { return isEnabled; } set { isEnabled = value; } }
 
         public string Text { get { return text; } set { text = value; } }
+
+        public Move Move { get { return move; } set { move = value; } }
+
+        public int Damage { get { return damage; } set { damage = value; } }
+
 
         // Methods --
 
