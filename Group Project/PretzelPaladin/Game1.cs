@@ -173,47 +173,19 @@ namespace PretzelPaladin
                         // Inflicts Damage to enemy based on move chosen
                         if(topLeftMove.IsPressed())
                         {
-                            for(int i=0; i<moves.Count; i++)
-                            {
-                                if(moves[i].MoveName==topLeftMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(topLeftMove.Damage);
                         }
                         else if(topRightMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == topRightMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(topRightMove.Damage);
                         }
                         else if (bottomLeftMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == bottomLeftMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(bottomLeftMove.Damage);
                         }
                         else if (bottomRightMove.IsPressed())
                         {
-                            for (int i = 0; i < moves.Count; i++)
-                            {
-                                if (moves[i].MoveName == bottomRightMove.Text)
-                                {
-                                    enemy.TakeDamage(moves[i].AmountDamage);
-                                    break;
-                                }
-                            }
+                            enemy.TakeDamage(bottomRightMove.Damage);
                         }
                         // When the player or enemies health go below or equal to 0 the game is over 
                         if (player.CurrentHealth <= 0)
