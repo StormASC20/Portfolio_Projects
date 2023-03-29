@@ -98,14 +98,18 @@ namespace PretzelPaladin
         {
             
             ms = Mouse.GetState();
-            if(ms.LeftButton == ButtonState.Pressed && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
+
+            if(ms.LeftButton == ButtonState.Pressed && lastMS.LeftButton == ButtonState.Released && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
+                lastMS = ms;
                 return true;
             }
             else 
-            { 
+            {
+                lastMS = ms;
                 return false; 
             }
+            
         }
 
         /// <summary>

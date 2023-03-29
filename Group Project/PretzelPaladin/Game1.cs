@@ -439,7 +439,7 @@ namespace PretzelPaladin
         /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
         public bool SingleClick()
         {
-            if(msState.LeftButton==ButtonState.Pressed&&prevMouseState.LeftButton==ButtonState.Released)
+            if(msState.LeftButton==ButtonState.Pressed && prevMouseState.LeftButton==ButtonState.Released)
             {
                 return true;
             }
