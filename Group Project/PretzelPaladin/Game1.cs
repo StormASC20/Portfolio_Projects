@@ -45,6 +45,7 @@ namespace PretzelPaladin
         private int screenWidth;
         private int screenHeight;
         private Rectangle rectLocation;
+        private int yOffset;
 
         Button topLeftMove;
         Button topRightMove;
@@ -80,6 +81,14 @@ namespace PretzelPaladin
 
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+
+            // Creates 4 Attack buttons
+            yOffset = 95;
+
+            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0].MoveName);
+            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
+            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
+            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -246,7 +255,6 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
-                        int yOffset = 95;
 
                         _spriteBatch.Draw(rectangleTexture, 
                             rectLocation,
@@ -265,19 +273,12 @@ namespace PretzelPaladin
                             //    yOffset += 20;
                             //}
 
-                            // Creates 4 Attack buttons
-                            topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture, moves[0].MoveName);
-                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
-                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
-                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
-
-                            
 
                             // Draws button to screen
-                            topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+                            topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, attackImg);
+                            topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, attackImg);
+                            bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, attackImg);
+                            bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, attackImg);
 
                             
 
