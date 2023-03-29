@@ -70,6 +70,11 @@ namespace PretzelPaladin
             isEnabled = true;
         }
 
+        public Button()
+        {
+            
+        }
+
         // Properties --
         /// <summary>
         /// Returns properties of the rectangle boundary of the button
@@ -91,6 +96,7 @@ namespace PretzelPaladin
         /// <returns>True if the button was pressed, false otherwise</returns>
         public bool IsPressed()
         {
+            
             ms = Mouse.GetState();
             if(ms.LeftButton == ButtonState.Pressed && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
@@ -123,7 +129,7 @@ namespace PretzelPaladin
         /// <param name="sb"></param>
         /// <param name="color"></param>
         /// <param name="font"></param>
-        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font)
+        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image)
         {
             if (this.Enabled)
             {

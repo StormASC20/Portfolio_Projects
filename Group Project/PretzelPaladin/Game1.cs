@@ -40,6 +40,7 @@ namespace PretzelPaladin
         private Button attack;
         private Button defend;
         Button lastPressed;
+        Move lastMove;
 
 
         private MouseState msState;
@@ -50,6 +51,7 @@ namespace PretzelPaladin
         private int screenWidth;
         private int screenHeight;
         private Rectangle rectLocation;
+        private int yOffset;
 
         Button topLeftMove;
         Button topRightMove;
@@ -86,6 +88,13 @@ namespace PretzelPaladin
 
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+
+            topLeftMove = new Button();
+            topRightMove = new Button();
+            bottomLeftMove = new Button();
+            bottomRightMove=new Button();
+
+            
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -270,13 +279,18 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
-                        int yOffset = 95;
+
+                        yOffset = 95;
 
                         _spriteBatch.Draw(rectangleTexture, 
                             rectLocation,
                             Color.White);
 
-                        attack.Draw(_spriteBatch, Color.White);
+                        if(attack.Enabled)
+                        {
+                            attack.Draw(_spriteBatch, Color.White);
+                        }
+                        
 
                         // Displays moves after Attack button is pressed
                         if(attack.Enabled==false)
@@ -290,18 +304,17 @@ namespace PretzelPaladin
                             //}
 
                             // Creates 4 Attack buttons
-                            topLeftMove = new Button(rectLocation.X+70,rectLocation.Y+yOffset,rectLocation.Width/3,rectLocation.Height/6, rectangleTexture, moves[0].MoveName);
+                            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0].MoveName);
                             topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
-                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
-                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset+130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
+                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
+                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
 
-                            
 
                             // Draws button to screen
-                            topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
-                            bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont);
+                            topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                            topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                            bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                            bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
 
                             
 
@@ -331,11 +344,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == topRightMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -348,11 +357,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == bottomLeftMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -365,11 +370,7 @@ namespace PretzelPaladin
                                 {
                                     if (moves[i].MoveName == bottomRightMove.Text)
                                     {
-                                        _spriteBatch.DrawString(
-                                            regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
-                                            new Vector2(100, 50),
-                                            Color.Firebrick);
+                                        lastMove = moves[i];
                                         break;
                                     }
                                 }
@@ -382,6 +383,11 @@ namespace PretzelPaladin
                                     $"Paladin used {lastPressed.Text}",
                                     new Vector2(100, 30),
                                     Color.Firebrick);
+                                _spriteBatch.DrawString(
+                                           regularSizeFont,
+                                           $"{player.Name} dealt {lastMove.AmountDamage} to {enemy.Name}",
+                                           new Vector2(100, 50),
+                                           Color.Firebrick);
                             }
                             
 
