@@ -35,6 +35,7 @@ namespace PretzelPaladin
         private Texture2D startImg;
         private Texture2D attackImg;
         private Texture2D defendImg;
+        private Texture2D pretzelPaladinConceptImg;
 
         private Button startbutton;
         private Button attack;
@@ -88,6 +89,7 @@ namespace PretzelPaladin
 
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+            lastMove = new Move(" ", 0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
@@ -113,7 +115,9 @@ namespace PretzelPaladin
             defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
 
-            startbutton      = new Button((_graphics.PreferredBackBufferWidth / 3), _graphics.PreferredBackBufferHeight / 2, 200, 100, startImg);
+            pretzelPaladinConceptImg = this.Content.Load<Texture2D>("PretzelPaladin");
+
+            startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
             attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
@@ -269,11 +273,22 @@ namespace PretzelPaladin
             {
                 case GameState.MainMenu:
                     {
+                        _spriteBatch.Draw(
+                            pretzelPaladinConceptImg,
+                            new Rectangle(610,100,screenWidth/2,screenHeight),
+                            Color.White);
+
+                        _spriteBatch.Draw(
+                            pretzelPaladinConceptImg,
+                            new Rectangle(-50, 100, screenWidth / 2, screenHeight),
+                            Color.White);
+
                         _spriteBatch.DrawString(
                             menuFont,
                             "PRETZEL PALADIN",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            new Vector2(270,100),
                             Color.SaddleBrown);
+
                         startbutton.Draw(_spriteBatch, Color.White);
                         break;
                     }
@@ -304,10 +319,10 @@ namespace PretzelPaladin
                             //}
 
                             // Creates 4 Attack buttons
-                            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0].MoveName);
-                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1].MoveName);
-                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2].MoveName);
-                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3].MoveName);
+                            topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
+                            topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
+                            bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
+                            bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
 
 
                             // Draws button to screen
@@ -439,7 +454,7 @@ namespace PretzelPaladin
         /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
         public bool SingleClick()
         {
-            if(msState.LeftButton==ButtonState.Pressed&&prevMouseState.LeftButton==ButtonState.Released)
+            if(msState.LeftButton==ButtonState.Pressed && prevMouseState.LeftButton==ButtonState.Released)
             {
                 return true;
             }

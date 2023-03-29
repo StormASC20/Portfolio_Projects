@@ -27,6 +27,7 @@ namespace PretzelPaladin
         private MouseState lastMS;
         private bool isEnabled;
         private string text;
+        private int damage;
         
         // Constructors --
 
@@ -58,7 +59,7 @@ namespace PretzelPaladin
         /// <param name="height"></param>
         /// <param name="image"></param>
         /// <param name="text"></param>
-        public Button(int x, int y, int width, int height, Texture2D image, string text)
+        public Button(int x, int y, int width, int height, Texture2D image, Move move)
         {
             this.x = x;
             this.y = y;
@@ -66,7 +67,8 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
-            this.text = text;
+            this.text = move.MoveName;
+            this.damage = move.AmountDamage;
             isEnabled = true;
         }
 
@@ -98,14 +100,18 @@ namespace PretzelPaladin
         {
             
             ms = Mouse.GetState();
-            if(ms.LeftButton == ButtonState.Pressed && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
+
+            if(ms.LeftButton == ButtonState.Pressed && lastMS.LeftButton == ButtonState.Released && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
+                lastMS = ms;
                 return true;
             }
             else 
-            { 
+            {
+                lastMS = ms;
                 return false; 
             }
+            
         }
 
         /// <summary>
