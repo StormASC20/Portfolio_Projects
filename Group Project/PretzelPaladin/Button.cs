@@ -124,7 +124,7 @@ namespace PretzelPaladin
         /// <param name="sb"></param>
         /// <param name="color"></param>
         /// <param name="font"></param>
-        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font)
+        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image)
         {
             if (this.Enabled)
             {

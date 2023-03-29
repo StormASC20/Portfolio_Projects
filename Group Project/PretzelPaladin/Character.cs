@@ -76,7 +76,8 @@ namespace PretzelPaladin
             this.defenseMultiplier = defenseMultiplier;
             this.characterImage = characterImage;
 
-            StreamReader file = new StreamReader("MoveList");
+            StreamReader file = new StreamReader("../../../Content/MoveList.txt");
+            moves = new List<Move>();
 
             string currentLine = file.ReadLine();
 
