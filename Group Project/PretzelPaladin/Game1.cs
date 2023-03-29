@@ -14,6 +14,11 @@ namespace PretzelPaladin
         GameOver
     }
 
+    public enum Result
+    {
+        Victory,
+        Defeat
+    }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
@@ -23,7 +28,7 @@ namespace PretzelPaladin
         private SpriteFont regularSizeFont;
         private SpriteFont subHeaderFont;
         private GameState state;
-
+        private Result endResult;
         //private Texture2D pretzelButton;
         private Texture2D foodCourt;
         private Texture2D rectangleTexture;
@@ -71,6 +76,7 @@ namespace PretzelPaladin
         protected override void Initialize()
         {
             state = GameState.MainMenu;
+            endResult = Result.Victory;
             _graphics.PreferredBackBufferHeight = 700;
             _graphics.PreferredBackBufferWidth = 1100;
 
@@ -208,8 +214,18 @@ namespace PretzelPaladin
                                 }
                             }
                         }
-
-                        break;
+                        // When the player or enemies health go below or equal to 0 the game is over 
+                        if (player.CurrentHealth <= 0)
+                        {
+                            endResult = Result.Defeat;
+                            state = GameState.GameOver;
+                        }
+                        if (enemy.CurrentHealth <= 0)
+                        {
+                            endResult = Result.Victory;
+                            state = GameState.GameOver;
+                        }
+                            break;
                     }
                 case GameState.Pause:
                     {
@@ -221,6 +237,14 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
+                        if(player.CurrentHealth <= 0)
+                        {
+                            endResult = Result.Defeat;
+                        }
+                        if(enemy.CurrentHealth <= 0)
+                        {
+                            endResult = Result.Victory;
+                        }
                         if (kbState.IsKeyDown(Keys.Space))
                         {
                             state = GameState.MainMenu;
@@ -286,7 +310,7 @@ namespace PretzelPaladin
                         if(attack.Enabled==false)
                         {
                             _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X+30,rectLocation.Y+37), Color.DarkRed);
-
+                                
                             //foreach(Move m in moves)
                             //{
                             //    _spriteBatch.DrawString(regularSizeFont, m.ToString(), new Vector2(rectLocation.X + 40, rectLocation.Y + yOffset), Color.DarkRed);
@@ -319,7 +343,7 @@ namespace PretzelPaladin
                                     {
                                         _spriteBatch.DrawString(
                                             regularSizeFont,
-                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}",
+                                            $"{player.Name} dealt {moves[i].AmountDamage} to {enemy.Name}", 
                                             new Vector2(100, 50),
                                             Color.Firebrick);
                                         break;
@@ -398,12 +422,22 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
-
-                        _spriteBatch.DrawString(
+                        if (endResult == Result.Defeat)
+                        {
+                            _spriteBatch.DrawString(
                             menuFont,
                             "YOU SUCK CHUMP",
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
+                        }
+                        if(endResult == Result.Victory)
+                        {
+                            _spriteBatch.DrawString(
+                            menuFont,
+                            "Congratulations You Win",
+                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                            Color.SaddleBrown);
+                        }
                         break;
                     }
             }
