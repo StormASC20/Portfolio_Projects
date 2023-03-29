@@ -96,6 +96,7 @@ namespace PretzelPaladin
         /// <returns>True if the button was pressed, false otherwise</returns>
         public bool IsPressed()
         {
+            
             ms = Mouse.GetState();
             if(ms.LeftButton == ButtonState.Pressed && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
