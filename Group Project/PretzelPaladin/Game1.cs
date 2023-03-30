@@ -39,6 +39,8 @@ namespace PretzelPaladin
         private Texture2D attackImg;
         private Texture2D defendImg;
         private Texture2D pretzelPaladinConceptImg;
+        private Texture2D sbarroSamuraiTexture;
+        private Texture2D pretzelPaladinBackTextture;
 
         private Button startbutton;
         private Button attack;
@@ -128,7 +130,9 @@ namespace PretzelPaladin
             defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
 
-            pretzelPaladinConceptImg = this.Content.Load<Texture2D>("PretzelPaladin");
+            pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
+            sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
+            pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
 
             startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
             attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
@@ -325,7 +329,15 @@ namespace PretzelPaladin
 
                         yOffset = 95;
 
-                        _spriteBatch.Draw(rectangleTexture, 
+                        _spriteBatch.Draw(pretzelPaladinBackTextture,
+                            new Rectangle(50, 200, 350, 500),
+                            Color.White);
+
+                        _spriteBatch.Draw(sbarroSamuraiTexture,
+                            new Rectangle(700, -25, 300, 400),
+                            Color.White);
+
+                        _spriteBatch.Draw(rectangleTexture,
                             rectLocation,
                             Color.White);
 
@@ -366,7 +378,7 @@ namespace PretzelPaladin
 
                                 // Draws button to screen
 
-                                if(timer.ElapsedMilliseconds>=500)
+                                if(timer.ElapsedMilliseconds>=1000)
                                 {
                                     topLeftMove.Enabled = true;
                                     topRightMove.Enabled = true;
@@ -451,12 +463,12 @@ namespace PretzelPaladin
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
                                     $"Enemy used {enemyMove.MoveName}",
-                                    new Vector2(800, 30),
+                                    new Vector2(850, 30),
                                     Color.DarkRed);
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
                                     $"{enemy.Name} dealt {enemyMove.AmountDamage} to {player.Name}",
-                                    new Vector2(800, 50),
+                                    new Vector2(850, 50),
                                     Color.DarkRed);
 
                                 playerTurn = true;
