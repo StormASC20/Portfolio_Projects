@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -42,9 +43,14 @@ namespace PretzelPaladin
         private Button startbutton;
         private Button attack;
         private Button defend;
-        Button lastPressed;
-        Move lastMove;
-        bool attackPressed;
+        private Button lastPressed;
+
+        private Move lastMove;
+        private Move enemyMove;
+        private bool attackPressed;
+        private Stopwatch timer;
+        private bool playerTurn;
+        private Random rng;
 
 
         private MouseState msState;
@@ -93,13 +99,17 @@ namespace PretzelPaladin
             enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
             player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
             lastMove = new Move(" ", 0);
+            enemyMove = new Move(" ", 0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
             bottomRightMove=new Button();
 
-            attackPressed = false;          
+            attackPressed = false;
+            timer = new Stopwatch();
+            playerTurn = true;
+            rng = new Random();
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -125,7 +135,6 @@ namespace PretzelPaladin
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
             rectLocation     = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
-            
 
         }
 
@@ -171,6 +180,11 @@ namespace PretzelPaladin
                             attackPressed = true;
                         }
 
+                        if(attackPressed)
+                        {
+                            timer.Start();
+                        }
+
                         if (attack.Enabled == false)
                         {
                             topLeftMove.Enabled = true;
@@ -196,24 +210,37 @@ namespace PretzelPaladin
                             lastPressed = topLeftMove;
                             lastMove = topLeftMove.Move;
                             enemy.TakeDamage(topLeftMove.Damage);
+                            playerTurn = false;
                         }
                         else if(topRightMove.IsPressed())
                         {
                             lastPressed = topRightMove;
                             lastMove = topRightMove.Move;
                             enemy.TakeDamage(topRightMove.Damage);
+                            playerTurn = false;
                         }
                         else if (bottomLeftMove.IsPressed())
                         {
                             lastPressed = bottomLeftMove;
                             lastMove = bottomLeftMove.Move;
                             enemy.TakeDamage(bottomLeftMove.Damage);
+                            playerTurn = false;
                         }
                         else if (bottomRightMove.IsPressed())
                         {
                             lastPressed = bottomRightMove;
                             lastMove = bottomRightMove.Move;
                             enemy.TakeDamage(bottomRightMove.Damage);
+                            playerTurn = false;
+                        }
+
+                        if(playerTurn==false)
+                        {
+                            enemyMove = moves[rng.Next(0, moves.Count)];
+
+                            player.TakeDamage(enemyMove.AmountDamage);
+
+                            playerTurn = true;
                         }
 
                         // When the player or enemies health go below or equal to 0 the game is over 
@@ -318,7 +345,7 @@ namespace PretzelPaladin
                         
 
                         // Displays moves after Attack button is pressed
-                        if(attack.Enabled==false)
+                        if(attack.Enabled==false&&playerTurn)
                         {
                             _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X+30,rectLocation.Y+37), Color.DarkRed);
                                 
@@ -337,12 +364,20 @@ namespace PretzelPaladin
                                 bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
                                 bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
 
-
                                 // Draws button to screen
-                                topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+
+                                if(timer.ElapsedMilliseconds>=500)
+                                {
+                                    topLeftMove.Enabled = true;
+                                    topRightMove.Enabled = true;
+                                    bottomLeftMove.Enabled = true;
+                                    bottomRightMove.Enabled = true;
+
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                    topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                }
                             }
                             
   
@@ -403,6 +438,28 @@ namespace PretzelPaladin
                                            $"{player.Name} dealt {lastMove.AmountDamage} to {enemy.Name}",
                                            new Vector2(100, 50),
                                            Color.Firebrick);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+                                playerTurn = false;
+                            }
+
+                            if(playerTurn==false&&enemy.CurrentHealth!=100)
+                            {
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"Enemy used {enemyMove.MoveName}",
+                                    new Vector2(800, 30),
+                                    Color.DarkRed);
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"{enemy.Name} dealt {enemyMove.AmountDamage} to {player.Name}",
+                                    new Vector2(800, 50),
+                                    Color.DarkRed);
+
+                                playerTurn = true;
                             }
                         }
 

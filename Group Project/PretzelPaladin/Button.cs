@@ -127,7 +127,7 @@ namespace PretzelPaladin
         public void Draw(SpriteBatch sb, Color color)
         {
               // Only draws the button if it's enabled
-              if(this.Enabled)
+              if(isEnabled)
               {
                 sb.Draw(image,
                 rect,
