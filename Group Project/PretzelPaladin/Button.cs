@@ -47,7 +47,7 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
-            isEnabled = true;
+            isEnabled = false;
         }
 
         /// <summary>
@@ -69,12 +69,13 @@ namespace PretzelPaladin
             this.image = image;
             this.text = move.MoveName;
             this.damage = move.AmountDamage;
-            isEnabled = true;
+            this.move = move;
+            isEnabled = false;
         }
 
         public Button()
         {
-            
+            isEnabled = false;
         }
 
         // Properties --
@@ -106,7 +107,7 @@ namespace PretzelPaladin
             
             ms = Mouse.GetState();
 
-            if(ms.LeftButton == ButtonState.Pressed && lastMS.LeftButton == ButtonState.Released && ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
+            if(ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && SingleClick()&&isEnabled)
             {
                 lastMS = ms;
                 return true;
@@ -142,7 +143,7 @@ namespace PretzelPaladin
         /// <param name="font"></param>
         public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image)
         {
-            if (this.Enabled)
+            if (isEnabled)
             {
                 sb.Draw(image,
                 rect,
@@ -152,6 +153,20 @@ namespace PretzelPaladin
                     new Vector2(x + width/5, y + height/2 - 15),
                     Color.Black);
             }
+        }
+
+        /// <summary>
+        /// Recognizes a Single Mouse Click
+        /// </summary>
+        /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
+        public bool SingleClick()
+        {
+            if (ms.LeftButton == ButtonState.Pressed && lastMS.LeftButton == ButtonState.Released)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
