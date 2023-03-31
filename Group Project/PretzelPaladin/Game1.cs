@@ -41,6 +41,7 @@ namespace PretzelPaladin
         private Texture2D pretzelPaladinConceptImg;
         private Texture2D sbarroSamuraiTexture;
         private Texture2D pretzelPaladinBackTextture;
+        private Texture2D pretzelCursor;
 
         private Button startbutton;
         private Button attack;
@@ -81,7 +82,7 @@ namespace PretzelPaladin
            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
            //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            //IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -98,8 +99,8 @@ namespace PretzelPaladin
             FileReading("MoveList.txt");
             lastPressed = null;
 
-            enemy = new Enemy(rectangleTexture, "Test Enemy", 100, 100, 1, 1);
-            player = new Player(rectangleTexture, "Test Player", 100, 100, 1, 1);
+            enemy = new Enemy(rectangleTexture, "Sbarro Samurai", 100, 100, 1, 1);
+            player = new Player(rectangleTexture, "Pretzel Paladin", 100, 100, 1, 1);
             lastMove = new Move(" ", 0);
             enemyMove = new Move(" ", 0);
 
@@ -129,6 +130,7 @@ namespace PretzelPaladin
             attackImg        = this.Content.Load<Texture2D>("attackButton");
             defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
+            pretzelCursor = this.Content.Load<Texture2D>("pretzel");
 
             pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
             sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
@@ -301,6 +303,7 @@ namespace PretzelPaladin
 
             _spriteBatch.Begin();
 
+            MouseState mState = Mouse.GetState();
             switch (state)
             {
                 case GameState.MainMenu:
@@ -467,8 +470,13 @@ namespace PretzelPaladin
                                     Color.DarkRed);
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
-                                    $"{enemy.Name} dealt {enemyMove.AmountDamage} to {player.Name}",
+                                    $"{enemy.Name} dealt {enemyMove.AmountDamage} to",
                                     new Vector2(850, 50),
+                                    Color.DarkRed);
+                                _spriteBatch.DrawString(
+                                    regularSizeFont,
+                                    $"{player.Name}",
+                                    new Vector2(850, 70),
                                     Color.DarkRed);
 
                                 playerTurn = true;
@@ -493,7 +501,7 @@ namespace PretzelPaladin
                         {
                             _spriteBatch.DrawString(
                             menuFont,
-                            "YOU SUCK CHUMP",
+                            "YOU SUCK CHUMP.",
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
                         }
@@ -509,6 +517,16 @@ namespace PretzelPaladin
                     }
             }
 
+            Color pretzelCursorColor = Color.White;
+            if (mState.LeftButton == ButtonState.Pressed)
+            {
+                pretzelCursorColor = Color.Red;
+            }
+
+            _spriteBatch.Draw(
+                pretzelCursor,
+                new Rectangle(mState.X, mState.Y, 75, 75),
+                pretzelCursorColor);
             _spriteBatch.End();
 
             base.Draw(gameTime);
