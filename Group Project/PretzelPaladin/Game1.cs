@@ -396,7 +396,7 @@ namespace PretzelPaladin
                             }
                             
   
-                            if (topLeftMove.IsPressed())
+                            if (topLeftMove.IsPressed()&&topLeftMove.Enabled)
                             {
                                 lastPressed = topLeftMove;
 
@@ -407,7 +407,7 @@ namespace PretzelPaladin
                                        new Vector2(100, 50),
                                         Color.Firebrick);
                             }
-                            else if (topRightMove.IsPressed())
+                            else if (topRightMove.IsPressed()&&topRightMove.Enabled)
                             {
                                 lastPressed = topRightMove;
 
@@ -418,7 +418,7 @@ namespace PretzelPaladin
                                        new Vector2(100, 50),
                                         Color.Firebrick);
                             }
-                            else if (bottomLeftMove.IsPressed())
+                            else if (bottomLeftMove.IsPressed() && bottomLeftMove.Enabled)
                             {
                                 lastPressed = bottomLeftMove;
 
@@ -429,7 +429,7 @@ namespace PretzelPaladin
                                        new Vector2(100, 50),
                                         Color.Firebrick);
                             }
-                            else if (bottomRightMove.IsPressed())
+                            else if (bottomRightMove.IsPressed() && bottomRightMove.Enabled)
                             {
                                 lastPressed = bottomRightMove;
 
