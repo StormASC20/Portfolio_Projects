@@ -381,7 +381,7 @@ namespace PretzelPaladin
 
                                 // Draws button to screen
 
-                                if(timer.ElapsedMilliseconds>=1500)
+                                if(timer.ElapsedMilliseconds>=1750)
                                 {
                                     topLeftMove.Enabled = true;
                                     topRightMove.Enabled = true;
