@@ -60,6 +60,7 @@ namespace PretzelPaladin
         private MouseState prevMouseState;
 
         private List<Move> moves;
+        private List<Enemy> enemies;
 
         private int screenWidth;
         private int screenHeight;
@@ -72,6 +73,8 @@ namespace PretzelPaladin
         Button bottomRightMove;
 
         Enemy enemy;
+        Enemy enemy2;
+        Enemy enemy3;
         Player player;
 
         public Game1()
@@ -99,7 +102,11 @@ namespace PretzelPaladin
             FileReading("MoveList.txt");
             lastPressed = null;
 
+            enemies = new List<Enemy>();
+
             enemy = new Enemy(rectangleTexture, "Sbarro Samurai", 100, 100, 1, 1);
+            enemy2 = new Enemy(rectangleTexture, "Sbarro Samurai", 50, 50, 1, 1);
+            enemy3 = new Enemy(rectangleTexture, "Sbarro Samurai", 25, 25, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 100, 100, 1, 1);
             lastMove = new Move(" ", 0);
             enemyMove = new Move(" ", 0);
@@ -113,6 +120,10 @@ namespace PretzelPaladin
             timer = new Stopwatch();
             playerTurn = true;
             rng = new Random();
+
+            enemies.Add(enemy);
+            enemies.Add(enemy2);
+            enemies.Add(enemy3);
 
             _graphics.ApplyChanges();
             base.Initialize();
@@ -205,84 +216,71 @@ namespace PretzelPaladin
                             attack.Enabled = false;
                         }
 
-                        // Inflicts Damage to enemy based on move chosen
-                        if(topLeftMove.IsPressed())
+                        for (int i = 0; i < enemies.Count; i++)
                         {
-                            lastPressed = topLeftMove;
-                            lastMove = topLeftMove.Move;
-                            enemy.TakeDamage(topLeftMove.Damage);
-                            timer.Restart();
 
 
-                            topLeftMove.Enabled = false;
-                            topRightMove.Enabled = false;
-                            bottomLeftMove.Enabled = false;
-                            bottomRightMove.Enabled = false;
+                            // Inflicts Damage to enemy based on move chosen
+                            if (topLeftMove.IsPressed())
+                            {
+                                lastPressed = topLeftMove;
+                                lastMove = topLeftMove.Move;
+                                enemies[i].TakeDamage(topLeftMove.Damage);
+                                playerTurn = false;
+                            }
+                            else if (topRightMove.IsPressed())
+                            {
+                                lastPressed = topRightMove;
+                                lastMove = topRightMove.Move;
+                                enemies[i].TakeDamage(topRightMove.Damage);
+                                playerTurn = false;
+                            }
+                            else if (bottomLeftMove.IsPressed())
+                            {
+                                lastPressed = bottomLeftMove;
+                                lastMove = bottomLeftMove.Move;
+                                enemies[i].TakeDamage(bottomLeftMove.Damage);
+                                playerTurn = false;
+                            }
+                            else if (bottomRightMove.IsPressed())
+                            {
+                                lastPressed = bottomRightMove;
+                                lastMove = bottomRightMove.Move;
+                                enemies[i].TakeDamage(bottomRightMove.Damage);
+                                playerTurn = false;
+                            }
 
-                            playerTurn = false;
-                        }
-                        else if(topRightMove.IsPressed())
-                        {
-                            lastPressed = topRightMove;
-                            lastMove = topRightMove.Move;
-                            enemy.TakeDamage(topRightMove.Damage);
-                            timer.Restart();
-
-
-                            topLeftMove.Enabled = false;
-                            topRightMove.Enabled = false;
-                            bottomLeftMove.Enabled = false;
-                            bottomRightMove.Enabled = false;
-
-                            playerTurn = false;
-                        }
-                        else if (bottomLeftMove.IsPressed())
-                        {
-                            lastPressed = bottomLeftMove;
-                            lastMove = bottomLeftMove.Move;
-                            enemy.TakeDamage(bottomLeftMove.Damage);
-                            timer.Restart();
-
-
-                            topLeftMove.Enabled = false;
-                            topRightMove.Enabled = false;
-                            bottomLeftMove.Enabled = false;
-                            bottomRightMove.Enabled = false;
-
-                            playerTurn = false;
-                        }
-                        else if (bottomRightMove.IsPressed())
-                        {
-                            lastPressed = bottomRightMove;
-                            lastMove = bottomRightMove.Move;
-                            enemy.TakeDamage(bottomRightMove.Damage);
-                            timer.Restart();
-
-
-                            topLeftMove.Enabled = false;
-                            topRightMove.Enabled = false;
-                            bottomLeftMove.Enabled = false;
-                            bottomRightMove.Enabled = false;
-
-                            playerTurn = false;
-                        }
-
+                            if (playerTurn==false)
+                            {
+                                enemyMove = moves[rng.Next(0, moves.Count)];
                         if(playerTurn==false&&timer.ElapsedMilliseconds>=2000)
                         {
                             enemyMove = moves[rng.Next(0, moves.Count)];
 
-                            player.TakeDamage(enemyMove.AmountDamage);
+                                player.TakeDamage(enemyMove.AmountDamage);
 
-                            playerTurn = true;
+                                playerTurn = true;
+                            }
                         }
-
                         // When the player or enemies health go below or equal to 0 the game is over 
                         if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
                             state = GameState.GameOver ;
                         }
-                        if (enemy.CurrentHealth <= 0)
+                        if (enemies.Count >= 1)
+                        {
+
+                            for (int i = 0; i < enemies.Count; i++)
+                            {
+                                if (enemies[i].CurrentHealth <= 0)
+                                {
+                                    enemies.RemoveAt(i);
+                                }
+                            }
+                        }
+                        // See if there are no enemies left
+                        if (enemies.Count <= 0)
                         {
                             endResult = Result.Victory;
                             state = GameState.GameOver;
@@ -362,10 +360,10 @@ namespace PretzelPaladin
                         _spriteBatch.Draw(pretzelPaladinBackTextture,
                             new Rectangle(50, 200, 350, 500),
                             Color.White);
-
-                        _spriteBatch.Draw(sbarroSamuraiTexture,
-                            new Rectangle(700, -25, 300, 400),
-                            Color.White);
+                       
+                        //_spriteBatch.Draw(sbarroSamuraiTexture,
+                        //    new Rectangle(700, -25, 300, 400),
+                        //    Color.White);
 
                         _spriteBatch.Draw(rectangleTexture,
                             rectLocation,
@@ -375,10 +373,10 @@ namespace PretzelPaladin
                                   $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
                                   new Vector2(100, 70),
                                   Color.Firebrick);
-                        _spriteBatch.DrawString(regularSizeFont,
-                            $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
-                            new Vector2(100, 90),
-                            Color.Firebrick);
+                        //_spriteBatch.DrawString(regularSizeFont,
+                        //    $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
+                        //    new Vector2(100, 90),
+                        //    Color.Firebrick);
 
                         if (attack.Enabled)
                         {
@@ -501,6 +499,22 @@ namespace PretzelPaladin
                             }
                         }
 
+                        // Draw only one enemy per level
+                        if(enemies.Count >= 1)
+                        {
+                            for (int i = 0; i < 1; i++)
+                            {
+
+                                _spriteBatch.Draw(sbarroSamuraiTexture,
+                                    new Rectangle(700, -25, 300, 400),
+                                    Color.White);
+                                _spriteBatch.DrawString(regularSizeFont,
+                                 $"Enemy Health: {enemies[i].CurrentHealth}/{enemies[i].MaxHealth}",
+                                 new Vector2(100, 90),
+                                    Color.Firebrick);
+                            }
+                        }
+                       
                         //defend.Draw(_spriteBatch);  
                         break;
                     }
