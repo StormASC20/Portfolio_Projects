@@ -227,6 +227,7 @@ namespace PretzelPaladin
                                 lastMove = topLeftMove.Move;
                                 enemies[i].TakeDamage(topLeftMove.Damage);
                                 playerTurn = false;
+                                timer.Restart();
                             }
                             else if (topRightMove.IsPressed())
                             {
@@ -234,6 +235,8 @@ namespace PretzelPaladin
                                 lastMove = topRightMove.Move;
                                 enemies[i].TakeDamage(topRightMove.Damage);
                                 playerTurn = false;
+                                timer.Restart();
+
                             }
                             else if (bottomLeftMove.IsPressed())
                             {
@@ -241,6 +244,8 @@ namespace PretzelPaladin
                                 lastMove = bottomLeftMove.Move;
                                 enemies[i].TakeDamage(bottomLeftMove.Damage);
                                 playerTurn = false;
+                                timer.Restart();
+
                             }
                             else if (bottomRightMove.IsPressed())
                             {
@@ -248,44 +253,47 @@ namespace PretzelPaladin
                                 lastMove = bottomRightMove.Move;
                                 enemies[i].TakeDamage(bottomRightMove.Damage);
                                 playerTurn = false;
+                                timer.Restart();
                             }
 
                             if (playerTurn==false)
                             {
                                 enemyMove = moves[rng.Next(0, moves.Count)];
-                        if(playerTurn==false&&timer.ElapsedMilliseconds>=2000)
-                        {
-                            enemyMove = moves[rng.Next(0, moves.Count)];
-
-                                player.TakeDamage(enemyMove.AmountDamage);
-
-                                playerTurn = true;
-                            }
-                        }
-                        // When the player or enemies health go below or equal to 0 the game is over 
-                        if (player.CurrentHealth <= 0)
-                        {
-                            endResult = Result.Defeat;
-                            state = GameState.GameOver ;
-                        }
-                        if (enemies.Count >= 1)
-                        {
-
-                            for (int i = 0; i < enemies.Count; i++)
-                            {
-                                if (enemies[i].CurrentHealth <= 0)
+                                if (playerTurn==false&&timer.ElapsedMilliseconds>=2000)
                                 {
-                                    enemies.RemoveAt(i);
+                                    enemyMove = moves[rng.Next(0, moves.Count)];
+
+                                    player.TakeDamage(enemyMove.AmountDamage);
+
+                                    playerTurn = true;
                                 }
                             }
                         }
-                        // See if there are no enemies left
-                        if (enemies.Count <= 0)
-                        {
-                            endResult = Result.Victory;
-                            state = GameState.GameOver;
-                        }
+                            // When the player or enemies health go below or equal to 0 the game is over 
+                            if (player.CurrentHealth <= 0)
+                            {
+                                endResult = Result.Defeat;
+                                state = GameState.GameOver;
+                            }
+                            if (enemies.Count >= 1)
+                            {
+
+                                for (int i = 0; i < enemies.Count; i++)
+                                {
+                                    if (enemies[i].CurrentHealth <= 0)
+                                    {
+                                        enemies.RemoveAt(i);
+                                    }
+                                }
+                            }
+                            // See if there are no enemies left
+                            if (enemies.Count <= 0)
+                            {
+                                endResult = Result.Victory;
+                                state = GameState.GameOver;
+                            }
                             break;
+                        
                     }
                 case GameState.Pause:
                     {
