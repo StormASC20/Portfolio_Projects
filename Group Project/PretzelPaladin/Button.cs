@@ -67,7 +67,8 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
-            this.text = move.MoveName;
+            this.text = $"{move.MoveName}: \n{move.MoveLimit}/{move.MaxMoveLimit}";
+
             this.damage = move.AmountDamage;
             this.move = move;
             isEnabled = false;
@@ -96,6 +97,7 @@ namespace PretzelPaladin
         public int Damage { get { return damage; } set { damage = value; } }
 
 
+
         // Methods --
 
         /// <summary>
@@ -106,9 +108,18 @@ namespace PretzelPaladin
         {
             
             ms = Mouse.GetState();
-
             if(ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && SingleClick()&&isEnabled)
             {
+                if(move != null && move.MoveLimit > 0)
+                {
+                    move.MoveLimit--;
+                }
+                else
+                {
+                    isEnabled = false;
+                }
+
+                
                 lastMS = ms;
                 return true;
             }
@@ -118,6 +129,20 @@ namespace PretzelPaladin
                 return false; 
             }
             
+        }
+
+        /// <summary>
+        /// Recognizes a Single Mouse Click
+        /// </summary>
+        /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
+        public bool SingleClick()
+        {
+            if (ms.LeftButton == ButtonState.Released && lastMS.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -155,18 +180,6 @@ namespace PretzelPaladin
             }
         }
 
-        /// <summary>
-        /// Recognizes a Single Mouse Click
-        /// </summary>
-        /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
-        public bool SingleClick()
-        {
-            if (ms.LeftButton == ButtonState.Released && lastMS.LeftButton == ButtonState.Pressed)
-            {
-                return true;
-            }
-
-            return false;
-        }
+        
     }
 }
