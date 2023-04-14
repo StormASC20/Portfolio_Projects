@@ -66,6 +66,13 @@ namespace PretzelPaladin
         private Rectangle rectLocation;
         private int yOffset;
 
+        private int ppX;
+        private int ppY;
+        private int ssX;
+        private int ssY;
+        private Color ppC;
+        private Color ssC;
+
         Button topLeftMove;
         Button topRightMove;
         Button bottomLeftMove;
@@ -114,6 +121,12 @@ namespace PretzelPaladin
             playerTurn = true;
             rng = new Random();
 
+            ppX = 50;
+            ppY = 200;
+            ssX = 700;
+            ssY = -25;
+            ppC = Color.White;
+            ssC = Color.White;
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -138,6 +151,7 @@ namespace PretzelPaladin
 
             startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
             attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
+            
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
             rectLocation     = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
@@ -216,13 +230,16 @@ namespace PretzelPaladin
                             lastPressed = topLeftMove;
                             lastMove = topLeftMove.Move;
                             enemy.TakeDamage(topLeftMove.Damage);
+                            AttackAnimation();
                             playerTurn = false;
+                            
                         }
                         else if(topRightMove.IsPressed())
                         {
                             lastPressed = topRightMove;
                             lastMove = topRightMove.Move;
                             enemy.TakeDamage(topRightMove.Damage);
+                            AttackAnimation();
                             playerTurn = false;
                         }
                         else if (bottomLeftMove.IsPressed())
@@ -230,6 +247,7 @@ namespace PretzelPaladin
                             lastPressed = bottomLeftMove;
                             lastMove = bottomLeftMove.Move;
                             enemy.TakeDamage(bottomLeftMove.Damage);
+                            AttackAnimation();
                             playerTurn = false;
                         }
                         else if (bottomRightMove.IsPressed())
@@ -237,15 +255,15 @@ namespace PretzelPaladin
                             lastPressed = bottomRightMove;
                             lastMove = bottomRightMove.Move;
                             enemy.TakeDamage(bottomRightMove.Damage);
+                            AttackAnimation();
                             playerTurn = false;
                         }
 
                         if(playerTurn==false)
                         {
                             enemyMove = moves[rng.Next(0, moves.Count)];
-
                             player.TakeDamage(enemyMove.AmountDamage);
-
+                            DamageAnimation();
                             playerTurn = true;
                         }
 
@@ -297,6 +315,20 @@ namespace PretzelPaladin
             base.Update(gameTime);
         }
 
+        public void AttackAnimation()
+        {
+            ppX += 100;
+            ppY -= 100;
+            ssC = Color.Red;
+        }
+
+        public void DamageAnimation()
+        {
+            ssX -= 100;
+            ssY += 100;
+            ppC = Color.Red;
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Beige);
@@ -333,12 +365,12 @@ namespace PretzelPaladin
                         yOffset = 95;
 
                         _spriteBatch.Draw(pretzelPaladinBackTextture,
-                            new Rectangle(50, 200, 350, 500),
-                            Color.White);
+                            new Rectangle(ppX, ppY, 350, 500),
+                            ppC);
 
                         _spriteBatch.Draw(sbarroSamuraiTexture,
-                            new Rectangle(700, -25, 300, 400),
-                            Color.White);
+                            new Rectangle(ssX, ssY, 300, 400),
+                            ssC);
 
                         _spriteBatch.Draw(rectangleTexture,
                             rectLocation,
