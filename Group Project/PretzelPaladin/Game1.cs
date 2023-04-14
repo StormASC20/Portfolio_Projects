@@ -32,6 +32,7 @@ namespace PretzelPaladin
         private SpriteFont subHeaderFont;
         private GameState state;
         private Result endResult;
+
         //private Texture2D pretzelButton;
         private Texture2D foodCourt;
         private Texture2D rectangleTexture;
