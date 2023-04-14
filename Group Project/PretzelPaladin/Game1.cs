@@ -50,6 +50,7 @@ namespace PretzelPaladin
 
         private Move lastMove;
         private Move enemyMove;
+        private Move bossMove;
         private bool attackPressed;
         private Stopwatch timer;
         private bool playerTurn;
@@ -76,6 +77,7 @@ namespace PretzelPaladin
         Enemy enemy2;
         Enemy enemy3;
         Player player;
+        Enemy boss;
 
         public Game1()
         {
@@ -108,9 +110,12 @@ namespace PretzelPaladin
             enemy2 = new Enemy(rectangleTexture, "Sbarro Samurai", 50, 50, 1, 1);
             enemy3 = new Enemy(rectangleTexture, "Sbarro Samurai", 25, 25, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 100, 100, 1, 1);
+
+            boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 300, 1, 2);
+
             lastMove = new Move(" ", 0,0);
             enemyMove = new Move(" ", 0,0);
-
+            bossMove = new Move(" ", 0, 0);
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
@@ -121,8 +126,8 @@ namespace PretzelPaladin
             playerTurn = true;
             rng = new Random();
 
-            enemies.Add(enemy);
-            enemies.Add(enemy2);
+            //enemies.Add(enemy);
+            //enemies.Add(enemy2);
             enemies.Add(enemy3);
 
             _graphics.ApplyChanges();
@@ -302,25 +307,112 @@ namespace PretzelPaladin
                                 playerTurn = true;
                             }
                         }
+                     
+                        // Boss fight when all enemies are dead
+                        if (enemies.Count <= 0 && boss.CurrentHealth >= 0)
+                        {
+                            // Inflicts Damage to enemy based on move chosen
+                            if (topLeftMove.IsPressed())
+                            {
+                                lastPressed = topLeftMove;
+                                lastMove = topLeftMove.Move;
+                                boss.TakeDamage(topLeftMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
+                                playerTurn = false;
+                                timer.Restart();
+                            }
+                            else if (topRightMove.IsPressed())
+                            {
+                                lastPressed = topRightMove;
+                                lastMove = topRightMove.Move;
+                                boss.TakeDamage(topRightMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
+                                playerTurn = false;
+                                timer.Restart();
+
+                            }
+                            else if (bottomLeftMove.IsPressed())
+                            {
+                                lastPressed = bottomLeftMove;
+                                lastMove = bottomLeftMove.Move;
+                                boss.TakeDamage(bottomLeftMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
+                                playerTurn = false;
+                                timer.Restart();
+
+                            }
+                            else if (bottomRightMove.IsPressed())
+                            {
+                                lastPressed = bottomRightMove;
+                                lastMove = bottomRightMove.Move;
+                                boss.TakeDamage(bottomRightMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
+                                playerTurn = false;
+                                timer.Restart();
+                            }
+
+                            if (playerTurn == false)
+                            {
+                                bossMove = moves[rng.Next(0, moves.Count)];
+                            }
+
+                            if (playerTurn ==false && timer.ElapsedMilliseconds>=2000)
+                            {
+                                bossMove = moves[rng.Next(0, moves.Count)];
+
+                                player.TakeDamage(bossMove.AmountDamage);
+
+                                playerTurn = true;
+                            }
+                        }
+
                         // When the player or enemy's health go below or equal to 0 the game is over 
                         if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
-                            state = GameState.GameOver ;
+                            state = GameState.GameOver;
                         }
                         if (enemies.Count >= 1)
                         {
 
-                                for (int i = 0; i < enemies.Count; i++)
+                            for (int i = 0; i < enemies.Count; i++)
+                            {
+                                if (enemies[i].CurrentHealth <= 0)
                                 {
-                                    if (enemies[i].CurrentHealth <= 0)
-                                    {
-                                        enemies.RemoveAt(i);
-                                    }
+                                    enemies.RemoveAt(i);
                                 }
                             }
-                            // See if there are no enemies left
-                            if (enemies.Count <= 0)
+                        }
+                        // See if there are no enemies left
+                        if (enemies.Count <= 0 && boss.CurrentHealth <= 0)
                             {
                                 endResult = Result.Victory;
                                 state = GameState.GameOver;
@@ -536,8 +628,29 @@ namespace PretzelPaladin
                             }
                         }
 
+                        if (playerTurn == false && boss.CurrentHealth != 300)
+                        {
+                            _spriteBatch.DrawString(
+                                regularSizeFont,
+                                $"Enemy used {bossMove.MoveName}",
+                                new Vector2(850, 30),
+                                Color.DarkRed);
+                            _spriteBatch.DrawString(
+                                regularSizeFont,
+                                $"{enemy.Name} dealt {bossMove.AmountDamage} damage to",
+                                new Vector2(850, 50),
+                                Color.DarkRed);
+                            _spriteBatch.DrawString(
+                                regularSizeFont,
+                                $"{player.Name}",
+                                new Vector2(850, 70),
+                                Color.DarkRed);
+
+                            playerTurn = true;
+                        }
+
                         // Draw only one enemy per level
-                        if(enemies.Count >= 1)
+                        if (enemies.Count >= 1)
                         {
                             for (int i = 0; i < 1; i++)
                             {
@@ -551,7 +664,19 @@ namespace PretzelPaladin
                                     Color.Firebrick);
                             }
                         }
-                       
+
+                        // When we are in the boss level
+                        if (enemies.Count <= 0 && boss.CurrentHealth >= 0)
+                        {
+                                _spriteBatch.Draw(sbarroSamuraiTexture,
+                                    new Rectangle(700, -25, 300, 400),
+                                    Color.White);
+                                _spriteBatch.DrawString(regularSizeFont,
+                                 $"Boss Health: {boss.CurrentHealth}/{boss.MaxHealth}",
+                                 new Vector2(100, 90),
+                                    Color.Firebrick);
+                        }
+
                         //defend.Draw(_spriteBatch);  
                         break;
                     }
