@@ -15,6 +15,8 @@ namespace PretzelPaladin
         // Fields --
         private string moveName;
         private int amtDamage;
+        private int maxMoveLimit;
+        private int moveLimit;
 
         // Properties --
 
@@ -28,6 +30,10 @@ namespace PretzelPaladin
         /// </summary>
         public int AmountDamage { get { return amtDamage; } }
 
+        public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
+
+        public int MaxMoveLimit { get { return maxMoveLimit; } }
+
         // Constructor --
 
         /// <summary>
@@ -35,10 +41,12 @@ namespace PretzelPaladin
         /// </summary>
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage dealt by the move</param>
-        public Move(string moveName, int amtDamage)
+        public Move(string moveName, int amtDamage, int moveLimit)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
+            this.moveLimit = moveLimit;
+            maxMoveLimit = moveLimit;
         }
 
         /// <summary>

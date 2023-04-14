@@ -108,8 +108,8 @@ namespace PretzelPaladin
             enemy2 = new Enemy(rectangleTexture, "Sbarro Samurai", 50, 50, 1, 1);
             enemy3 = new Enemy(rectangleTexture, "Sbarro Samurai", 25, 25, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 100, 100, 1, 1);
-            lastMove = new Move(" ", 0);
-            enemyMove = new Move(" ", 0);
+            lastMove = new Move(" ", 0,0);
+            enemyMove = new Move(" ", 0,0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
@@ -610,7 +610,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                moves.Add(new Move((components[0]), int.Parse(components[1])));
+                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2])));
             }
 
             file.Close();
