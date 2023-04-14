@@ -235,6 +235,7 @@ namespace PretzelPaladin
                                 timer.Restart();
 
                                 playerTurn = false;
+                                timer.Restart();
                             }
                             else if (topRightMove.IsPressed())
                             {
@@ -250,6 +251,8 @@ namespace PretzelPaladin
                                 timer.Restart();
 
                                 playerTurn = false;
+                                timer.Restart();
+
                             }
                             else if (bottomLeftMove.IsPressed())
                             {
@@ -265,6 +268,8 @@ namespace PretzelPaladin
                                 timer.Restart();
 
                                 playerTurn = false;
+                                timer.Restart();
+
                             }
                             else if (bottomRightMove.IsPressed())
                             {
@@ -280,6 +285,7 @@ namespace PretzelPaladin
                                 timer.Restart();
 
                                 playerTurn = false;
+                                timer.Restart();
                             }
 
                             if (playerTurn == false)
@@ -291,7 +297,7 @@ namespace PretzelPaladin
                             {
                                 enemyMove = moves[rng.Next(0, moves.Count)];
 
-                                player.TakeDamage(enemyMove.AmountDamage);
+                                    player.TakeDamage(enemyMove.AmountDamage);
 
                                 playerTurn = true;
                             }
@@ -313,15 +319,14 @@ namespace PretzelPaladin
                                     }
                                 }
                             }
-
                             // See if there are no enemies left
                             if (enemies.Count <= 0)
                             {
                                 endResult = Result.Victory;
                                 state = GameState.GameOver;
                             }
-
                             break;
+                        
                     }
                 case GameState.Pause:
                     {
