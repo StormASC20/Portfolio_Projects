@@ -82,8 +82,8 @@ namespace PretzelPaladin
             _graphics = new GraphicsDeviceManager(this);
             // THIS IS SCARY, DON'T USE (yet)
             //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-           //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-           //_graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             //IsMouseVisible = true;
         }
@@ -108,13 +108,13 @@ namespace PretzelPaladin
             enemy2 = new Enemy(rectangleTexture, "Sbarro Samurai", 50, 50, 1, 1);
             enemy3 = new Enemy(rectangleTexture, "Sbarro Samurai", 25, 25, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 100, 100, 1, 1);
-            lastMove = new Move(" ", 0,0);
-            enemyMove = new Move(" ", 0,0);
+            lastMove = new Move(" ", 0, 0);
+            enemyMove = new Move(" ", 0, 0);
 
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
-            bottomRightMove=new Button();
+            bottomRightMove = new Button();
 
             attackPressed = false;
             timer = new Stopwatch();
@@ -131,27 +131,27 @@ namespace PretzelPaladin
 
         protected override void LoadContent()
         {
-            _spriteBatch     = new SpriteBatch(GraphicsDevice);
-            menuFont         = this.Content.Load<SpriteFont>("MenuFont");
-            regularSizeFont  = this.Content.Load<SpriteFont>("NormalFontSize");
-            subHeaderFont    = this.Content.Load<SpriteFont>("Subheader");
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            menuFont = this.Content.Load<SpriteFont>("MenuFont");
+            regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
+            subHeaderFont = this.Content.Load<SpriteFont>("Subheader");
 
-            foodCourt        = this.Content.Load<Texture2D>("foodCourt");
-            startImg         = this.Content.Load<Texture2D>("startButton");
-            attackImg        = this.Content.Load<Texture2D>("attackButton");
-            defendImg        = this.Content.Load<Texture2D>("defendButton");
+            foodCourt = this.Content.Load<Texture2D>("foodCourt");
+            startImg = this.Content.Load<Texture2D>("startButton");
+            attackImg = this.Content.Load<Texture2D>("attackButton");
+            defendImg = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
 
-            pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
-            sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
+            pretzelPaladinConceptImg = this.Content.Load<Texture2D>("PretzelPaladin");
+            sbarroSamuraiTexture = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
 
-            startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
-            attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
+            startbutton = new Button((_graphics.PreferredBackBufferWidth / 2) - 100, (_graphics.PreferredBackBufferHeight / 3) + 170, 200, 100, startImg);
+            attack = new Button((screenWidth) - 325, screenHeight - 200, 200, 100, attackImg);
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
-            rectLocation     = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
+            rectLocation = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
 
         }
 
@@ -167,13 +167,13 @@ namespace PretzelPaladin
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;
 
-            switch(state)
+            switch (state)
             {
                 case GameState.MainMenu:
                     {
                         startbutton.Enabled = true;
 
-                        if(startbutton.IsPressed())
+                        if (startbutton.IsPressed())
                         {
                             state = GameState.Game;
                         }
@@ -181,7 +181,7 @@ namespace PretzelPaladin
                         {
                             state = GameState.GameOver;
                         }
-                        if(kbState.IsKeyDown(Keys.Escape))
+                        if (kbState.IsKeyDown(Keys.Escape))
                         {
                             state = GameState.Pause;
                         }
@@ -191,7 +191,7 @@ namespace PretzelPaladin
                 case GameState.Game:
                     {
                         // Limits the attack button to only be clickable once
-                        if(attackPressed==true)
+                        if (attackPressed == true)
                         {
                             attack.Enabled = false;
                             attackPressed = false;
@@ -210,8 +210,8 @@ namespace PretzelPaladin
                         {
                             state = GameState.Pause;
                         }
-                        
-                        if(attack.IsPressed())
+
+                        if (attack.IsPressed())
                         {
                             attack.Enabled = false;
                         }
@@ -250,41 +250,48 @@ namespace PretzelPaladin
                                 playerTurn = false;
                             }
 
-                            if (playerTurn==false)
+
+                            if (playerTurn == false)
                             {
                                 enemyMove = moves[rng.Next(0, moves.Count)];
-                        if(playerTurn==false&&timer.ElapsedMilliseconds>=2000)
-                        {
-                            enemyMove = moves[rng.Next(0, moves.Count)];
+                            }
+
+                            if (playerTurn == false && timer.ElapsedMilliseconds >= 2000)
+                            {
+                                enemyMove = moves[rng.Next(0, moves.Count)];
 
                                 player.TakeDamage(enemyMove.AmountDamage);
 
                                 playerTurn = true;
                             }
                         }
-                        // When the player or enemies health go below or equal to 0 the game is over 
-                        if (player.CurrentHealth <= 0)
-                        {
-                            endResult = Result.Defeat;
-                            state = GameState.GameOver ;
-                        }
-                        if (enemies.Count >= 1)
-                        {
 
-                            for (int i = 0; i < enemies.Count; i++)
+                            // When the player or enemies health go below or equal to 0 the game is over 
+                            if (player.CurrentHealth <= 0)
                             {
-                                if (enemies[i].CurrentHealth <= 0)
+                                endResult = Result.Defeat;
+                                state = GameState.GameOver;
+                            }
+
+                            if (enemies.Count >= 1)
+                            {
+
+                                for (int i = 0; i < enemies.Count; i++)
                                 {
-                                    enemies.RemoveAt(i);
+                                    if (enemies[i].CurrentHealth <= 0)
+                                    {
+                                        enemies.RemoveAt(i);
+                                    }
                                 }
                             }
-                        }
-                        // See if there are no enemies left
-                        if (enemies.Count <= 0)
-                        {
-                            endResult = Result.Victory;
-                            state = GameState.GameOver;
-                        }
+
+                            // See if there are no enemies left
+                            if (enemies.Count <= 0)
+                            {
+                                endResult = Result.Victory;
+                                state = GameState.GameOver;
+                            }
+
                             break;
                     }
                 case GameState.Pause:
@@ -297,11 +304,11 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
-                        if(player.CurrentHealth <= 0)
+                        if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
                         }
-                        if(enemy.CurrentHealth <= 0)
+                        if (enemy.CurrentHealth <= 0)
                         {
                             endResult = Result.Victory;
                         }
@@ -335,7 +342,7 @@ namespace PretzelPaladin
                     {
                         _spriteBatch.Draw(
                             pretzelPaladinConceptImg,
-                            new Rectangle(610,100,screenWidth/2,screenHeight),
+                            new Rectangle(610, 100, screenWidth / 2, screenHeight),
                             Color.White);
 
                         _spriteBatch.Draw(
@@ -346,7 +353,7 @@ namespace PretzelPaladin
                         _spriteBatch.DrawString(
                             menuFont,
                             "PRETZEL PALADIN",
-                            new Vector2(270,100),
+                            new Vector2(270, 100),
                             Color.SaddleBrown);
 
                         startbutton.Draw(_spriteBatch, Color.White);
@@ -360,7 +367,7 @@ namespace PretzelPaladin
                         _spriteBatch.Draw(pretzelPaladinBackTextture,
                             new Rectangle(50, 200, 350, 500),
                             Color.White);
-                       
+
                         //_spriteBatch.Draw(sbarroSamuraiTexture,
                         //    new Rectangle(700, -25, 300, 400),
                         //    Color.White);
@@ -382,37 +389,37 @@ namespace PretzelPaladin
                         {
                             attack.Draw(_spriteBatch, Color.White);
                         }
-                        
+
 
                         // Displays moves after Attack button is pressed
-                        if(attack.Enabled==false&&playerTurn)
+                        if (attack.Enabled == false && playerTurn)
                         {
-                            _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X+30,rectLocation.Y+37), Color.DarkRed);
+                            _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 37), Color.DarkRed);
 
                             // Creates 4 Attack buttons
 
-                            if(topLeftMove.Enabled&&topRightMove.Enabled&&bottomRightMove.Enabled&&bottomLeftMove.Enabled)
+                            if (topLeftMove.Enabled && topRightMove.Enabled && bottomRightMove.Enabled && bottomLeftMove.Enabled)
                             {
                                 topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
                                 topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
                                 bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
                                 bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
 
-                               // Draws button to screen
-                               topLeftMove.Enabled = true;
-                               topRightMove.Enabled = true;
-                               bottomLeftMove.Enabled = true;
-                               bottomRightMove.Enabled = true;
+                                // Draws button to screen
+                                topLeftMove.Enabled = true;
+                                topRightMove.Enabled = true;
+                                bottomLeftMove.Enabled = true;
+                                bottomRightMove.Enabled = true;
 
-                               topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                               topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                               bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                               bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                
+                                topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+
                             }
-                            
-  
-                            if (topLeftMove.IsPressed()&&topLeftMove.Enabled)
+
+
+                            if (topLeftMove.IsPressed() && topLeftMove.Enabled)
                             {
                                 lastPressed = topLeftMove;
 
@@ -423,7 +430,7 @@ namespace PretzelPaladin
                                        new Vector2(100, 50),
                                         Color.Firebrick);
                             }
-                            else if (topRightMove.IsPressed()&&topRightMove.Enabled)
+                            else if (topRightMove.IsPressed() && topRightMove.Enabled)
                             {
                                 lastPressed = topRightMove;
 
@@ -457,7 +464,7 @@ namespace PretzelPaladin
                                         Color.Firebrick);
                             }
 
-                            if (lastPressed != null && lastMove != null && playerTurn==true)
+                            if (lastPressed != null && lastMove != null && playerTurn == true)
                             {
                                 _spriteBatch.DrawString(
                                     regularSizeFont,
@@ -500,7 +507,7 @@ namespace PretzelPaladin
                         }
 
                         // Draw only one enemy per level
-                        if(enemies.Count >= 1)
+                        if (enemies.Count >= 1)
                         {
                             for (int i = 0; i < 1; i++)
                             {
@@ -514,7 +521,7 @@ namespace PretzelPaladin
                                     Color.Firebrick);
                             }
                         }
-                       
+
                         //defend.Draw(_spriteBatch);  
                         break;
                     }
@@ -537,7 +544,7 @@ namespace PretzelPaladin
                             new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                             Color.SaddleBrown);
                         }
-                        if(endResult == Result.Victory)
+                        if (endResult == Result.Victory)
                         {
                             _spriteBatch.DrawString(
                             menuFont,
@@ -572,11 +579,11 @@ namespace PretzelPaladin
         /// <param name="fileName">Name of the file</param>
         public void FileReading(string fileName)
         {
-            StreamReader file = new StreamReader("../../../Content/"+fileName);
+            StreamReader file = new StreamReader("../../../Content/" + fileName);
 
             string currentLine;
 
-            while((currentLine = file.ReadLine())!= null)
+            while ((currentLine = file.ReadLine()) != null)
             {
                 string[] components = currentLine.Split(",");
 
