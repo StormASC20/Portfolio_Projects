@@ -51,7 +51,7 @@ namespace PretzelPaladin
         private Move lastMove;
         private Move enemyMove;
         private bool attackPressed;
-        private Stopwatch timer;
+        private float timer;
         private bool playerTurn;
         private Random rng;
 
@@ -72,7 +72,7 @@ namespace PretzelPaladin
         private int ssY;
         private Color ppC;
         private Color ssC;
-
+        private bool right;
         Button topLeftMove;
         Button topRightMove;
         Button bottomLeftMove;
@@ -117,7 +117,7 @@ namespace PretzelPaladin
             bottomRightMove=new Button();
 
             attackPressed = false;
-            timer = new Stopwatch();
+            timer = 0f;
             playerTurn = true;
             rng = new Random();
 
@@ -127,6 +127,7 @@ namespace PretzelPaladin
             ssY = -25;
             ppC = Color.White;
             ssC = Color.White;
+            right = true;
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -194,7 +195,8 @@ namespace PretzelPaladin
                 case GameState.Game:
                     {
                         // Limits the attack button to only be clickable once
-                        if(attackPressed==false)
+                        
+                        if (attackPressed==false)
                         {
                             attack.Enabled = true;
                             attackPressed = true;
@@ -218,25 +220,35 @@ namespace PretzelPaladin
                         {
                             attack.Enabled = false;
                         }
-
                         // Inflicts Damage to enemy based on move chosen
-                        if(topLeftMove.IsPressed())
+                        if (topLeftMove.IsPressed())
                         {
+                            //timer = 0f;
                             lastPressed = topLeftMove;
                             lastMove = topLeftMove.Move;
                             enemy.TakeDamage(topLeftMove.Damage);
-                            timer.Restart();
-                            AttackAnimation();
-                            playerTurn = false;
-                            
+                            //AttackAnimation();
+                            ssC = Color.Red;
+                            timer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            if(timer > 0.01f)
+                            {
+                                ssC = Color.White;
+                                timer = 0f;
+                                playerTurn = false;
+                            }
                         }
                         else if(topRightMove.IsPressed())
                         {
                             lastPressed = topRightMove;
                             lastMove = topRightMove.Move;
                             enemy.TakeDamage(topRightMove.Damage);
-                            timer.Restart();
+                            float currentTime = timer;
                             AttackAnimation();
+                            while (timer < currentTime + 2f)
+                            {
+                                Wiggle(ssX);
+                            }
+                            AttackReset();
                             playerTurn = false;
                         }
                         else if (bottomLeftMove.IsPressed())
@@ -244,8 +256,13 @@ namespace PretzelPaladin
                             lastPressed = bottomLeftMove;
                             lastMove = bottomLeftMove.Move;
                             enemy.TakeDamage(bottomLeftMove.Damage);
-                            timer.Restart();
+                            float currentTime = timer;
                             AttackAnimation();
+                            while (timer < currentTime + 2f)
+                            {
+                                Wiggle(ssX);
+                            }
+                            AttackReset();
                             playerTurn = false;
                         }
                         else if (bottomRightMove.IsPressed())
@@ -253,17 +270,30 @@ namespace PretzelPaladin
                             lastPressed = bottomRightMove;
                             lastMove = bottomRightMove.Move;
                             enemy.TakeDamage(bottomRightMove.Damage);
-                            timer.Restart();
+                            float currentTime = timer;
                             AttackAnimation();
+                            while (timer < currentTime + 2f)
+                            {
+                                Wiggle(ssX);
+                            }
+                            AttackReset();
                             playerTurn = false;
                         }
 
-                        if(playerTurn==false&&timer.ElapsedMilliseconds>=2000)
+                        if(playerTurn == false)
                         {
                             enemyMove = moves[rng.Next(0, moves.Count)];
                             player.TakeDamage(enemyMove.AmountDamage);
-                            DamageAnimation();
-                            playerTurn = true;
+                            //DamageAnimation();
+                          
+                            ppC = Color.Red;
+                            if(timer > 0.00001f)
+                            {
+                                ppC = Color.White;
+                                timer = 0f;
+                                playerTurn = true;
+                            }
+
                         }
 
                         // When the player or enemies health go below or equal to 0 the game is over 
@@ -316,9 +346,24 @@ namespace PretzelPaladin
 
         public void AttackAnimation()
         {
-            ppX += 100;
-            ppY -= 100;
-            ssC = Color.Red;
+                if(timer > 0.01f && timer < 0.02f)
+                {
+                    ppX += 100;
+                    ppY -= 100;
+                    ssC = Color.Red;
+                }
+                else
+                {
+                    AttackReset();
+                }
+        }
+
+        public void AttackReset()
+        {
+            ppX -= 100;
+            ppY += 100;
+            ssC = Color.White;
+            //timer = 0f;
         }
 
         public void DamageAnimation()
@@ -326,6 +371,32 @@ namespace PretzelPaladin
             ssX -= 100;
             ssY += 100;
             ppC = Color.Red;
+        }
+
+        public void DamageReset()
+        {
+            ssX += 100;
+            ssY -= 100;
+            ppC = Color.White;
+        }
+
+        public void Wiggle(int x)
+        {
+            int constantX = x;
+            if(x >= constantX)
+            {
+                while (x < constantX + 10)
+                {
+                    x += 5;
+                }
+            }
+            else
+            {
+                while (x > constantX - 10)
+                {
+                    x -= 5;
+                }
+            }
         }
 
         protected override void Draw(GameTime gameTime)
