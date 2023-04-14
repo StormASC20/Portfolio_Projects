@@ -226,6 +226,14 @@ namespace PretzelPaladin
                                 lastPressed = topLeftMove;
                                 lastMove = topLeftMove.Move;
                                 enemies[i].TakeDamage(topLeftMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
                                 playerTurn = false;
                             }
                             else if (topRightMove.IsPressed())
@@ -233,6 +241,14 @@ namespace PretzelPaladin
                                 lastPressed = topRightMove;
                                 lastMove = topRightMove.Move;
                                 enemies[i].TakeDamage(topRightMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
                                 playerTurn = false;
                             }
                             else if (bottomLeftMove.IsPressed())
@@ -240,6 +256,14 @@ namespace PretzelPaladin
                                 lastPressed = bottomLeftMove;
                                 lastMove = bottomLeftMove.Move;
                                 enemies[i].TakeDamage(bottomLeftMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
                                 playerTurn = false;
                             }
                             else if (bottomRightMove.IsPressed())
@@ -247,22 +271,32 @@ namespace PretzelPaladin
                                 lastPressed = bottomRightMove;
                                 lastMove = bottomRightMove.Move;
                                 enemies[i].TakeDamage(bottomRightMove.Damage);
+
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
+
+                                timer.Restart();
+
                                 playerTurn = false;
                             }
 
-                            if (playerTurn==false)
+                            if (playerTurn == false)
                             {
                                 enemyMove = moves[rng.Next(0, moves.Count)];
-                        if(playerTurn==false&&timer.ElapsedMilliseconds>=2000)
-                        {
-                            enemyMove = moves[rng.Next(0, moves.Count)];
+                            }
+
+                            if(playerTurn ==false && timer.ElapsedMilliseconds>=2000)
+                            {
+                                enemyMove = moves[rng.Next(0, moves.Count)];
 
                                 player.TakeDamage(enemyMove.AmountDamage);
 
                                 playerTurn = true;
                             }
                         }
-                        // When the player or enemies health go below or equal to 0 the game is over 
+                        // When the player or enemy's health go below or equal to 0 the game is over 
                         if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
@@ -373,10 +407,6 @@ namespace PretzelPaladin
                                   $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
                                   new Vector2(100, 70),
                                   Color.Firebrick);
-                        //_spriteBatch.DrawString(regularSizeFont,
-                        //    $"Enemy Health: {enemy.CurrentHealth}/{enemy.MaxHealth}",
-                        //    new Vector2(100, 90),
-                        //    Color.Firebrick);
 
                         if (attack.Enabled)
                         {
