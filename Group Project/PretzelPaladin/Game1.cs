@@ -676,16 +676,9 @@ namespace PretzelPaladin
 
         public void DamageAnimation()
         {
-            int constantX = 100;
-            int psuedoTimer = 0;
-
-            while (psuedoTimer <= constantX)
-            {
-                psuedoTimer += 10;
-                ssX -= 10;
-                ppC = Color.Red;
-            }
-            psuedoTimer = 0;
+            ssX -= 100;
+            ssY += 100;
+            ppC = Color.Red;
         }
 
         public void DamageReset()
