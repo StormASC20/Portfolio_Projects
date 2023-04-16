@@ -173,11 +173,11 @@ namespace PretzelPaladin
             regularSizeFont  = this.Content.Load<SpriteFont>("NormalFontSize");
             subHeaderFont    = this.Content.Load<SpriteFont>("Subheader");
 
-            foodCourt        = this.Content.Load<Texture2D>("foodCourt");
+            foodCourt        = this.Content.Load<Texture2D>("food court background");
             startImg         = this.Content.Load<Texture2D>("startButton");
             attackImg        = this.Content.Load<Texture2D>("attackButton");
             defendImg        = this.Content.Load<Texture2D>("defendButton");
-            rectangleTexture = this.Content.Load<Texture2D>("Rectangle");
+            rectangleTexture = this.Content.Load<Texture2D>("rectangle image");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
 
             pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
@@ -198,7 +198,7 @@ namespace PretzelPaladin
             
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
-            rectLocation     = new Rectangle((screenWidth / 2 + 50), screenHeight / 2, screenWidth / 2, screenHeight);
+            rectLocation     = new Rectangle((screenWidth / 2 + 30), screenHeight / 2 + 30, screenWidth / 2, screenHeight);
 
 
         }
@@ -482,7 +482,7 @@ namespace PretzelPaladin
                         {
 
                             yOffset = 95;
-
+                        _spriteBatch.Draw(foodCourt, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                             _spriteBatch.Draw(pretzelPaladinBackTextture,
                                 new Rectangle(ppX, ppY, 350, 500),
                                 ppC);
@@ -510,16 +510,16 @@ namespace PretzelPaladin
                             // Displays moves after Attack button is pressed
                             if (attack.Enabled == false && playerTurn)
                             {
-                                _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 37), Color.DarkRed);
+                                _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 20), Color.DarkRed);
 
                                 // Creates 4 Attack buttons
 
                                 if (topLeftMove.Enabled && topRightMove.Enabled && bottomRightMove.Enabled && bottomLeftMove.Enabled)
                                 {
-                                    topLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
-                                    topRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
-                                    bottomLeftMove = new Button(rectLocation.X + 70, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
-                                    bottomRightMove = new Button(rectLocation.X + 275, rectLocation.Y + yOffset + 130, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
+                                    topLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
+                                    topRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
+                                    bottomLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
+                                    bottomRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
 
                                     // Draws button to screen
                                     topLeftMove.Enabled = true;
@@ -527,10 +527,10 @@ namespace PretzelPaladin
                                     bottomLeftMove.Enabled = true;
                                     bottomRightMove.Enabled = true;
 
-                                    topLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                    topRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
-                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Red, subHeaderFont, rectangleTexture);
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
+                                    topRightMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
+                                    bottomRightMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
 
                                 }
 
@@ -718,9 +718,16 @@ namespace PretzelPaladin
 
         public void DamageAnimation()
         {
-            ssX -= 100;
-            ssY += 100;
-            ppC = Color.Red;
+            int constantX = 100;
+            int psuedoTimer = 0;
+
+            while (psuedoTimer <= constantX)
+            {
+                psuedoTimer += 10;
+                ssX -= 10;
+                ppC = Color.Red;
+            }
+            psuedoTimer = 0;
         }
 
         public void DamageReset()

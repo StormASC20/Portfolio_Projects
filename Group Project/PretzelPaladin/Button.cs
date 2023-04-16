@@ -27,6 +27,7 @@ namespace PretzelPaladin
         private MouseState lastMS;
         private bool isEnabled;
         private string text;
+        private string stamina;
         private int damage;
         private Move move;
         // Constructors --
@@ -67,8 +68,8 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
-            this.text = $"{move.MoveName}: \n{move.MoveLimit}/{move.MaxMoveLimit}";
-
+            this.text = $"{move.MoveName}";
+            this.stamina = $"{move.MoveLimit}/{move.MaxMoveLimit}";
             this.damage = move.AmountDamage;
             this.move = move;
             isEnabled = false;
@@ -179,6 +180,8 @@ namespace PretzelPaladin
                     text,
                     new Vector2(x + width/5, y + height/2 - 15),
                     Color.Black);
+                sb.DrawString(font,
+                    stamina, new Vector2(x + width / 5, y + height / 2 + 20), Color.Black);
             }
         }
 
