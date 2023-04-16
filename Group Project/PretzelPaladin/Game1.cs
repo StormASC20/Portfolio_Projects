@@ -488,7 +488,7 @@ namespace PretzelPaladin
                                 ppC);
 
                             _spriteBatch.Draw(enemies[0].CharacterImage,
-                                new Rectangle(ssX, ssY, 300, 400),
+                                new Rectangle(ssX, ssY, 300, 450),
                                 ssC);
 
                             _spriteBatch.Draw(rectangleTexture,
@@ -498,7 +498,7 @@ namespace PretzelPaladin
                             _spriteBatch.DrawString(regularSizeFont,
                                       $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
                                       new Vector2(100, 70),
-                                      Color.Firebrick);
+                                      Color.Indigo);
 
 
                             if (attack.Enabled)
@@ -527,10 +527,10 @@ namespace PretzelPaladin
                                     bottomLeftMove.Enabled = true;
                                     bottomRightMove.Enabled = true;
 
-                                    topLeftMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
-                                    topRightMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
-                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
-                                    bottomRightMove.DrawWithText(_spriteBatch, Color.IndianRed, subHeaderFont, rectangleTexture);
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
+                                    topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
+                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
 
                                 }
 
@@ -587,12 +587,12 @@ namespace PretzelPaladin
                                         regularSizeFont,
                                         $"Paladin used {lastPressed.Text}",
                                         new Vector2(100, 30),
-                                        Color.Firebrick);
+                                        Color.Indigo);
                                     _spriteBatch.DrawString(
                                                regularSizeFont,
                                                $"{player.Name} dealt {lastMove.AmountDamage} damage to {enemies[0].Name}",
                                                new Vector2(100, 50),
-                                               Color.Firebrick);
+                                               Color.Indigo);
 
                                     topLeftMove.Enabled = false;
                                     topRightMove.Enabled = false;
@@ -607,19 +607,19 @@ namespace PretzelPaladin
                                     regularSizeFont,
                                     $"Enemy used {enemyMove.MoveName}",
                                     new Vector2(850, 30),
-                                    Color.DarkRed);
+                                    Color.Black);
 
                                     _spriteBatch.DrawString(
                                         regularSizeFont,
                                         $"{enemies[0].Name} dealt {enemyMove.AmountDamage} damage to",
                                         new Vector2(850, 50),
-                                        Color.DarkRed);
+                                        Color.Black);
 
                                     _spriteBatch.DrawString(
                                         regularSizeFont,
                                         $"{player.Name}",
                                         new Vector2(850, 70),
-                                        Color.DarkRed);
+                                        Color.Black);
 
                                     playerTurn = true;
                                     actualTimer.Stop();
@@ -632,7 +632,7 @@ namespace PretzelPaladin
                                _spriteBatch.DrawString(regularSizeFont,
                                 $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
                                 new Vector2(100, 90),
-                                   Color.Firebrick);
+                                   Color.Black);
 
                             }
 
