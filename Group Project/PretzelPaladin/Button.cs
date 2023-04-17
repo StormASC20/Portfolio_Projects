@@ -27,6 +27,7 @@ namespace PretzelPaladin
         private MouseState lastMS;
         private bool isEnabled;
         private string text;
+        private string stamina;
         private int damage;
         private Move move;
         // Constructors --
@@ -67,8 +68,8 @@ namespace PretzelPaladin
             this.height = height;
             rect = new Rectangle(x, y, width, height);
             this.image = image;
-            this.text = $"{move.MoveName}: \n{move.MoveLimit}/{move.MaxMoveLimit}";
-
+            this.text = $"{move.MoveName}";
+            this.stamina = $"{move.MoveLimit}/{move.MaxMoveLimit}";
             this.damage = move.AmountDamage;
             this.move = move;
             isEnabled = false;
@@ -108,15 +109,17 @@ namespace PretzelPaladin
         {
             
             ms = Mouse.GetState();
+
+            if(move != null && move.MoveLimit <= 0)
+            {
+                return false;
+            }
+
             if(ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && SingleClick()&&isEnabled)
             {
                 if(move != null && move.MoveLimit > 0)
                 {
                     move.MoveLimit--;
-                }
-                else
-                {
-                    isEnabled = false;
                 }
 
                 
@@ -166,7 +169,7 @@ namespace PretzelPaladin
         /// <param name="sb"></param>
         /// <param name="color"></param>
         /// <param name="font"></param>
-        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image)
+        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image, bool move)
         {
             if (isEnabled)
             {
@@ -177,6 +180,16 @@ namespace PretzelPaladin
                     text,
                     new Vector2(x + width/5, y + height/2 - 15),
                     Color.Black);
+
+                if(move==true)
+                {
+                    sb.DrawString(
+                        font,
+                        stamina, 
+                        new Vector2(x + width / 5, y + height / 2 + 20), 
+                        Color.Black);
+                }
+                
             }
         }
 

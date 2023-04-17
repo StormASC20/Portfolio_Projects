@@ -46,6 +46,8 @@ namespace PretzelPaladin
             set { currentHealth = value; }
         }
 
+        public Texture2D CharacterImage { get { return characterImage; } }
+
         /// <summary>
         /// Attack Multiplier that increases damage
         /// </summary>
