@@ -72,6 +72,7 @@ namespace PretzelPaladin
             this.stamina = $"{move.MoveLimit}/{move.MaxMoveLimit}";
             this.damage = move.AmountDamage;
             this.move = move;
+            this.move.MoveLimit = move.MoveLimit;
             isEnabled = false;
         }
 

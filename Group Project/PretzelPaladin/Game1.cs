@@ -69,26 +69,26 @@ namespace PretzelPaladin
         private int screenWidth;
         private int screenHeight;
         private Rectangle rectLocation;
-        private int yOffset;
 
         private int ppX;
         private int ppY;
         private int ssX;
         private int ssY;
         private int enemyWait;
+        
+        private bool animating;
+        private bool movingForwards;
+        private bool enemyAnimating;
+        private bool enemyMovingForwards;
+
         private int constantX;
         private int psuedoTimer;
-
         private int enemyPsuedoTimer;
         private int enemyConstantX;
 
         private Color ppC;
         private Color ssC;
-        private bool animating;
-        private bool movingForwards;
-        private bool enemyAnimating;
-        private bool enemyMovingForwards;
-        private bool right;
+        
         private Button topLeftMove;
         private Button topRightMove;
         private Button bottomLeftMove;
@@ -171,7 +171,6 @@ namespace PretzelPaladin
             ssY = -25;
             ppC = Color.White;
             ssC = Color.White;
-            right = true;
             _graphics.ApplyChanges();
             base.Initialize();
         }
@@ -206,7 +205,7 @@ namespace PretzelPaladin
 
             startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
             attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
-            
+
             //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
             rectLocation     = new Rectangle((screenWidth / 2 + 30), screenHeight / 2 + 30, screenWidth / 2, screenHeight);
@@ -363,6 +362,9 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
+                        backButton.Move.MoveLimit = 1;
+                        exitGame.Move.MoveLimit = 1;
+
                         if (kbState.IsKeyDown(Keys.Enter)||backButton.IsPressed())
                         {
                             state = GameState.Game;
@@ -498,8 +500,6 @@ namespace PretzelPaladin
                         }
                     case GameState.Game:
                         {
-
-                            yOffset = 95;
                         _spriteBatch.Draw(foodCourt, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                             _spriteBatch.Draw(pretzelPaladinBackTextture,
                                 new Rectangle(ppX, ppY, 350, 500),
@@ -707,68 +707,6 @@ namespace PretzelPaladin
             _spriteBatch.End();
 
             base.Draw(gameTime);
-        }
-
-        public void AttackAnimation()
-        {
-            int constantX = 100;
-            int psuedoTimer = 0;
-
-            while (psuedoTimer <= constantX)
-            {
-                psuedoTimer += 10;
-                ppX += 10;
-                ssC = Color.Red;
-            }
-            psuedoTimer = 0;
-        }
-
-        public void AttackReset()
-        {
-            int constantX = 100;
-            int psuedoTimer = 0;
-
-            while (psuedoTimer <= constantX)
-            {
-                psuedoTimer += 10;
-                ppX -= 10;
-                ssC = Color.White;
-            }
-
-            psuedoTimer = 0;
-        }
-
-        public void DamageAnimation()
-        {
-            ssX -= 100;
-            ssY += 100;
-            ppC = Color.Red;
-        }
-
-        public void DamageReset()
-        {
-            ssX += 100;
-            ssY -= 100;
-            ppC = Color.White;
-        }
-
-        public void Wiggle(int x)
-        {
-            int constantX = x;
-            if (x >= constantX)
-            {
-                while (x < constantX + 10)
-                {
-                    x += 5;
-                }
-            }
-            else
-            {
-                while (x > constantX - 10)
-                {
-                    x -= 5;
-                }
-            }
         }
 
         /// <summary>
