@@ -46,6 +46,9 @@ namespace PretzelPaladin
             set { currentHealth = value; }
         }
 
+        /// <summary>
+        /// Texture of the Character
+        /// </summary>
         public Texture2D CharacterImage { get { return characterImage; } }
 
         /// <summary>

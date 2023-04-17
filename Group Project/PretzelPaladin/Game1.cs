@@ -9,6 +9,9 @@ using System.Threading;
 
 namespace PretzelPaladin
 {
+    /// <summary>
+    /// The current state of the game
+    /// </summary>
     public enum GameState
     {
         MainMenu,
@@ -17,59 +20,66 @@ namespace PretzelPaladin
         GameOver
     }
 
+    /// <summary>
+    /// End result of the game--Win or Lose
+    /// </summary>
     public enum Result
     {
         Victory,
         Defeat
     }
+
     public class Game1 : Game
     {
+        // Fields --
+
+        // - MonoGame fields
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        // - Enums/Fonts & Text
         private SpriteFont menuFont;
         private SpriteFont regularSizeFont;
         private SpriteFont subHeaderFont;
         private GameState state;
         private Result endResult;
 
-        //private Texture2D pretzelButton;
+        // - Textures
         private Texture2D foodCourt;
         private Texture2D rectangleTexture;
         private Texture2D startImg;
-        private Texture2D attackImg;
-        private Texture2D defendImg;
         private Texture2D pretzelPaladinConceptImg;
         private Texture2D sbarroSamuraiTexture;
         private Texture2D pretzelPaladinBackTextture;
         private Texture2D pretzelCursor;
         private Texture2D bodok;
 
+        // - Buttons
         private Button startbutton;
-        private Button attack;
-        private Button defend;
         private Button lastPressed;
 
+        // - Moves
         private Move lastMove;
         private Move enemyMove;
         private Move bossMove;
-        private bool attackPressed;
-        private float timer;
         private bool playerTurn;
         private Random rng;
         private Stopwatch actualTimer;
 
-
+        // - Mouse State Tracking
         private MouseState msState;
         private MouseState prevMouseState;
 
+        // - Move List/Enemies
         private List<Move> moves;
         private List<Enemy> enemies;
 
+        // - Screen Dimensions
         private int screenWidth;
         private int screenHeight;
         private Rectangle rectLocation;
 
+        // - Animation 
         private int ppX;
         private int ppY;
         private int ssX;
@@ -89,6 +99,7 @@ namespace PretzelPaladin
         private Color ppC;
         private Color ssC;
         
+        // - Move Related Buttons
         private Button topLeftMove;
         private Button topRightMove;
         private Button bottomLeftMove;
@@ -96,25 +107,22 @@ namespace PretzelPaladin
         private Button backButton;
         private Button exitGame;
 
-        Enemy enemy;
-        Enemy enemy2;
-        Enemy enemy3;
-        Player player;
-        Enemy boss;
+        // - Characters
+        private Enemy enemy;
+        private Enemy enemy2;
+        private Enemy enemy3;
+        private Player player;
+        private Enemy boss;
 
         public Game1()
         {
-            _graphics = new GraphicsDeviceManager(this);
-            // THIS IS SCARY, DON'T USE (yet)
-            //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //_graphics.IsFullScreen = true;
+            _graphics = new GraphicsDeviceManager(this);       
             Content.RootDirectory = "Content";
-            //IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
+            // Starting State
             state = GameState.MainMenu;
             endResult = Result.Victory;
             _graphics.PreferredBackBufferHeight = 700;
@@ -129,6 +137,7 @@ namespace PretzelPaladin
 
             enemies = new List<Enemy>();
 
+            // - Animation Initializations
             movingForwards = true;
             enemyMovingForwards = true;
             animating = false;
@@ -142,6 +151,7 @@ namespace PretzelPaladin
 
             boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 300, 1, 2);
 
+            // Moves/Buttons Initializations
             lastMove = new Move(" ", 0,0);
             enemyMove = new Move(" ", 0,0);
             bossMove = new Move(" ", 0, 0);
@@ -157,14 +167,12 @@ namespace PretzelPaladin
             exitGame.Enabled = true;
             backButton.Enabled = true;
 
-            attackPressed = false;
-            timer = 0f;
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
 
             
-
+            // Animation Initializations 
             ppX = 50;
             ppY = 200;
             ssX = 700;
@@ -177,16 +185,16 @@ namespace PretzelPaladin
 
         protected override void LoadContent()
         {
+            // - Fonts
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             menuFont = this.Content.Load<SpriteFont>("MenuFont");
             regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
             subHeaderFont = this.Content.Load<SpriteFont>("Subheader");
 
+            // Textures
             bodok = this.Content.Load<Texture2D>("bodok transparent");
             foodCourt        = this.Content.Load<Texture2D>("food court background");
             startImg         = this.Content.Load<Texture2D>("startButton");
-            attackImg        = this.Content.Load<Texture2D>("attackButton");
-            defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("rectangle image");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
 
@@ -194,6 +202,7 @@ namespace PretzelPaladin
             sbarroSamuraiTexture = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
 
+            // Enemy with Textures
             enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
             enemy2 = new Enemy(pretzelCursor, "Pretzel", 100, 100, 1, 1);
             enemy3 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
@@ -203,10 +212,8 @@ namespace PretzelPaladin
             enemies.Add(enemy2);
             enemies.Add(enemy3);
 
+            // Buttons with Textures
             startbutton      = new Button((_graphics.PreferredBackBufferWidth / 2)-100, (_graphics.PreferredBackBufferHeight / 3)+170, 200, 100, startImg);
-            attack           = new Button((screenWidth) - 325, screenHeight-200, 200, 100, attackImg);
-
-            //defend = new Button((screenWidth / 2) + 75, (screenHeight / 2) + 125, 200, 100, defendImg);
 
             rectLocation     = new Rectangle((screenWidth / 2 + 30), screenHeight / 2 + 30, screenWidth / 2, screenHeight);
 
@@ -215,9 +222,6 @@ namespace PretzelPaladin
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.M))
-                Exit();
-
             KeyboardState kbState = Keyboard.GetState();
 
             msState = Mouse.GetState();
@@ -249,15 +253,7 @@ namespace PretzelPaladin
 
                 case GameState.Game:
                     {
-                        
-                        // Limits the attack button to only be clickable once
-                        if (attackPressed == true)
-                        {
-                            attack.Enabled = false;
-                            attackPressed = false;
-                        }
-
-                        if (attack.Enabled == false && playerTurn == true)
+                        if (playerTurn == true)
                         {
                             topLeftMove.Enabled = true;
                             topRightMove.Enabled = true;
@@ -271,10 +267,6 @@ namespace PretzelPaladin
                             state = GameState.Pause;
                         }
 
-                        if (attack.IsPressed())
-                        {
-                            attack.Enabled = false;
-                        }
                         // Inflicts Damage to enemy based on move chosen
                         if (playerTurn == true)
                         {
@@ -518,15 +510,8 @@ namespace PretzelPaladin
                                       new Vector2(100, 70),
                                       Color.Indigo);
 
-
-                            if (attack.Enabled)
-                            {
-                                attack.Draw(_spriteBatch, Color.White);
-                            }
-
-
                             // Displays moves after Attack button is pressed
-                            if (attack.Enabled == false && playerTurn)
+                            if (playerTurn)
                             {
                                 _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 20), Color.DarkRed);
 
