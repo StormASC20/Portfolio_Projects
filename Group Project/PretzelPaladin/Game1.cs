@@ -107,8 +107,8 @@ namespace PretzelPaladin
             _graphics = new GraphicsDeviceManager(this);
             // THIS IS SCARY, DON'T USE (yet)
             //_graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-           //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-           //_graphics.IsFullScreen = true;
+            //_graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //_graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             //IsMouseVisible = true;
         }
@@ -177,10 +177,10 @@ namespace PretzelPaladin
 
         protected override void LoadContent()
         {
-            _spriteBatch     = new SpriteBatch(GraphicsDevice);
-            menuFont         = this.Content.Load<SpriteFont>("MenuFont");
-            regularSizeFont  = this.Content.Load<SpriteFont>("NormalFontSize");
-            subHeaderFont    = this.Content.Load<SpriteFont>("Subheader");
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
+            menuFont = this.Content.Load<SpriteFont>("MenuFont");
+            regularSizeFont = this.Content.Load<SpriteFont>("NormalFontSize");
+            subHeaderFont = this.Content.Load<SpriteFont>("Subheader");
 
             bodok = this.Content.Load<Texture2D>("bodok transparent");
             foodCourt        = this.Content.Load<Texture2D>("food court background");
@@ -190,8 +190,8 @@ namespace PretzelPaladin
             rectangleTexture = this.Content.Load<Texture2D>("rectangle image");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
 
-            pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
-            sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
+            pretzelPaladinConceptImg = this.Content.Load<Texture2D>("PretzelPaladin");
+            sbarroSamuraiTexture = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
 
             enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
@@ -225,13 +225,13 @@ namespace PretzelPaladin
             screenHeight = _graphics.PreferredBackBufferHeight;
             screenWidth = _graphics.PreferredBackBufferWidth;
 
-            switch(state)
+            switch (state)
             {
                 case GameState.MainMenu:
                     {
                         startbutton.Enabled = true;
 
-                        if(startbutton.IsPressed())
+                        if (startbutton.IsPressed())
                         {
                             state = GameState.Game;
                         }
@@ -239,7 +239,7 @@ namespace PretzelPaladin
                         {
                             state = GameState.GameOver;
                         }
-                        if(kbState.IsKeyDown(Keys.Escape))
+                        if (kbState.IsKeyDown(Keys.Escape))
                         {
                             state = GameState.Pause;
                         }
@@ -380,11 +380,11 @@ namespace PretzelPaladin
                     }
                 case GameState.GameOver:
                     {
-                        if(player.CurrentHealth <= 0)
+                        if (player.CurrentHealth <= 0)
                         {
                             endResult = Result.Defeat;
                         }
-                        else
+                        if(enemy.CurrentHealth <= 0)
                         {
                             endResult = Result.Victory;
                         }
@@ -715,11 +715,11 @@ namespace PretzelPaladin
         /// <param name="fileName">Name of the file</param>
         public void FileReading(string fileName)
         {
-            StreamReader file = new StreamReader("../../../Content/"+fileName);
+            StreamReader file = new StreamReader("../../../Content/" + fileName);
 
             string currentLine;
 
-            while((currentLine = file.ReadLine())!= null)
+            while ((currentLine = file.ReadLine()) != null)
             {
                 string[] components = currentLine.Split(",");
 
