@@ -376,19 +376,16 @@ namespace PretzelPaladin
                         {
                             endResult = Result.Defeat;
                         }
-                        if(enemy.CurrentHealth <= 0)
+                        else
                         {
                             endResult = Result.Victory;
                         }
 
-                        if (kbState.IsKeyDown(Keys.Space))
+                        if(kbState.IsKeyDown(Keys.Escape))
                         {
-                            state = GameState.MainMenu;
+                            Exit();
                         }
-                        if (kbState.IsKeyDown(Keys.Escape))
-                        {
-                            state = GameState.Pause;
-                        }
+
                         break;
                     }
             }
@@ -664,6 +661,7 @@ namespace PretzelPaladin
                                 new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
                                 Color.SaddleBrown);
                             }
+
                             if (endResult == Result.Victory)
                             {
                                 _spriteBatch.DrawString(
