@@ -89,10 +89,12 @@ namespace PretzelPaladin
         private bool enemyAnimating;
         private bool enemyMovingForwards;
         private bool right;
-        Button topLeftMove;
-        Button topRightMove;
-        Button bottomLeftMove;
-        Button bottomRightMove;
+        private Button topLeftMove;
+        private Button topRightMove;
+        private Button bottomLeftMove;
+        private Button bottomRightMove;
+        private Button backButton;
+        private Button exitGame;
 
         Enemy enemy;
         Enemy enemy2;
@@ -147,6 +149,13 @@ namespace PretzelPaladin
             topRightMove = new Button();
             bottomLeftMove = new Button();
             bottomRightMove=new Button();
+            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, 0));
+            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, 0));
+
+            backButton.Text = "RETURN TO BATTLE";
+            exitGame.Text = "EXIT GAME";
+            exitGame.Enabled = true;
+            backButton.Enabled = true;
 
             attackPressed = false;
             timer = 0f;
@@ -354,10 +363,17 @@ namespace PretzelPaladin
                     }
                 case GameState.Pause:
                     {
-                        if (kbState.IsKeyDown(Keys.Enter))
+                        if (kbState.IsKeyDown(Keys.Enter)||backButton.IsPressed())
                         {
                             state = GameState.Game;
                         }
+
+                        if(exitGame.IsPressed())
+                        {
+                            Exit();
+                        }
+
+                        
                         break;
                     }
                 case GameState.GameOver:
@@ -529,10 +545,10 @@ namespace PretzelPaladin
                                     bottomLeftMove.Enabled = true;
                                     bottomRightMove.Enabled = true;
 
-                                    topLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
-                                    topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
-                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
-                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture);
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
+                                    topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
+                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
 
                                 }
 
@@ -643,10 +659,14 @@ namespace PretzelPaladin
                     case GameState.Pause:
                         {
                             _spriteBatch.DrawString(
-                                regularSizeFont,
-                                "YOU PAUSED 'CAUSE UR SCURRED",
-                                new Vector2(_graphics.PreferredBackBufferWidth / 4, _graphics.PreferredBackBufferHeight / 2),
+                                menuFont,
+                                "PAUSE MENU",
+                                new Vector2((screenWidth/3)-25,screenHeight/6),
                                 Color.SaddleBrown);
+
+                            backButton.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
+                            exitGame.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
+
                             break;
                         }
                     case GameState.GameOver:

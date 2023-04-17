@@ -169,7 +169,7 @@ namespace PretzelPaladin
         /// <param name="sb"></param>
         /// <param name="color"></param>
         /// <param name="font"></param>
-        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image)
+        public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image, bool move)
         {
             if (isEnabled)
             {
@@ -180,8 +180,16 @@ namespace PretzelPaladin
                     text,
                     new Vector2(x + width/5, y + height/2 - 15),
                     Color.Black);
-                sb.DrawString(font,
-                    stamina, new Vector2(x + width / 5, y + height / 2 + 20), Color.Black);
+
+                if(move==true)
+                {
+                    sb.DrawString(
+                        font,
+                        stamina, 
+                        new Vector2(x + width / 5, y + height / 2 + 20), 
+                        Color.Black);
+                }
+                
             }
         }
 
