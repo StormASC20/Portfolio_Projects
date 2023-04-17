@@ -44,6 +44,11 @@ namespace PretzelPaladin
         private Texture2D pretzelPaladinBackTextture;
         private Texture2D pretzelCursor;
         private Texture2D bodok;
+        private Texture2D textBox;
+        private Texture2D healthBar;
+        private Texture2D healthBox;
+        private float playerHealthPercent;
+        private float enemyHealthPercent;
 
         private Button startbutton;
         private Button attack;
@@ -156,15 +161,16 @@ namespace PretzelPaladin
             exitGame.Text = "EXIT GAME";
             exitGame.Enabled = true;
             backButton.Enabled = true;
-
+            playerHealthPercent = 1f;
+            enemyHealthPercent = 1f;
             attackPressed = false;
             timer = 0f;
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
 
-            
 
+            
             ppX = 50;
             ppY = 200;
             ssX = 700;
@@ -190,6 +196,9 @@ namespace PretzelPaladin
             defendImg        = this.Content.Load<Texture2D>("defendButton");
             rectangleTexture = this.Content.Load<Texture2D>("rectangle image");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
+            textBox = this.Content.Load<Texture2D>("text rect");
+            healthBar = this.Content.Load<Texture2D>("health bar");
+            healthBox = this.Content.Load<Texture2D>("health box");
 
             pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
             sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
@@ -199,7 +208,7 @@ namespace PretzelPaladin
             enemy2 = new Enemy(pretzelCursor, "Pretzel", 100, 100, 1, 1);
             enemy3 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
-
+            
             enemies.Add(enemy);
             enemies.Add(enemy2);
             enemies.Add(enemy3);
@@ -286,6 +295,7 @@ namespace PretzelPaladin
                                 lastPressed = topLeftMove;
                                 lastMove = topLeftMove.Move;
                                 enemies[0].TakeDamage(topLeftMove.Damage);
+                                enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
 
                                 animating = true;
@@ -296,6 +306,7 @@ namespace PretzelPaladin
                                 lastPressed = topRightMove;
                                 lastMove = topRightMove.Move;
                                 enemies[0].TakeDamage(topRightMove.Damage);
+                                enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
                             }
@@ -305,6 +316,7 @@ namespace PretzelPaladin
                                 lastPressed = bottomLeftMove;
                                 lastMove = bottomLeftMove.Move;
                                 enemies[0].TakeDamage(bottomLeftMove.Damage);
+                                enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
                             }
@@ -314,6 +326,7 @@ namespace PretzelPaladin
                                 lastPressed = bottomRightMove;
                                 lastMove = bottomRightMove.Move;
                                 enemies[0].TakeDamage(bottomRightMove.Damage);
+                                enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
                             }
@@ -328,6 +341,7 @@ namespace PretzelPaladin
                                 enemyAnimating = true;
                                 enemyMove = moves[rng.Next(0, moves.Count)];
                                 player.TakeDamage(enemyMove.AmountDamage);
+                                playerHealthPercent = (float)(player.CurrentHealth) / player.MaxHealth;
                                 enemyWait = 0;
                                 playerTurn = true;
                             }
@@ -348,6 +362,7 @@ namespace PretzelPaladin
                                 if (enemies[i].CurrentHealth <= 0)
                                 {
                                     enemies.RemoveAt(i);
+                                    enemyHealthPercent = 1;
                                 }
                             }
                         }
@@ -504,19 +519,29 @@ namespace PretzelPaladin
                             _spriteBatch.Draw(pretzelPaladinBackTextture,
                                 new Rectangle(ppX, ppY, 350, 500),
                                 ppC);
+                        _spriteBatch.Draw(healthBox, new Rectangle(50 - 10, 200 - 10, 350, 75), Color.White);
+                        int healthWidth = (int)(340 * playerHealthPercent);
+                        _spriteBatch.Draw(healthBar, new Rectangle(50 - 5, 200 - 7, healthWidth, 70), Color.White);
+                        _spriteBatch.DrawString(subHeaderFont,
+                                  $"{player.CurrentHealth}/{player.MaxHealth}",
+                                  new Vector2(50 + 120, 200 + 10),
+                                  Color.Black);
+                        _spriteBatch.Draw(textBox, new Rectangle(90, 25, 400, 100), Color.White);
 
-                            _spriteBatch.Draw(enemies[0].CharacterImage,
+                        _spriteBatch.Draw(enemies[0].CharacterImage,
                                 new Rectangle(ssX, ssY, 300, 450),
                                 ssC);
-
-                            _spriteBatch.Draw(rectangleTexture,
+                        int healthWidthE = (int)(243 * enemyHealthPercent);
+                        _spriteBatch.Draw(healthBox, new Rectangle(700, 320, 250, 55), Color.White);
+                        _spriteBatch.Draw(healthBar, new Rectangle(703, 322, healthWidthE, 51), Color.White);
+                        _spriteBatch.DrawString(subHeaderFont,
+                                  $"{enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
+                                  new Vector2(785, 330),
+                                  Color.Black);
+                        _spriteBatch.Draw(rectangleTexture,
                                 rectLocation,
                                 Color.White);
-
-                            _spriteBatch.DrawString(regularSizeFont,
-                                      $"Player Health: {player.CurrentHealth}/{player.MaxHealth}",
-                                      new Vector2(100, 70),
-                                      Color.Indigo);
+                        
 
 
                             if (attack.Enabled)
@@ -530,9 +555,8 @@ namespace PretzelPaladin
                             {
                                 _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 20), Color.DarkRed);
 
-                                // Creates 4 Attack buttons
-
-                                if (topLeftMove.Enabled && topRightMove.Enabled && bottomRightMove.Enabled && bottomLeftMove.Enabled)
+                            // Creates 4 Attack buttons
+                            if (topLeftMove.Enabled && topRightMove.Enabled && bottomRightMove.Enabled && bottomLeftMove.Enabled)
                                 {
                                     topLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
                                     topRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
@@ -559,7 +583,7 @@ namespace PretzelPaladin
 
                                     lastMove = topLeftMove.Move;
                                     _spriteBatch.DrawString(
-                                           regularSizeFont,
+                                           subHeaderFont,
                                            $"{player.Name} dealt {topLeftMove.Move.AmountDamage} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
@@ -602,15 +626,16 @@ namespace PretzelPaladin
                                 if (lastPressed != null && lastMove != null && playerTurn == true)
                                 {
                                     _spriteBatch.DrawString(
-                                        regularSizeFont,
-                                        $"Paladin used {lastPressed.Text}",
+                                        subHeaderFont,
+                                        $"{player.Name} used {lastPressed.Text}",
                                         new Vector2(100, 30),
-                                        Color.Indigo);
+                                        Color.Firebrick);
                                     _spriteBatch.DrawString(
-                                               regularSizeFont,
-                                               $"{player.Name} dealt {lastMove.AmountDamage} damage to {enemies[0].Name}",
-                                               new Vector2(100, 50),
-                                               Color.Indigo);
+                                               subHeaderFont,
+                                               $"{player.Name} dealt {lastMove.AmountDamage} damage to",
+                                               new Vector2(100, 60),
+                                               Color.Firebrick);
+                                _spriteBatch.DrawString(subHeaderFont, $"{enemies[0].Name}", new Vector2(100, 90), Color.Firebrick);
 
                                     topLeftMove.Enabled = false;
                                     topRightMove.Enabled = false;
@@ -626,26 +651,33 @@ namespace PretzelPaladin
                                     $"Enemy used {enemyMove.MoveName}",
                                     new Vector2(850, 30),
                                     Color.Black);
+                                _spriteBatch.Draw(textBox, new Rectangle(840, 25, 260, 100), Color.White);
 
-                                    _spriteBatch.DrawString(
-                                        regularSizeFont,
-                                        $"{enemies[0].Name} dealt {enemyMove.AmountDamage} damage to",
-                                        new Vector2(850, 50),
+                                _spriteBatch.DrawString(
+                                        subHeaderFont,
+                                        $"{enemies[0].Name} dealt {enemyMove.AmountDamage}",
+                                        new Vector2(850, 30),
                                         Color.Black);
 
                                     _spriteBatch.DrawString(
-                                        regularSizeFont,
-                                        $"{player.Name}",
-                                        new Vector2(850, 70),
+                                        subHeaderFont,
+                                        $"damage to Pretzel",
+                                        new Vector2(850, 57),
                                         Color.Black);
 
-                                    playerTurn = true;
+                                _spriteBatch.DrawString(
+                                        subHeaderFont,
+                                        $"Paladin",
+                                        new Vector2(850, 85),
+                                        Color.Black);
+
+                                playerTurn = true;
                                     actualTimer.Stop();
                                 }
                             }
 
                             // Draw only one enemy per level
-                            if (enemies.Count >= 1)
+                            /*if (enemies.Count >= 1)
                             {
                                _spriteBatch.DrawString(regularSizeFont,
                                 $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
@@ -653,7 +685,7 @@ namespace PretzelPaladin
                                    Color.Black);
 
                             }
-
+*/
                             break;
                         }
                     case GameState.Pause:
