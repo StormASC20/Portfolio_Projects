@@ -1,6 +1,0 @@
-﻿David,Cook,Nice
-Storm, Streamer,Joyful
-Ben,Athlete,Sad
-Mackenna,Artist,Creative
-Chris,Store Owner,Evil
-Bill,Fisher,Optimistic
