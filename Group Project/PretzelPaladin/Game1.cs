@@ -91,7 +91,8 @@ namespace PretzelPaladin
         private int ssX;
         private int ssY;
         private int enemyWait;
-        
+
+
         private bool animating;
         private bool movingForwards;
         private bool enemyAnimating;
@@ -174,12 +175,13 @@ namespace PretzelPaladin
             backButton.Enabled = true;
             playerHealthPercent = 1f;
             enemyHealthPercent = 1f;
-            attackPressed = false;
-            timer = 0f;
+          //  attackPressed = false;
+            //timer = 0f;
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
 
+        
             
             // Animation Initializations 
             ppX = 50;
@@ -367,6 +369,9 @@ namespace PretzelPaladin
                             endResult = Result.Victory;
                             state = GameState.GameOver;
                         }
+
+                      
+
 
                         break;
                         
@@ -570,7 +575,7 @@ namespace PretzelPaladin
                                     lastMove = topLeftMove.Move;
                                     _spriteBatch.DrawString(
                                            subHeaderFont,
-                                           $"{player.Name} dealt {topLeftMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
 
@@ -582,7 +587,7 @@ namespace PretzelPaladin
                                     lastMove = topRightMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {topRightMove.Move.AmountDamage} to {enemy.Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemy.Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -593,7 +598,7 @@ namespace PretzelPaladin
                                     lastMove = bottomLeftMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {bottomLeftMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -604,7 +609,7 @@ namespace PretzelPaladin
                                     lastMove = bottomRightMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {bottomRightMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -618,7 +623,7 @@ namespace PretzelPaladin
                                         Color.Firebrick);
                                     _spriteBatch.DrawString(
                                                subHeaderFont,
-                                               $"{player.Name} dealt {lastMove.AmountDamage} damage to",
+                                               $"{player.Name} dealt {enemy.DamageDealt} damage to",
                                                new Vector2(100, 60),
                                                Color.Firebrick);
                                 _spriteBatch.DrawString(subHeaderFont, $"{enemies[0].Name}", new Vector2(100, 90), Color.Firebrick);
@@ -641,7 +646,7 @@ namespace PretzelPaladin
 
                                 _spriteBatch.DrawString(
                                         subHeaderFont,
-                                        $"{enemies[0].Name} dealt {enemyMove.AmountDamage}",
+                                        $"{enemies[0].Name} dealt {player.DamageDealt}",
                                         new Vector2(850, 30),
                                         Color.Black);
 

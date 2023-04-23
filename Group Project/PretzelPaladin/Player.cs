@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using System.Security.Cryptography;
+using System;
 
 namespace PretzelPaladin
 {
@@ -42,7 +44,10 @@ namespace PretzelPaladin
         {
             int trueAttackValue = attackValue * this.AttackMultiplier;
 
-            target.TakeDamage(attackValue);
+            // Random number for the attack that will be anywhere from 1/2 the max attack damage to the max attack damage
+            Random rng = new Random();
+            int attack = rng.Next(attackValue/2, attackValue);
+            target.TakeDamage(attack);
         }
 
 
