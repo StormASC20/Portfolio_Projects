@@ -9,11 +9,12 @@ namespace PretzelPaladin
 {
     // David Shaffer
     // 3/6/2023
-    // Interface for the moves a character/ enemy can do 
+    // Class for the moves a character/ enemy can do 
     internal class Move
     {
         // Fields --
         private string moveName;
+        private string description;
         private int amtDamage;
         private int maxMoveLimit;
         private int moveLimit;
@@ -40,6 +41,11 @@ namespace PretzelPaladin
         /// </summary>
         public int MaxMoveLimit { get { return maxMoveLimit; } }
 
+        /// <summary>
+        /// The description of the move that may contain special traits
+        /// </summary>
+        public string Description { get { return description; } }
+
         // Constructor --
 
         /// <summary>
@@ -48,12 +54,13 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, int moveLimit)
+        public Move(string moveName, int amtDamage, int moveLimit, string description)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
             this.moveLimit = moveLimit;
             maxMoveLimit = moveLimit;
+            this.description = description;
         }
 
         /// <summary>

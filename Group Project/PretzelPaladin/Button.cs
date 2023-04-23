@@ -146,6 +146,22 @@ namespace PretzelPaladin
         }
 
         /// <summary>
+        /// Determines if the cursor is hovering over the button
+        /// </summary>
+        /// <returns>True if the mouse is hovering over the button, false otherwise</returns>
+        public bool IsHover()
+        {
+            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && isEnabled)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Recognizes a Single Mouse Click
         /// </summary>
         /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
