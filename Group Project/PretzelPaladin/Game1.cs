@@ -44,6 +44,7 @@ namespace PretzelPaladin
         private Texture2D pretzelPaladinBackTextture;
         private Texture2D pretzelCursor;
         private Texture2D bodok;
+        private Texture2D bap;
 
         private Button startbutton;
         private Button attack;
@@ -185,9 +186,10 @@ namespace PretzelPaladin
             pretzelPaladinConceptImg   = this.Content.Load<Texture2D>("PretzelPaladin");
             sbarroSamuraiTexture       = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
+            bap = this.Content.Load<Texture2D>("bap");
 
             enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
-            enemy2 = new Enemy(pretzelCursor, "Pretzel", 100, 100, 1, 1);
+            enemy2 = new Enemy(bap, "Biblically Accurate Pretzel", 100, 100, 1, 1);
             enemy3 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
 
