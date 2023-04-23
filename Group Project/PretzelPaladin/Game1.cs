@@ -173,8 +173,6 @@ namespace PretzelPaladin
             backButton.Enabled = true;
             playerHealthPercent = 1f;
             enemyHealthPercent = 1f;
-            attackPressed = false;
-            timer = 0f;
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
@@ -660,16 +658,6 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            // Draw only one enemy per level
-                            /*if (enemies.Count >= 1)
-                            {
-                               _spriteBatch.DrawString(regularSizeFont,
-                                $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
-                                new Vector2(100, 90),
-                                   Color.Black);
-
-                            }
-*/
                             break;
                         }
                     case GameState.Pause:
