@@ -159,15 +159,15 @@ namespace PretzelPaladin
             boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 300, 1, 2);
 
             // Moves/Buttons Initializations
-            lastMove = new Move(" ", 0,0);
-            enemyMove = new Move(" ", 0,0);
-            bossMove = new Move(" ", 0, 0);
+            lastMove = new Move(" ", 0,0, " ");
+            enemyMove = new Move(" ", 0,0, " ");
+            bossMove = new Move(" ", 0, 0, " ");
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
             bottomRightMove=new Button();
-            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, 0));
-            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, 0));
+            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, 0, " "));
+            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, 0, " "));
 
             backButton.Text = "RETURN TO BATTLE";
             exitGame.Text = "EXIT GAME";
@@ -564,8 +564,9 @@ namespace PretzelPaladin
                                     topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
                                     bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
                                     bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
+                            }
 
-                                }
+
 
 
                                 if (topLeftMove.IsPressed() && topLeftMove.Enabled)
@@ -667,17 +668,35 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            // Draw only one enemy per level
-                            /*if (enemies.Count >= 1)
-                            {
-                               _spriteBatch.DrawString(regularSizeFont,
-                                $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
-                                new Vector2(100, 90),
-                                   Color.Black);
+                        // Draws description of move to screen when player hovers over move
+                        if (topLeftMove.IsHover())
+                        {
+                            _spriteBatch.DrawString(subHeaderFont, topLeftMove.Move.Description, new Vector2(msState.X-300, msState.Y-100), Color.GhostWhite);
+                        }
+                        else if (topRightMove.IsHover())
+                        {
+                            _spriteBatch.DrawString(subHeaderFont, topRightMove.Move.Description, new Vector2(msState.X-750, msState.Y-100), Color.GhostWhite);
+                        }
+                        else if (bottomLeftMove.IsHover())
+                        {
+                            _spriteBatch.DrawString(subHeaderFont, bottomLeftMove.Move.Description, new Vector2(msState.X-300, msState.Y-100), Color.GhostWhite);
+                        }
+                        else if (bottomRightMove.IsHover())
+                        {
+                            _spriteBatch.DrawString(subHeaderFont, bottomRightMove.Move.Description, new Vector2(msState.X-750, msState.Y-100), Color.GhostWhite);
+                        }
 
-                            }
+                        // Draw only one enemy per level
+                        /*if (enemies.Count >= 1)
+                        {
+                           _spriteBatch.DrawString(regularSizeFont,
+                            $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
+                            new Vector2(100, 90),
+                               Color.Black);
+
+                        }
 */
-                            break;
+                        break;
                         }
                     case GameState.Pause:
                         {
@@ -747,7 +766,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2])));
+                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2]), components[3]));
             }
 
             file.Close();
