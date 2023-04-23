@@ -30,17 +30,24 @@ namespace PretzelPaladin
         /// </summary>
         public int AmountDamage { get { return amtDamage; } }
 
+        /// <summary>
+        /// The number of times you can use the move
+        /// </summary>
         public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
 
+        /// <summary>
+        /// The maximum number of times you can use the move
+        /// </summary>
         public int MaxMoveLimit { get { return maxMoveLimit; } }
 
         // Constructor --
 
         /// <summary>
-        /// Creates a new Move that a character can use
+        /// Creates a new move
         /// </summary>
         /// <param name="moveName">Name of the move</param>
-        /// <param name="amtDamage">Amount of damage dealt by the move</param>
+        /// <param name="amtDamage">Amount of damage the move deals</param>
+        /// <param name="moveLimit">Number of times you can use the move</param>
         public Move(string moveName, int amtDamage, int moveLimit)
         {
             this.moveName = moveName;
@@ -55,6 +62,7 @@ namespace PretzelPaladin
         /// <returns>A string...</returns>
         public override string ToString()
         {
+            // Mainly used for debugging purposes
             return $"{moveName} -- Damage: " + amtDamage;
         }
 
