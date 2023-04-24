@@ -138,7 +138,7 @@ namespace PretzelPaladin
         /// <returns>True if the mouse is hovering over the button, false otherwise</returns>
         public bool IsHover()
         {
-            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && isEnabled)
+            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
                 return true;
             }

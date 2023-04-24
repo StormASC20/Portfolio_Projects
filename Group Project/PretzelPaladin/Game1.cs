@@ -666,22 +666,22 @@ namespace PretzelPaladin
 
                             if (topLeftMove.IsHover())
                             {
-                                _spriteBatch.DrawString(regularSizeFont, topLeftMove.Move.Description, new Vector2(rectLocation.X,rectLocation.Y), Color.Black);
+                                _spriteBatch.DrawString(regularSizeFont, topLeftMove.Move.Description, new Vector2(rectLocation.X+10,rectLocation.Y), Color.Black);
                             }
 
                             if (topRightMove.IsHover())
                             {
-                                _spriteBatch.DrawString(regularSizeFont, topRightMove.Move.Description, new Vector2(rectLocation.X, rectLocation.Y), Color.Black);
+                                _spriteBatch.DrawString(regularSizeFont, topRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
                             }
 
                             if (bottomLeftMove.IsHover())
                             {
-                                _spriteBatch.DrawString(regularSizeFont, bottomLeftMove.Move.Description, new Vector2(rectLocation.X, rectLocation.Y), Color.Black);
+                                _spriteBatch.DrawString(regularSizeFont, bottomLeftMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
                             }
 
                             if (bottomRightMove.IsHover())
                             {
-                                _spriteBatch.DrawString(regularSizeFont, bottomRightMove.Move.Description, new Vector2(rectLocation.X, rectLocation.Y), Color.Black);
+                                _spriteBatch.DrawString(regularSizeFont, bottomRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
                             }
 
                             break;
