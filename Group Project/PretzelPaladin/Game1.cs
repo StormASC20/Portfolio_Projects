@@ -142,15 +142,15 @@ namespace PretzelPaladin
 
             boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 300, 1, 2);
 
-            lastMove = new Move(" ", 0,0);
-            enemyMove = new Move(" ", 0,0);
-            bossMove = new Move(" ", 0, 0);
+            lastMove = new Move(" ", 0,0,0);
+            enemyMove = new Move(" ", 0,0,0);
+            bossMove = new Move(" ", 0, 0,0);
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
             bottomRightMove=new Button();
-            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, 0));
-            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, 0));
+            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0,0, 0));
+            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0,0, 0));
 
             backButton.Text = "RETURN TO BATTLE";
             exitGame.Text = "EXIT GAME";
@@ -723,7 +723,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2])));
+                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2]),int.Parse(components[2])));
             }
 
             file.Close();

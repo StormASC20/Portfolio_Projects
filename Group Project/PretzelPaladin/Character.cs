@@ -87,7 +87,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                Move move = new Move(components[0], int.Parse(components[1]), int.Parse(components[2]));
+                Move move = new Move(components[0], int.Parse(components[1]), int.Parse(components[2]),int.Parse(components[2]));
 
                 moves.Add(move);
 
