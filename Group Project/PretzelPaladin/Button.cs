@@ -52,14 +52,14 @@ namespace PretzelPaladin
         }
 
         /// <summary>
-        /// Second constructor for a basic rectangle with inputted text
+        /// Second Constructor that corresponds the button with a move
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="width"></param>
-        /// <param name="height"></param>
-        /// <param name="image"></param>
-        /// <param name="text"></param>
+        /// <param name="x">X-Coordinate location of button</param>
+        /// <param name="y">Y-Coordinate location of button</param>
+        /// <param name="width">Width of the button</param>
+        /// <param name="height">Height of the button</param>
+        /// <param name="image">Texture of the button</param>
+        /// <param name="move">Move associated with the button</param>
         public Button(int x, int y, int width, int height, Texture2D image, Move move)
         {
             this.x = x;
@@ -69,13 +69,16 @@ namespace PretzelPaladin
             rect = new Rectangle(x, y, width, height);
             this.image = image;
             this.text = $"{move.MoveName}";
-            this.stamina = $"{move.MoveLimit}/{move.MaxMoveLimit}";
+            this.stamina = $"-- {move.MoveLimit}/{move.MaxMoveLimit} --";
             this.damage = move.AmountDamage;
             this.move = move;
             this.move.MoveLimit = move.MoveLimit;
             isEnabled = false;
         }
 
+        /// <summary>
+        /// Default button
+        /// </summary>
         public Button()
         {
             isEnabled = false;
@@ -92,13 +95,20 @@ namespace PretzelPaladin
         /// </summary>
         public bool Enabled { get { return isEnabled; } set { isEnabled = value; } }
 
+        /// <summary>
+        /// Returns button text
+        /// </summary>
         public string Text { get { return text; } set { text = value; } }
 
+        /// <summary>
+        /// Returns the move associated with the button
+        /// </summary>
         public Move Move { get { return move; } set { move = value; } }
 
+        /// <summary>
+        /// Amount of damage the move associated with the button deals
+        /// </summary>
         public int Damage { get { return damage; } set { damage = value; } }
-
-
 
         // Methods --
 
@@ -136,6 +146,22 @@ namespace PretzelPaladin
         }
 
         /// <summary>
+        /// Determines if the cursor is hovering over the button
+        /// </summary>
+        /// <returns>True if the mouse is hovering over the button, false otherwise</returns>
+        public bool IsHover()
+        {
+            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && isEnabled)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
         /// Recognizes a Single Mouse Click
         /// </summary>
         /// <returns>Returns true if the player just left-clicked once, false otherwise</returns>
@@ -167,9 +193,9 @@ namespace PretzelPaladin
         /// <summary>
         /// Draws the button with the inputted text from the second constructor
         /// </summary>
-        /// <param name="sb"></param>
-        /// <param name="color"></param>
-        /// <param name="font"></param>
+        /// <param name="sb">Spritebatch passed in from Game1</param>
+        /// <param name="color">Color to draw the button</param>
+        /// <param name="font">Font used to draw the text within the button</param>
         public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image, bool move)
         {
             if (isEnabled)

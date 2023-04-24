@@ -9,16 +9,16 @@ namespace PretzelPaladin
 {
     // David Shaffer
     // 3/6/2023
-    // Interface for the moves a character/ enemy can do 
+    // Class for the moves a character/ enemy can do 
     internal class Move
     {
         // Fields --
         private string moveName;
-        private int maxDamage;
+        private string description;
+        private int amtDamage;
         private int maxMoveLimit;
         private int moveLimit;
-        private int minDamage;
-        private int amtDamage;
+
         // Properties --
 
         /// <summary>
@@ -55,26 +55,37 @@ namespace PretzelPaladin
             }
         }
 
+        /// <summary>
+        /// The number of times you can use the move
+        /// </summary>
         public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
 
+        /// <summary>
+        /// The maximum number of times you can use the move
+        /// </summary>
         public int MaxMoveLimit { get { return maxMoveLimit; } }
+
+        /// <summary>
+        /// The description of the move that may contain special traits
+        /// </summary>
+        public string Description { get { return description; } }
 
         // Constructor --
 
         /// <summary>
-        /// Creates a move from the move file
+        /// Creates a new move
         /// </summary>
-        /// <param name="moveName">Move name</param>
-        /// <param name="minDamage">minimum damage it can do</param>
-        /// <param name="maxDamage">maximum damage it can do</param>
-        /// <param name="moveLimit">move limit of the move</param>
-        public Move(string moveName, int minDamage,int maxDamage, int moveLimit)
+        /// <param name="moveName">Name of the move</param>
+        /// <param name="amtDamage">Amount of damage the move deals</param>
+        /// <param name="moveLimit">Number of times you can use the move</param>
+        public Move(string moveName, int amtDamage, int moveLimit, string description)
         {
             this.moveName = moveName;
             this.minDamage = minDamage;
             this.maxDamage = maxDamage;
             this.moveLimit = moveLimit;
             maxMoveLimit = moveLimit;
+            this.description = description;
         }
 
         /// <summary>
@@ -83,6 +94,7 @@ namespace PretzelPaladin
         /// <returns>A string...</returns>
         public override string ToString()
         {
+            // Mainly used for debugging purposes
             return $"{moveName} -- Damage: " + amtDamage;
         }
 
