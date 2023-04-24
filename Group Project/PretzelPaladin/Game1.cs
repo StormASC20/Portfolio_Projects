@@ -173,8 +173,8 @@ namespace PretzelPaladin
             backButton.Enabled = true;
             playerHealthPercent = 1f;
             enemyHealthPercent = 1f;
-            attackPressed = false;
-            timer = 0f;
+            /*attackPressed = false;
+            timer = 0f;*/
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
