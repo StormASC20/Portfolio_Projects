@@ -23,8 +23,8 @@ namespace PretzelPaladin
         /// <param name="currentHealth">Current health</param>
         /// <param name="attackMultiplier">Multiplier that boosts attack damage</param>
         /// <param name="defenseMultiplier">Multiplier that reduces incoming damage</param>
-        public Enemy(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
-            : base(characterImage, name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
+        public Enemy(Texture2D characterImage, string name, int maxHealth, int attackMultiplier, int defenseMultiplier)
+            : base(characterImage, name, maxHealth, attackMultiplier, defenseMultiplier)
         {
             random = new Random();
         }
