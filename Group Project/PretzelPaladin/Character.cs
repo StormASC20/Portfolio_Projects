@@ -85,11 +85,11 @@ namespace PretzelPaladin
         /// <param name="currentHealth">Character's current health</param>
         /// <param name="attackMultiplier">Attack multiplier that boosts or reduces damage</param>
         /// <param name="defenseMultiplier">Defense multiplier that reduces or boosts incoming damage</param>
-        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+        public Character(Texture2D characterImage, string name, int maxHealth, int attackMultiplier, int defenseMultiplier)
         {
             this.name = name;
             this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
+            this.currentHealth = maxHealth;
             this.attackMultiplier = attackMultiplier;
             this.defenseMultiplier = defenseMultiplier;
             this.characterImage = characterImage;
@@ -103,7 +103,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                Move move = new Move(components[0], int.Parse(components[1]), int.Parse(components[2]), components[3]);
+                Move move = new Move(components[0], int.Parse(components[1]), components[2]);
 
                 moves.Add(move);
 

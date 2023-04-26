@@ -16,8 +16,6 @@ namespace PretzelPaladin
         private string moveName;
         private string description;
         private int amtDamage;
-        private int maxMoveLimit;
-        private int moveLimit;
 
         // Properties --
 
@@ -29,41 +27,7 @@ namespace PretzelPaladin
         /// <summary>
         /// Amount of Damage Inflicted
         /// </summary>
-        public int AmountDamage 
-        { 
-            get 
-            {
-                Random rng = new Random();
-                amtDamage = rng.Next(minDamage, maxDamage);
-                return amtDamage;
-            } 
-        }
- 
-        public int MaxDamage
-        {
-            get
-            {
-                return maxDamage;
-            }
-        }
-
-        public int MinDamage
-        {
-            get
-            {
-                return minDamage;
-            }
-        }
-
-        /// <summary>
-        /// The number of times you can use the move
-        /// </summary>
-        public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
-
-        /// <summary>
-        /// The maximum number of times you can use the move
-        /// </summary>
-        public int MaxMoveLimit { get { return maxMoveLimit; } }
+        public int AmountDamage { get { return amtDamage; } }
 
         /// <summary>
         /// The description of the move that may contain special traits
@@ -78,13 +42,10 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, int moveLimit, string description)
+        public Move(string moveName, int amtDamage, string description)
         {
             this.moveName = moveName;
-            this.minDamage = minDamage;
-            this.maxDamage = maxDamage;
-            this.moveLimit = moveLimit;
-            maxMoveLimit = moveLimit;
+            this.amtDamage = amtDamage;
             this.description = description;
         }
 
