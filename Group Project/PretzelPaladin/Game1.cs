@@ -56,9 +56,8 @@ namespace PretzelPaladin
         private Texture2D transition;
         private float playerHealthPercent;
         private float enemyHealthPercent;
-        
+       
 
-        private Texture2D bap;
         // - Buttons
         private Button startbutton;
         private Button lastPressed;
@@ -199,10 +198,10 @@ namespace PretzelPaladin
             transition = this.Content.Load<Texture2D>("transition background");
 
             // Enemy with Textures
-            enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
-            enemy3 = new Enemy(bap, "B.A.P", 100, 100, 1, 1);
-            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
-            player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
+            enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 1, 1);
+            enemy3 = new Enemy(bap, "B.A.P", 100, 1, 1);
+            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 1, 1);
+            player = new Player(rectangleTexture, "Pretzel Paladin", 500, 1, 1);
             
             enemies.Add(enemy);
             enemies.Add(enemy2);
@@ -368,6 +367,7 @@ namespace PretzelPaladin
                     {
                         if(walkDone == true)
                         {
+                            playerTurn = true;
                             state = GameState.Game;
                         }
                         break;
@@ -602,7 +602,10 @@ namespace PretzelPaladin
                         {
                             _spriteBatch.DrawString(regularSizeFont, bottomRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
                         }
+
+
                         break;
+                    }
                         
                     case GameState.Pause:
                         {
