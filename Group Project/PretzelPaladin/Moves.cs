@@ -54,12 +54,12 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, string description, int cooldown)
+        public Move(string moveName, int amtDamage, string description)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
             this.description = description;
-            this.cooldown = cooldown;
+            //this.cooldown = cooldown;
             this.onCooldown = false;
         }
 
