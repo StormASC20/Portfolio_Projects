@@ -16,6 +16,8 @@ namespace PretzelPaladin
         private string moveName;
         private string description;
         private int amtDamage;
+        private int cooldown;
+        private bool onCooldown;
 
         // Properties --
 
@@ -34,6 +36,16 @@ namespace PretzelPaladin
         /// </summary>
         public string Description { get { return description; } }
 
+        /// <summary>
+        /// Cooldown on moves
+        /// </summary>
+        public int Cooldown { get { return cooldown; } }
+
+        /// <summary>
+        /// True if the move is on cooldown, false otherwise
+        /// </summary>
+        public bool OnCooldown { get { return onCooldown; } set { onCooldown = value; } }
+
         // Constructor --
 
         /// <summary>
@@ -42,11 +54,13 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, string description)
+        public Move(string moveName, int amtDamage, string description, int cooldown)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
             this.description = description;
+            this.cooldown = cooldown;
+            this.onCooldown = false;
         }
 
         /// <summary>
