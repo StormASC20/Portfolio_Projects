@@ -75,6 +75,11 @@ namespace PretzelPaladin
         private bool playerTurn;
         private Random rng;
         private Stopwatch actualTimer;
+        private int topLeftCooldown;
+        private int topRightCooldown;
+        private int bottomLeftCooldown;
+        private int bottomRightCooldown;
+            
 
         // - Mouse State Tracking
         private MouseState msState;
@@ -95,7 +100,8 @@ namespace PretzelPaladin
         private int ssX;
         private int ssY;
         private int enemyWait;
-        
+
+
         private bool animating;
         private bool movingForwards;
         private bool enemyAnimating;
@@ -163,18 +169,22 @@ namespace PretzelPaladin
             enemyPsuedoTimer = 0;
             enemyWait = 0;
 
-            boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 300, 1, 2);
+            boss = new Enemy(rectangleTexture, "Sbarro Samurai", 300, 1, 2);
 
             // Moves/Buttons Initializations
-            lastMove = new Move(" ", 0,0);
-            enemyMove = new Move(" ", 0,0);
-            bossMove = new Move(" ", 0, 0);
+            lastMove = new Move(" ", 0, " ", 0);
+            enemyMove = new Move(" ", 0, " ", 0);
+            bossMove = new Move(" ", 0,  " ", 0);
             topLeftMove = new Button();
             topRightMove = new Button();
             bottomLeftMove = new Button();
             bottomRightMove=new Button();
-            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, 0));
-            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, 0));
+            bottomLeftCooldown = 0;
+            bottomRightCooldown = 0;
+            topLeftCooldown = 0;
+            topRightCooldown = 0;
+            backButton = new Button((screenWidth / 3), (screenHeight / 2) - 50, 350, 100, rectangleTexture, new Move(" ", 0, " ", 0));
+            exitGame = new Button((screenWidth / 3) + 75, (screenHeight / 2) + 100, 200, 100, rectangleTexture, new Move(" ", 0, " ", 0));
 
             backButton.Text = "RETURN TO BATTLE";
             exitGame.Text = "EXIT GAME";
@@ -182,12 +192,11 @@ namespace PretzelPaladin
             backButton.Enabled = true;
             playerHealthPercent = 1f;
             enemyHealthPercent = 1f;
-            /*attackPressed = false;
-            timer = 0f;*/
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
 
+        
             
             // Animation Initializations 
             ppX = 50;
@@ -239,6 +248,15 @@ namespace PretzelPaladin
 
             rectLocation     = new Rectangle((screenWidth / 2 + 30), screenHeight / 2 + 30, screenWidth / 2, screenHeight);
 
+            topLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
+            topRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
+            bottomLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
+            bottomRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
+
+            topLeftMove.Enabled = true;
+            topRightMove.Enabled = true;
+            bottomLeftMove.Enabled = true;
+            bottomRightMove.Enabled = true;
 
         }
 
@@ -275,12 +293,29 @@ namespace PretzelPaladin
 
                 case GameState.Game:
                     {
+                        
+
                         if (playerTurn == true)
                         {
-                            topLeftMove.Enabled = true;
-                            topRightMove.Enabled = true;
-                            bottomLeftMove.Enabled = true;
-                            bottomRightMove.Enabled = true;
+                            if(topLeftMove.Move.OnCooldown == false)
+                            {
+                                topLeftMove.Enabled = true;
+                            }
+                            
+                            if(topRightMove.Move.OnCooldown == false)
+                            {
+                                topRightMove.Enabled = true;
+                            }
+                            
+                            if(bottomLeftMove.Move.OnCooldown == false)
+                            {
+                                bottomLeftMove.Enabled = true;
+                            }
+                            
+                            if(bottomRightMove.Move.OnCooldown == false)
+                            {
+                                bottomRightMove.Enabled = true;
+                            }                            
                         }
 
                         // Pauses the Game if the user presses the ESCAPE key
@@ -301,8 +336,12 @@ namespace PretzelPaladin
                                 enemies[0].TakeDamage(topLeftMove.Damage);
                                 enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
-
                                 animating = true;
+                                topLeftMove.Enabled = false;
+
+                                topLeftMove.Move.OnCooldown = true;
+
+                                CheckCooldowns();
                             }
 
                             else if (topRightMove.IsPressed())
@@ -313,6 +352,12 @@ namespace PretzelPaladin
                                 enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
+                                topRightMove.Enabled = false;
+
+                                topRightMove.Move.OnCooldown = true;
+
+                                CheckCooldowns();
+
                             }
 
                             else if (bottomLeftMove.IsPressed())
@@ -323,6 +368,12 @@ namespace PretzelPaladin
                                 enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
+                                bottomLeftMove.Enabled = false;
+
+                                bottomLeftMove.Move.OnCooldown = true;
+
+                                CheckCooldowns();
+
                             }
 
                             else if (bottomRightMove.IsPressed())
@@ -333,6 +384,11 @@ namespace PretzelPaladin
                                 enemyHealthPercent = (float)enemies[0].CurrentHealth / enemies[0].MaxHealth;
                                 playerTurn = false;
                                 animating = true;
+                                bottomRightMove.Enabled = false;
+
+                                bottomRightMove.Move.OnCooldown = true;
+
+                                CheckCooldowns();
                             }
                         }
 
@@ -378,15 +434,14 @@ namespace PretzelPaladin
                             endResult = Result.Victory;
                             state = GameState.GameOver;
                         }
+                      
+
 
                         break;
                         
                     }
                 case GameState.Pause:
                     {
-                        backButton.Move.MoveLimit = 1;
-                        exitGame.Move.MoveLimit = 1;
-
                         if (kbState.IsKeyDown(Keys.Enter)||backButton.IsPressed())
                         {
                             state = GameState.Game;
@@ -528,6 +583,7 @@ namespace PretzelPaladin
                         }
                     case GameState.Game:
                         {
+
                         _spriteBatch.Draw(foodCourt, new Rectangle(0, 0, screenWidth, screenHeight), Color.White);
                             _spriteBatch.Draw(pretzelPaladinBackTextture,
                                 new Rectangle(ppX, ppY, 350, 500),
@@ -554,6 +610,7 @@ namespace PretzelPaladin
                         _spriteBatch.Draw(rectangleTexture,
                                 rectLocation,
                                 Color.White);
+
                         
 
                             // Displays moves after Attack button is pressed
@@ -562,26 +619,44 @@ namespace PretzelPaladin
                                 _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 20), Color.DarkRed);
 
                             // Creates 4 Attack buttons
-                            if (topLeftMove.Enabled && topRightMove.Enabled && bottomRightMove.Enabled && bottomLeftMove.Enabled)
+                                if (topRightMove.Enabled)
                                 {
-                                    topLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[0]);
-                                    topRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 60, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[1]);
-                                    bottomLeftMove = new Button(rectLocation.X + 60, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[2]);
-                                    bottomRightMove = new Button(rectLocation.X + 295, rectLocation.Y + 200, rectLocation.Width / 3, rectLocation.Height / 6, rectangleTexture, moves[3]);
-
                                     // Draws button to screen
-                                    topLeftMove.Enabled = true;
-                                    topRightMove.Enabled = true;
-                                    bottomLeftMove.Enabled = true;
-                                    bottomRightMove.Enabled = true;
-
-                                    topLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
-                                    topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
-                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
-                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
-
+                                    topRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);                                   
+                                }
+                                else
+                                {
+                                    topRightMove.DrawWithText(_spriteBatch, Color.Black, subHeaderFont, rectangleTexture, true);
                                 }
 
+                                if (topLeftMove.Enabled)
+                                {                                  
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);                                   
+                                }
+                                else
+                                {
+                                    topLeftMove.DrawWithText(_spriteBatch, Color.Black, subHeaderFont, rectangleTexture, true);
+                                }
+
+                                if (bottomRightMove.Enabled)
+                                {
+                                        bottomRightMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);                              
+                                }
+                                else
+                                {
+                                    bottomRightMove.DrawWithText(_spriteBatch, Color.Black, subHeaderFont, rectangleTexture, true);
+                                }
+
+                                if (bottomLeftMove.Enabled)
+                                {                                  
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);                                    
+                                }
+                                else
+                                {
+                                    bottomLeftMove.DrawWithText(_spriteBatch, Color.Black, subHeaderFont, rectangleTexture, true);
+                                }
+
+                            }
 
                                 if (topLeftMove.IsPressed() && topLeftMove.Enabled)
                                 {
@@ -590,7 +665,7 @@ namespace PretzelPaladin
                                     lastMove = topLeftMove.Move;
                                     _spriteBatch.DrawString(
                                            subHeaderFont,
-                                           $"{player.Name} dealt {topLeftMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
 
@@ -602,7 +677,7 @@ namespace PretzelPaladin
                                     lastMove = topRightMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {topRightMove.Move.AmountDamage} to {enemy.Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemy.Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -613,7 +688,7 @@ namespace PretzelPaladin
                                     lastMove = bottomLeftMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {bottomLeftMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -624,7 +699,7 @@ namespace PretzelPaladin
                                     lastMove = bottomRightMove.Move;
                                     _spriteBatch.DrawString(
                                            regularSizeFont,
-                                           $"{player.Name} dealt {bottomRightMove.Move.AmountDamage} to {enemies[0].Name}",
+                                           $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                                            new Vector2(100, 50),
                                             Color.Firebrick);
                                 }
@@ -638,7 +713,7 @@ namespace PretzelPaladin
                                         Color.Firebrick);
                                     _spriteBatch.DrawString(
                                                subHeaderFont,
-                                               $"{player.Name} dealt {lastMove.AmountDamage} damage to",
+                                               $"{player.Name} dealt {enemy.DamageDealt} damage to",
                                                new Vector2(100, 60),
                                                Color.Firebrick);
                                 _spriteBatch.DrawString(subHeaderFont, $"{enemies[0].Name}", new Vector2(100, 90), Color.Firebrick);
@@ -661,7 +736,7 @@ namespace PretzelPaladin
 
                                 _spriteBatch.DrawString(
                                         subHeaderFont,
-                                        $"{enemies[0].Name} dealt {enemyMove.AmountDamage}",
+                                        $"{enemies[0].Name} dealt {player.DamageDealt}",
                                         new Vector2(850, 30),
                                         Color.Black);
 
@@ -682,18 +757,29 @@ namespace PretzelPaladin
                                 }
                             }
 
-                            // Draw only one enemy per level
-                            /*if (enemies.Count >= 1)
+                            if (topLeftMove.IsHover())
                             {
-                               _spriteBatch.DrawString(regularSizeFont,
-                                $"Enemy Health: {enemies[0].CurrentHealth}/{enemies[0].MaxHealth}",
-                                new Vector2(100, 90),
-                                   Color.Black);
-
+                                _spriteBatch.DrawString(regularSizeFont, topLeftMove.Move.Description, new Vector2(rectLocation.X+10,rectLocation.Y), Color.Black);
                             }
-*/
-                            break;
-                        }
+
+                            if (topRightMove.IsHover())
+                            {
+                                _spriteBatch.DrawString(regularSizeFont, topRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
+                            }
+
+                            if (bottomLeftMove.IsHover())
+                            {
+                                _spriteBatch.DrawString(regularSizeFont, bottomLeftMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
+                            }
+
+                            if (bottomRightMove.IsHover())
+                            {
+                                _spriteBatch.DrawString(regularSizeFont, bottomRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
+                            }
+
+
+                        break;
+                        
                     case GameState.Pause:
                         {
                             _spriteBatch.DrawString(
@@ -780,10 +866,60 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                moves.Add(new Move((components[0]), int.Parse(components[1]), int.Parse(components[2])));
+                moves.Add(new Move(components[0], int.Parse(components[1]), components[2], int.Parse(components[3])));
             }
 
             file.Close();
+        }
+
+        /// <summary>
+        /// Checks all cooldowns, and enables button again if cooldown was fulfilled
+        /// </summary>
+        private void CheckCooldowns()
+        {
+            if(topLeftMove.Move.OnCooldown==true)
+            {
+                topLeftCooldown++;
+
+                if(topLeftCooldown==topLeftMove.Move.Cooldown)
+                {
+                    topLeftMove.Enabled = true;
+                    topLeftCooldown = 0;
+                }
+            }
+
+            if (topRightMove.Move.OnCooldown == true)
+            {
+                topRightCooldown++;
+
+                if (topRightCooldown == topRightMove.Move.Cooldown)
+                {
+                    topRightMove.Enabled = true;
+                    topRightCooldown = 0;
+                }
+            }
+
+            if (bottomRightMove.Move.OnCooldown == true)
+            {
+                bottomRightCooldown++;
+
+                if (bottomRightCooldown == bottomRightMove.Move.Cooldown)
+                {
+                    bottomRightMove.Enabled = true;
+                    bottomRightCooldown = 0;
+                }
+            }
+
+            if (bottomLeftMove.Move.OnCooldown == true)
+            {
+                bottomLeftCooldown++;
+
+                if (bottomLeftCooldown == bottomLeftMove.Move.Cooldown)
+                {
+                    bottomLeftMove.Enabled = true;
+                    bottomLeftCooldown = 0;
+                }
+            }
         }
     }
 }

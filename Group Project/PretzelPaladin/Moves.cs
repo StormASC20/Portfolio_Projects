@@ -9,14 +9,15 @@ namespace PretzelPaladin
 {
     // David Shaffer
     // 3/6/2023
-    // Interface for the moves a character/ enemy can do 
+    // Class for the moves a character/ enemy can do 
     internal class Move
     {
         // Fields --
         private string moveName;
+        private string description;
         private int amtDamage;
-        private int maxMoveLimit;
-        private int moveLimit;
+        private int cooldown;
+        private bool onCooldown;
 
         // Properties --
 
@@ -31,14 +32,19 @@ namespace PretzelPaladin
         public int AmountDamage { get { return amtDamage; } }
 
         /// <summary>
-        /// The number of times you can use the move
+        /// The description of the move that may contain special traits
         /// </summary>
-        public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
+        public string Description { get { return description; } }
 
         /// <summary>
-        /// The maximum number of times you can use the move
+        /// Cooldown on moves
         /// </summary>
-        public int MaxMoveLimit { get { return maxMoveLimit; } }
+        public int Cooldown { get { return cooldown; } }
+
+        /// <summary>
+        /// True if the move is on cooldown, false otherwise
+        /// </summary>
+        public bool OnCooldown { get { return onCooldown; } set { onCooldown = value; } }
 
         // Constructor --
 
@@ -48,12 +54,13 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, int moveLimit)
+        public Move(string moveName, int amtDamage, string description, int cooldown)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
-            this.moveLimit = moveLimit;
-            maxMoveLimit = moveLimit;
+            this.description = description;
+            this.cooldown = cooldown;
+            this.onCooldown = false;
         }
 
         /// <summary>

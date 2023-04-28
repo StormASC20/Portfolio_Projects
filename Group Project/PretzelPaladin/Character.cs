@@ -1,8 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Cryptography;
 
 namespace PretzelPaladin
 {
@@ -14,6 +16,7 @@ namespace PretzelPaladin
         private int currentHealth;
         private int attackMultiplier;
         private int defenseMultiplier;
+        private string damageDealt;
 
         private List<Move> moves;  
         private Texture2D characterImage;
@@ -61,6 +64,16 @@ namespace PretzelPaladin
         /// </summary>
         public int DefenseMultiplier { get { return defenseMultiplier; } set { defenseMultiplier = value; } }
 
+        /// <summary>
+        /// Get's the amount of damage the move did
+        /// </summary>
+        public string DamageDealt
+        {
+            get
+            {
+                return damageDealt;
+            }
+        }
         // Constructor --
 
         /// <summary>
@@ -72,15 +85,15 @@ namespace PretzelPaladin
         /// <param name="currentHealth">Character's current health</param>
         /// <param name="attackMultiplier">Attack multiplier that boosts or reduces damage</param>
         /// <param name="defenseMultiplier">Defense multiplier that reduces or boosts incoming damage</param>
-        public Character(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
+        public Character(Texture2D characterImage, string name, int maxHealth, int attackMultiplier, int defenseMultiplier)
         {
             this.name = name;
             this.maxHealth = maxHealth;
-            this.currentHealth = currentHealth;
+            this.currentHealth = maxHealth;
             this.attackMultiplier = attackMultiplier;
             this.defenseMultiplier = defenseMultiplier;
             this.characterImage = characterImage;
-
+            damageDealt = "";
             StreamReader file = new StreamReader("../../../Content/MoveList.txt");
             moves = new List<Move>();
 
@@ -90,7 +103,7 @@ namespace PretzelPaladin
             {
                 string[] components = currentLine.Split(",");
 
-                Move move = new Move(components[0], int.Parse(components[1]), int.Parse(components[2]));
+                Move move = new Move(components[0], int.Parse(components[1]), components[2], int.Parse(components[3]));
 
                 moves.Add(move);
 
@@ -109,9 +122,16 @@ namespace PretzelPaladin
         /// <param name="amtDamage">Amount of damage inflicted</param>
         public  void TakeDamage(int amtDamage)
         {
-            currentHealth -= amtDamage*defenseMultiplier;
+            Random rng = new Random();
+            int damageTaken = rng.Next(amtDamage/2, amtDamage);
+
+            currentHealth -= damageTaken;
+            // Set our string variable to how much damage was taken so we can print it out on screen how 
+            // much damage the move did
+            damageDealt = damageTaken.ToString();
         }
 
+        
 
     }
 }
