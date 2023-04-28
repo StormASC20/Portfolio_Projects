@@ -217,8 +217,8 @@ namespace PretzelPaladin
 
             // Enemy with Textures
             enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
-            enemy2 = new Enemy(bap, "Biblically Accurate Pretzel", 100, 100, 1, 1);
-            enemy3 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
+            enemy3 = new Enemy(bap, "Biblically Accurate Pretzel", 100, 100, 1, 1);
+            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
             
             enemies.Add(enemy);
