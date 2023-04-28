@@ -10,6 +10,7 @@ namespace PretzelPaladin
    {
 
         // Fields --
+        private int turn;
 
         // Constructor --
 
@@ -19,17 +20,19 @@ namespace PretzelPaladin
         /// <param name="characterImage">Texture for the player</param>
         /// <param name="name">Player's Name</param>
         /// <param name="maxHealth">Starting/Maximum Health</param>
-        /// <param name="currentHealth">Current health of the player</param>
         /// <param name="attackMultiplier">Multiplier that boosts attack damage</param>
         /// <param name="defenseMultiplier">Multiplier that reduces incoming damage</param>
-        public Player(Texture2D characterImage, string name, int maxHealth, int currentHealth, int attackMultiplier, int defenseMultiplier)
-            : base(characterImage, name, maxHealth, currentHealth, attackMultiplier, defenseMultiplier)
+        public Player(Texture2D characterImage, string name, int maxHealth, int attackMultiplier, int defenseMultiplier)
+            : base(characterImage, name, maxHealth,  attackMultiplier, defenseMultiplier)
         {
-
+            turn = 0;
         }
 
         // Properties --
-
+        /// <summary>
+        /// The number of turns
+        /// </summary>
+        public int Turn { get { return turn; } set { turn = value; } }
 
         // Methods --
 
@@ -48,6 +51,7 @@ namespace PretzelPaladin
             Random rng = new Random();
             int attack = rng.Next(attackValue/2, attackValue);
             target.TakeDamage(attack);
+            turn++;
         }
 
 

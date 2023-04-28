@@ -16,8 +16,6 @@ namespace PretzelPaladin
         private string moveName;
         private string description;
         private int amtDamage;
-        private int maxMoveLimit;
-        private int moveLimit;
 
         // Properties --
 
@@ -32,16 +30,6 @@ namespace PretzelPaladin
         public int AmountDamage { get { return amtDamage; } }
 
         /// <summary>
-        /// The number of times you can use the move
-        /// </summary>
-        public int MoveLimit { get { return moveLimit; } set { moveLimit = value; } }
-
-        /// <summary>
-        /// The maximum number of times you can use the move
-        /// </summary>
-        public int MaxMoveLimit { get { return maxMoveLimit; } }
-
-        /// <summary>
         /// The description of the move that may contain special traits
         /// </summary>
         public string Description { get { return description; } }
@@ -54,12 +42,10 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, int moveLimit, string description)
+        public Move(string moveName, int amtDamage, string description)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
-            this.moveLimit = moveLimit;
-            maxMoveLimit = moveLimit;
             this.description = description;
         }
 
