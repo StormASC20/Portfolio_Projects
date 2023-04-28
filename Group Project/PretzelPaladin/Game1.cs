@@ -16,7 +16,8 @@ namespace PretzelPaladin
         MainMenu,
         Game,
         Pause,
-        GameOver
+        GameOver,
+        Transition
     }
     /// <summary>
     /// End result of the game--Win or Lose
@@ -50,8 +51,13 @@ namespace PretzelPaladin
         private Texture2D textBox;
         private Texture2D healthBar;
         private Texture2D healthBox;
+        private Texture2D bap;
+        private Texture2D walk;
+        private Texture2D transition;
         private float playerHealthPercent;
         private float enemyHealthPercent;
+        
+
         private Texture2D bap;
         // - Buttons
         private Button startbutton;
@@ -87,6 +93,10 @@ namespace PretzelPaladin
         private int psuedoTimer;
         private int enemyPsuedoTimer;
         private int enemyConstantX;
+
+        private bool walkDone;
+        private int walkX;
+
         private Color ppC;
         private Color ssC;
 
@@ -128,6 +138,8 @@ namespace PretzelPaladin
             enemyAnimating = false;
             constantX = 100;
             psuedoTimer = 0;
+            walkDone = false;
+            walkX = 10;
             enemyConstantX = 100;
             enemyPsuedoTimer = 0;
             enemyWait = 0;
@@ -183,13 +195,15 @@ namespace PretzelPaladin
             sbarroSamuraiTexture = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
             bap = this.Content.Load<Texture2D>("bap");
+            walk = this.Content.Load<Texture2D>("walk");
+            transition = this.Content.Load<Texture2D>("transition background");
 
             // Enemy with Textures
-            enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 1, 1);
-            enemy3 = new Enemy(bap, "Biblically Accurate Pretzel", 100, 1, 1);
-            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 1, 1);
-            player = new Player(rectangleTexture, "Pretzel Paladin", 500, 1, 1);
-
+            enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
+            enemy3 = new Enemy(bap, "B.A.P", 100, 100, 1, 1);
+            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
+            player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
+            
             enemies.Add(enemy);
             enemies.Add(enemy2);
             enemies.Add(enemy3);
@@ -304,6 +318,8 @@ namespace PretzelPaladin
                                 {
                                     enemies.RemoveAt(i);
                                     enemyHealthPercent = 1;
+                                    walkDone = false;
+                                    state = GameState.Transition;
                                 }
                             }
                         }
@@ -343,6 +359,16 @@ namespace PretzelPaladin
                         if (kbState.IsKeyDown(Keys.Escape))
                         {
                             Exit();
+                        }
+
+                        break;
+                    }
+
+                case GameState.Transition:
+                    {
+                        if(walkDone == true)
+                        {
+                            state = GameState.Game;
                         }
                         break;
                     }
@@ -577,40 +603,62 @@ namespace PretzelPaladin
                             _spriteBatch.DrawString(regularSizeFont, bottomRightMove.Move.Description, new Vector2(rectLocation.X + 10, rectLocation.Y), Color.Black);
                         }
                         break;
-                    }
-                case GameState.Pause:
-                    {
-                        _spriteBatch.DrawString(
-                            menuFont,
-                            "PAUSE MENU",
-                            new Vector2((screenWidth / 3) - 25, screenHeight / 6),
-                            Color.SaddleBrown);
-                        backButton.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
-                        exitGame.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
-                        break;
-                    }
-                case GameState.GameOver:
-                    {
-                        if (endResult == Result.Defeat)
+                        
+                    case GameState.Pause:
                         {
                             _spriteBatch.DrawString(
-                            menuFont,
-                            "YOU SUCK CHUMP.",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
-                            Color.SaddleBrown);
-                        }
-                        if (endResult == Result.Victory)
-                        {
-                            _spriteBatch.DrawString(
-                            menuFont,
-                            "Congratulations You Win",
-                            new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
-                            Color.SaddleBrown);
-                        }
-                        break;
-                    }
+                                menuFont,
+                                "PAUSE MENU",
+                                new Vector2((screenWidth/3)-25,screenHeight/6),
+                                Color.SaddleBrown);
 
-            }
+                            backButton.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
+                            exitGame.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
+
+                            break;
+                        }
+                    case GameState.GameOver:
+                        {
+                            if (endResult == Result.Defeat)
+                            {
+                                _spriteBatch.DrawString(
+                                menuFont,
+                                "YOU SUCK CHUMP.",
+                                new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                                Color.SaddleBrown);
+                            }
+
+                            if (endResult == Result.Victory)
+                            {
+                                _spriteBatch.DrawString(
+                                menuFont,
+                                "Congratulations You Win",
+                                new Vector2(_graphics.PreferredBackBufferWidth / 6, _graphics.PreferredBackBufferHeight / 4),
+                                Color.SaddleBrown);
+                            }
+                            break;
+                        }
+                case GameState.Transition:
+                    {
+                        _spriteBatch.Draw(transition, new Rectangle(0, 0, 1100, 700), Color.White);
+                        _spriteBatch.DrawString(menuFont, "You won!", new Vector2(75, 75), Color.Firebrick);
+                        _spriteBatch.DrawString(subHeaderFont, "Now approaching...\n" + enemies[0].Name, new Vector2(850, 50), Color.Firebrick);
+                        if(walkX < 1100)
+                        {
+                            _spriteBatch.Draw(walk, new Rectangle(walkX, 200, 400, 400), Color.White);
+                            walkX += 5;
+                        }
+                        else
+                        {
+                            walkDone = true;
+                            ppX = 50;
+                            walkX = 10;
+                        }
+                        break;
+                    }
+                
+                }
+
             Color pretzelCursorColor = Color.White;
             if (mState.LeftButton == ButtonState.Pressed)
             {
