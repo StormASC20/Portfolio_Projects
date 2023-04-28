@@ -17,7 +17,8 @@ namespace PretzelPaladin
         MainMenu,
         Game,
         Pause,
-        GameOver
+        GameOver,
+        Transition
     }
 
     /// <summary>
@@ -56,9 +57,12 @@ namespace PretzelPaladin
         private Texture2D textBox;
         private Texture2D healthBar;
         private Texture2D healthBox;
+        private Texture2D bap;
+        private Texture2D walk;
+        private Texture2D transition;
         private float playerHealthPercent;
         private float enemyHealthPercent;
-        private Texture2D bap;
+        
 
         // - Buttons
         private Button startbutton;
@@ -101,6 +105,9 @@ namespace PretzelPaladin
         private int psuedoTimer;
         private int enemyPsuedoTimer;
         private int enemyConstantX;
+
+        private bool walkDone;
+        private int walkX;
 
         private Color ppC;
         private Color ssC;
@@ -150,7 +157,8 @@ namespace PretzelPaladin
             enemyAnimating = false;
             constantX = 100;
             psuedoTimer = 0;
-
+            walkDone = false;
+            walkX = 10;
             enemyConstantX = 100;
             enemyPsuedoTimer = 0;
             enemyWait = 0;
@@ -174,8 +182,8 @@ namespace PretzelPaladin
             backButton.Enabled = true;
             playerHealthPercent = 1f;
             enemyHealthPercent = 1f;
-            attackPressed = false;
-            timer = 0f;
+            /*attackPressed = false;
+            timer = 0f;*/
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
@@ -202,23 +210,24 @@ namespace PretzelPaladin
 
             // Textures
             bodok = this.Content.Load<Texture2D>("bodok transparent");
-            foodCourt        = this.Content.Load<Texture2D>("food court background");
-            startImg         = this.Content.Load<Texture2D>("startButton");
+            foodCourt = this.Content.Load<Texture2D>("food court background");
+            startImg = this.Content.Load<Texture2D>("startButton");
             rectangleTexture = this.Content.Load<Texture2D>("rectangle image");
             pretzelCursor = this.Content.Load<Texture2D>("pretzel");
             textBox = this.Content.Load<Texture2D>("text rect");
             healthBar = this.Content.Load<Texture2D>("health bar");
             healthBox = this.Content.Load<Texture2D>("health box");
-
             pretzelPaladinConceptImg = this.Content.Load<Texture2D>("PretzelPaladin");
             sbarroSamuraiTexture = this.Content.Load<Texture2D>("Sbarro Samurai");
             pretzelPaladinBackTextture = this.Content.Load<Texture2D>("PretzelPaladin Back Image");
             bap = this.Content.Load<Texture2D>("bap");
+            walk = this.Content.Load<Texture2D>("walk");
+            transition = this.Content.Load<Texture2D>("transition background");
 
             // Enemy with Textures
             enemy = new Enemy(sbarroSamuraiTexture, "Sbarro Samurai", 100, 100, 1, 1);
-            enemy2 = new Enemy(bap, "Biblically Accurate Pretzel", 100, 100, 1, 1);
-            enemy3 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
+            enemy3 = new Enemy(bap, "B.A.P", 100, 100, 1, 1);
+            enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 110, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 500, 500, 1, 1);
             
             enemies.Add(enemy);
@@ -358,6 +367,8 @@ namespace PretzelPaladin
                                 {
                                     enemies.RemoveAt(i);
                                     enemyHealthPercent = 1;
+                                    walkDone = false;
+                                    state = GameState.Transition;
                                 }
                             }
                         }
@@ -405,6 +416,15 @@ namespace PretzelPaladin
                             Exit();
                         }
 
+                        break;
+                    }
+
+                case GameState.Transition:
+                    {
+                        if(walkDone == true)
+                        {
+                            state = GameState.Game;
+                        }
                         break;
                     }
             }
@@ -708,6 +728,24 @@ namespace PretzelPaladin
                             }
                             break;
                         }
+                case GameState.Transition:
+                    {
+                        _spriteBatch.Draw(transition, new Rectangle(0, 0, 1100, 700), Color.White);
+                        _spriteBatch.DrawString(menuFont, "You won!", new Vector2(75, 75), Color.Firebrick);
+                        _spriteBatch.DrawString(subHeaderFont, "Now approaching...\n" + enemies[0].Name, new Vector2(850, 50), Color.Firebrick);
+                        if(walkX < 1100)
+                        {
+                            _spriteBatch.Draw(walk, new Rectangle(walkX, 200, 400, 400), Color.White);
+                            walkX += 5;
+                        }
+                        else
+                        {
+                            walkDone = true;
+                            ppX = 50;
+                            walkX = 10;
+                        }
+                        break;
+                    }
                 
                 }
 
