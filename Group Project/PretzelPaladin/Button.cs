@@ -121,14 +121,18 @@ namespace PretzelPaladin
             
             ms = Mouse.GetState();
 
-            if(move != null && move.MoveLimit <= 0)
-            {
-                return false;
-            }
+            
 
             if(ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && SingleClick()&&isEnabled)
             {
-                if(move != null && move.MoveLimit > 0)
+
+                if (move != null && move.MoveLimit <= 0)
+                {
+                    this.move.AmountDamage = 1;
+                    return true;
+                }
+
+                if (move != null && move.MoveLimit > 0)
                 {
                     move.MoveLimit--;
                 }

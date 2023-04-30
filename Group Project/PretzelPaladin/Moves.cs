@@ -29,7 +29,7 @@ namespace PretzelPaladin
         /// <summary>
         /// Amount of Damage Inflicted
         /// </summary>
-        public int AmountDamage { get { return amtDamage; } }
+        public int AmountDamage { get { return amtDamage; } set { amtDamage = value; } }
 
         /// <summary>
         /// The number of times you can use the move
