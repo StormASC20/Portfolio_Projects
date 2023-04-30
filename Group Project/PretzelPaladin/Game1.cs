@@ -56,7 +56,7 @@ namespace PretzelPaladin
         private Texture2D transition;
         private float playerHealthPercent;
         private float enemyHealthPercent;
-       
+
 
         // - Buttons
         private Button startbutton;
@@ -202,7 +202,7 @@ namespace PretzelPaladin
             enemy3 = new Enemy(bap, "B.A.P", 100, 1, 1);
             enemy2 = new Enemy(bodok, "B.O.D.O.K", 110, 1, 1);
             player = new Player(rectangleTexture, "Pretzel Paladin", 500, 1, 1);
-            
+
             enemies.Add(enemy);
             enemies.Add(enemy2);
             enemies.Add(enemy3);
@@ -225,7 +225,7 @@ namespace PretzelPaladin
                         {
                             state = GameState.Game;
                         }
- 
+
                         if (kbState.IsKeyDown(Keys.Escape))
                         {
                             state = GameState.Pause;
@@ -306,18 +306,12 @@ namespace PretzelPaladin
                             endResult = Result.Defeat;
                             state = GameState.GameOver;
                         }
-                        if (enemies.Count >= 1)
+                        if (enemies[0].CurrentHealth <= 0)
                         {
-                            for (int i = 0; i < enemies.Count; i++)
-                            {
-                                if (enemies[i].CurrentHealth <= 0)
-                                {
-                                    enemies.RemoveAt(i);
-                                    enemyHealthPercent = 1;
-                                    walkDone = false;
-                                    state = GameState.Transition;
-                                }
-                            }
+                            enemies.RemoveAt(0);
+                            enemyHealthPercent = 1;
+                            walkDone = false;
+                            state = GameState.Transition;
                         }
                         // See if there are no enemies left
                         if (enemies.Count <= 0)
@@ -326,12 +320,14 @@ namespace PretzelPaladin
                             enemies.Add(enemy2);
                             enemies.Add(enemy3);
                             enemies[0].MaxHealth = enemy.MaxHealth + 100;
+                            enemies[0].CurrentHealth = enemies[0].MaxHealth;
                             enemies[1].MaxHealth = enemy2.MaxHealth + 100;
+                            enemies[1].CurrentHealth = enemies[1].MaxHealth;
                             enemies[2].MaxHealth = enemy3.MaxHealth + 100;
+                            enemies[2].CurrentHealth = enemies[2].MaxHealth;
                             player.CurrentHealth = player.MaxHealth;
-                            playerTurn = true;
-                            walkDone = true;
-
+                            /*walkDone = false;
+                            state = GameState.Transition;*/
                         }
 
                         break;
@@ -370,7 +366,7 @@ namespace PretzelPaladin
 
                 case GameState.Transition:
                     {
-                        if(walkDone == true)
+                        if (walkDone == true)
                         {
                             playerTurn = true;
                             state = GameState.Game;
@@ -611,14 +607,14 @@ namespace PretzelPaladin
 
                         break;
                     }
-                        
-                    case GameState.Pause:
-                        {
-                            _spriteBatch.DrawString(
-                                menuFont,
-                                "PAUSE MENU",
-                                new Vector2((screenWidth/3)-25,screenHeight/6),
-                                Color.SaddleBrown);
+
+                case GameState.Pause:
+                    {
+                        _spriteBatch.DrawString(
+                            menuFont,
+                            "PAUSE MENU",
+                            new Vector2((screenWidth / 3) - 25, screenHeight / 6),
+                            Color.SaddleBrown);
 
                         backButton.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
                         exitGame.DrawWithText(_spriteBatch, Color.RosyBrown, subHeaderFont, rectangleTexture, false);
@@ -656,15 +652,15 @@ namespace PretzelPaladin
                                 "The world is safe from Auntie Anne's once again...",
                                 new Vector2((screenWidth / 200), screenHeight - 200),
                                 Color.SaddleBrown);
-                            }
-                            break;
                         }
+                        break;
+                    }
                 case GameState.Transition:
                     {
                         _spriteBatch.Draw(transition, new Rectangle(0, 0, 1100, 700), Color.White);
                         _spriteBatch.DrawString(menuFont, "You won!", new Vector2(75, 75), Color.Firebrick);
                         _spriteBatch.DrawString(subHeaderFont, "Now approaching...\n" + enemies[0].Name, new Vector2(850, 50), Color.Firebrick);
-                        if(walkX < 1100)
+                        if (walkX < 1100)
                         {
                             _spriteBatch.Draw(walk, new Rectangle(walkX, 200, 400, 400), Color.White);
                             walkX += 5;
@@ -677,8 +673,8 @@ namespace PretzelPaladin
                         }
                         break;
                     }
-                
-                }
+
+            }
 
             Color pretzelCursorColor = Color.White;
             if (mState.LeftButton == ButtonState.Pressed)
