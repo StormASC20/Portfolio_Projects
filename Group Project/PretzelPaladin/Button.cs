@@ -69,10 +69,8 @@ namespace PretzelPaladin
             rect = new Rectangle(x, y, width, height);
             this.image = image;
             this.text = $"{move.MoveName}";
-            this.stamina = $"-- {move.MoveLimit}/{move.MaxMoveLimit} --";
             this.damage = move.AmountDamage;
             this.move = move;
-            this.move.MoveLimit = move.MoveLimit;
             isEnabled = false;
         }
 
@@ -121,27 +119,12 @@ namespace PretzelPaladin
             
             ms = Mouse.GetState();
 
-            
-
             if(ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && SingleClick()&&isEnabled)
-            {
-
-                if (move != null && move.MoveLimit <= 0)
-                {
-                    this.move.AmountDamage = 1;
-                    return true;
-                }
-
-                if (move != null && move.MoveLimit > 0)
-                {
-                    move.MoveLimit--;
-                }
-
-                
+            { 
                 lastMS = ms;
                 return true;
             }
-            else 
+            else   
             {
                 lastMS = ms;
                 return false; 
@@ -155,7 +138,7 @@ namespace PretzelPaladin
         /// <returns>True if the mouse is hovering over the button, false otherwise</returns>
         public bool IsHover()
         {
-            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height && isEnabled)
+            if (ms.X > x && ms.X < x + width && ms.Y > y && ms.Y < y + height)
             {
                 return true;
             }
@@ -211,15 +194,6 @@ namespace PretzelPaladin
                     text,
                     new Vector2(x + width/5, y + height/2 - 15),
                     Color.Black);
-
-                if(move==true)
-                {
-                    sb.DrawString(
-                        font,
-                        stamina, 
-                        new Vector2(x + width / 5, y + height / 2 + 20), 
-                        Color.Black);
-                }
                 
             }
         }

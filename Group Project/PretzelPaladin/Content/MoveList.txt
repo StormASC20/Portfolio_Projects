@@ -1,7 +1,7 @@
-Salt Storm,10,10, Consistent low damage move
-Eggsplosion,35,5, Risky move that can deal as low as 5 damage but as much as 25: 20% chance for a critical hit
-Yeast Beast,10,7, Low damage move with minimal risk: 35% chance for a critical hit
-Butter Bash,5,20, Moderate damage move that can deal as low as 5 damage but as much as 20: 15% chance for a critical hit
-Flower Fling,2,25, Risky move that can deal as low as 2 damage but as much as 25
-Sugar Surge,4,25, Risky move that can deal as low as 4 damage but as much as 25
-Milk Missle,12,8, Low damage move
+Salt Storm,10, Consistent low damage move, 2
+Eggsplosion,40,High Risk High Reward: 20% chance for a critical hit, 5
+Yeast Beast,30,Moderate damage move with minimal risk: 15% chance for a critical hit, 3
+Butter Bash,5, Low damage: 35% chance for a critical hit, 1
+Flower Fling,15, Risky move that can deal as low as 2 damage but as much as 15, 1
+Sugar Surge, 25, Risky move that can deal as low as 4 damage but as much as 25, 1
+Milk Missle,25, Low damage move, 1
