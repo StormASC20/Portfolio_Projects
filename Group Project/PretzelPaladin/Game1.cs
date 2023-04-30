@@ -225,10 +225,7 @@ namespace PretzelPaladin
                         {
                             state = GameState.Game;
                         }
-                        if (kbState.IsKeyDown(Keys.G))
-                        {
-                            state = GameState.GameOver;
-                        }
+ 
                         if (kbState.IsKeyDown(Keys.Escape))
                         {
                             state = GameState.Pause;
@@ -325,8 +322,16 @@ namespace PretzelPaladin
                         // See if there are no enemies left
                         if (enemies.Count <= 0)
                         {
-                            endResult = Result.Victory;
-                            state = GameState.GameOver;
+                            enemies.Add(enemy);
+                            enemies.Add(enemy2);
+                            enemies.Add(enemy3);
+                            enemies[0].MaxHealth = enemy.MaxHealth + 100;
+                            enemies[1].MaxHealth = enemy2.MaxHealth + 100;
+                            enemies[2].MaxHealth = enemy3.MaxHealth + 100;
+                            player.CurrentHealth = player.MaxHealth;
+                            playerTurn = true;
+                            walkDone = true;
+
                         }
 
                         break;
