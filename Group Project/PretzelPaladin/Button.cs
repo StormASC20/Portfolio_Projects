@@ -185,7 +185,7 @@ namespace PretzelPaladin
         /// <param name="font">Font used to draw the text within the button</param>
         public void DrawWithText(SpriteBatch sb, Color color, SpriteFont font, Texture2D image, bool move)
         {
-            if (isEnabled)
+            if (this.isEnabled)
             {
                 sb.Draw(image,
                 rect,

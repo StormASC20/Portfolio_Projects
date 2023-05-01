@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace PretzelPaladin
         private int amtDamage;
         private int cooldown;
         private bool onCooldown;
+        private int coolDownTime;
 
         // Properties --
 
@@ -41,6 +43,8 @@ namespace PretzelPaladin
         /// </summary>
         public int Cooldown { get { return cooldown; } }
 
+        public int CoolDownTime { get { return coolDownTime; } set { coolDownTime = value; } }
+
         /// <summary>
         /// True if the move is on cooldown, false otherwise
         /// </summary>
@@ -54,12 +58,13 @@ namespace PretzelPaladin
         /// <param name="moveName">Name of the move</param>
         /// <param name="amtDamage">Amount of damage the move deals</param>
         /// <param name="moveLimit">Number of times you can use the move</param>
-        public Move(string moveName, int amtDamage, string description)
+        public Move(string moveName, int amtDamage, string description, int cooldown)
         {
             this.moveName = moveName;
             this.amtDamage = amtDamage;
             this.description = description;
-            //this.cooldown = cooldown;
+            this.cooldown = cooldown;
+            this.coolDownTime = 0;
             this.onCooldown = false;
         }
 
