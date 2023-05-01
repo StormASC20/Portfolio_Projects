@@ -78,5 +78,18 @@ namespace PretzelPaladin
             return $"{moveName} -- Damage: " + amtDamage;
         }
 
+        public bool CheckOnCooldown()
+        {
+            if(coolDownTime < cooldown)
+            {
+                coolDownTime++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 }

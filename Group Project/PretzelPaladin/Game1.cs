@@ -164,10 +164,6 @@ namespace PretzelPaladin
             playerTurn = true;
             rng = new Random();
             actualTimer = new Stopwatch();
-            buttonList.Add(topLeftMove);
-            buttonList.Add(topRightMove);
-            buttonList.Add(bottomLeftMove);
-            buttonList.Add(bottomRightMove);
 
 
             // Animation Initializations 
@@ -215,6 +211,12 @@ namespace PretzelPaladin
             // Buttons with Textures
             startbutton = new Button((_graphics.PreferredBackBufferWidth / 2) - 100, (_graphics.PreferredBackBufferHeight / 3) + 170, 200, 100, startImg);
             rectLocation = new Rectangle((screenWidth / 2 + 30), screenHeight / 2 + 30, screenWidth / 2, screenHeight);
+
+
+            buttonList.Add(topLeftMove);
+            buttonList.Add(topRightMove);
+            buttonList.Add(bottomLeftMove);
+            buttonList.Add(bottomRightMove);
         }
         protected override void Update(GameTime gameTime)
         {
@@ -246,7 +248,6 @@ namespace PretzelPaladin
                         {
                             state = GameState.Pause;
                         }
-                        
 
                         // Inflicts Damage to enemy based on move chosen
                         if (playerTurn == true)
@@ -337,6 +338,7 @@ namespace PretzelPaladin
 
                 case GameState.Transition:
                     {
+                        ResetCooldown();
                         if (walkDone == true)
                         {
                             playerTurn = true;
@@ -380,16 +382,19 @@ namespace PretzelPaladin
                     }
                 case GameState.Game:
                     {
+                        
                         //draws characters and health and junk
                         DrawCharacters();
-                        CheckCooldown();
 
                         if (playerTurn == true)
                         {
                             _spriteBatch.DrawString(subHeaderFont, "Moves:", new Vector2(rectLocation.X + 30, rectLocation.Y + 20), Color.DarkRed);
+
                             // Creates 4 Attack buttons
                             CreateButtons();
 
+                            
+                            EnableButtons();
                             // Draws button to screen    
                             DrawButtonsWithText();
                             
@@ -409,11 +414,12 @@ namespace PretzelPaladin
                                            $"{player.Name} dealt {enemy.DamageDealt} damage to",
                                            new Vector2(100, 60),
                                            Color.Firebrick);
+
                                 _spriteBatch.DrawString(subHeaderFont, $"{enemies[0].Name}", new Vector2(100, 90), Color.Firebrick);
-                                //topLeftMove.Enabled = false;
-                                //topRightMove.Enabled = false;
-                                //bottomLeftMove.Enabled = false;
-                                //bottomRightMove.Enabled = false;
+                                topLeftMove.Enabled = false;
+                                topRightMove.Enabled = false;
+                                bottomLeftMove.Enabled = false;
+                                bottomRightMove.Enabled = false;
                                 playerTurn = false;
                             }
                             if (playerTurn == false)
@@ -553,14 +559,18 @@ namespace PretzelPaladin
         {
             foreach(Button button in buttonList)
             {
-                if (button.Move != null && button.Move.OnCooldown == false)
+                if(button.Move != null)
                 {
-                    button.Enabled = true;
+                    if (button.Move.OnCooldown == false)
+                    {
+                        button.Enabled = true;
+                    }
+                    else
+                    {
+                        button.Enabled = false;
+                    }
                 }
-                else
-                {
-                    button.Enabled = false;
-                }
+                
             }
             
         }
@@ -569,32 +579,19 @@ namespace PretzelPaladin
         {
             foreach (Button button in buttonList)
             {
-                if (button.Move != null && button.Move.CoolDownTime >= button.Move.Cooldown)
-                {
-                    button.Move.OnCooldown = false;
-                }
-                else
-                {
-                    button.Move.CoolDownTime++;
-                }
-
+                    if (button.Move.CoolDownTime >= button.Move.Cooldown)
+                    {
+                        button.Move.OnCooldown = false;
+                        button.Enabled = true;
+                    }
+                    else
+                    {
+                        button.Enabled = false;
+                        button.Move.CoolDownTime++;
+                    }
             }
         }
 
-        public void DrawButtonsWithText()
-        {
-            foreach(Button button in buttonList)
-            {
-                if(button.Enabled == true)
-                {
-                    button.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
-                }
-                else
-                {
-                    button.DrawWithText(_spriteBatch, Color.Gray, subHeaderFont, rectangleTexture, true);
-                }
-            }
-        }
 
         public void PlayerTurnPress()
         {
@@ -610,12 +607,26 @@ namespace PretzelPaladin
                     animating = true;
                     button.Move.OnCooldown = true;
                     button.Move.CoolDownTime = 0;
+
                 }
             }
             
         }
 
-        
+        public void DrawButtonsWithText()
+        {
+            foreach (Button button in buttonList)
+            {
+                if (button.Enabled == true)
+                {
+                    button.DrawWithText(_spriteBatch, Color.Firebrick, subHeaderFont, rectangleTexture, true);
+                }
+                else
+                {
+                    button.DrawWithText(_spriteBatch, Color.Gray, subHeaderFont, rectangleTexture, true);
+                }
+            }
+        }
 
         public void ButtonsClick()
         {
@@ -630,6 +641,17 @@ namespace PretzelPaladin
                            $"{player.Name} dealt {enemy.DamageDealt} to {enemies[0].Name}",
                            new Vector2(100, 50),
                             Color.Firebrick);
+                }
+            }
+        }
+
+        public void ResetCooldown()
+        {
+            foreach (Button button in buttonList)
+            {
+                if (button.IsPressed())
+                {
+                    button.Move.OnCooldown = false;
                 }
             }
         }
